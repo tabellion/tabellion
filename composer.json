@@ -1,0 +1,12 @@
+{
+    "name": "tabellion/tabellion",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Fabrice-Bouffanet"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    }
+}
