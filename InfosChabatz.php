@@ -6,10 +6,10 @@ print("<head>\n");
 print('<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">');
 print('<meta http-equiv="content-language" content="fr">');
 print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-print("<link href='css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='css/bootstrap.min.css' rel='stylesheet'>");
-print("<script src='js/jquery-min.js' type='text/javascript'></script>\n");
-print("<script src='js/bootstrap.min.js' type='text/javascript'></script>");
+print("<link href='assets/css/styles.css' type='text/css' rel='stylesheet'>");
+print("<link href='assets/css/bootstrap.min.css' rel='stylesheet'>");
+print("<script src='assets/js/jquery-min.js' type='text/javascript'></script>\n");
+print("<script src='assets/js/bootstrap.min.js' type='text/javascript'></script>");
 ?>
 <script type='text/javascript'>
 	$(document).ready(function() {

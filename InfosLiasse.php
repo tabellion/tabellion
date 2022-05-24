@@ -34,11 +34,11 @@ print('<!DOCTYPE html>');
 print("<head>\n");
 print('<meta http-equiv="content-language" content="fr">');
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >');
-print('<link rel="shortcut icon" href="images/favicon.ico">');
-print("<link href='css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='css/bootstrap.min.css' rel='stylesheet'>");
-print("<script src='js/jquery-min.js' type='text/javascript'></script>");
-print("<script src='js/bootstrap.min.js' type='text/javascript'></script>");
+print('<link rel="shortcut icon" href="assets/img/favicon.ico">');
+print("<link href='assets/css/styles.css' type='text/css' rel='stylesheet'>");
+print("<link href='assets/css/bootstrap.min.css' rel='stylesheet'>");
+print("<script src='assets/js/jquery-min.js' type='text/javascript'></script>");
+print("<script src='assets/js/bootstrap.min.js' type='text/javascript'></script>");
 print('<title>Base ".SIGLE_ASSO.": Reponses a une recherche de liasse - Infos sur la liasse</title>');
 ?>
 <script type='text/javascript'>

@@ -90,22 +90,22 @@ if (isset($_REQUEST['idf_acte'])) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href='../css/styles.css' type='text/css' rel='stylesheet'>
-	<link href='../css/bootstrap.min.css' rel='stylesheet'>;
-	<link href='../css/jquery-ui.css' type='text/css' rel='stylesheet'>
-	<link href='../css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>
-	<link href='../css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'>
+	<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>
+	<link href='../assets/css/bootstrap.min.css' rel='stylesheet'>;
+	<link href='../assets/css/jquery-ui.css' type='text/css' rel='stylesheet'>
+	<link href='../assets/css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>
+	<link href='../assets/css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'>
 	<meta http-equiv="content-language" content="fr">
-	<script src='../js/jquery-min.js' type='text/javascript'></script>
-	<script src='../js/jquery.validate.min.js' type='text/javascript'></script>
-	<script src='../js/additional-methods.min.js' type='text/javascript'></script>
-	<script src='../js/jquery-ui.min.js' type='text/javascript'></script>
-	<script src='../js/CalRep.js' type='text/javascript'></script>
-	<script src='../js/iviewer/jquery-ui.min.js' type='text/javascript'></script>
-	<script src='../js/iviewer/jquery.mousewheel.min.js' type='text/javascript'></script>
-	<script src='../js/iviewer/jquery.iviewer.js' type='text/javascript'></script>
-	<link href='../js/iviewer/jquery.iviewer.css' type='text/css' rel='stylesheet'>
-	<script src='../js/bootstrap.min.js' type='text/javascript'></script>
+	<script src='../assets/js/jquery-min.js' type='text/javascript'></script>
+	<script src='../assets/js/jquery.validate.min.js' type='text/javascript'></script>
+	<script src='../assets/js/additional-methods.min.js' type='text/javascript'></script>
+	<script src='../assets/js/jquery-ui.min.js' type='text/javascript'></script>
+	<script src='../assets/js/CalRep.js' type='text/javascript'></script>
+	<script src='../assets/js/iviewer/jquery-ui.min.js' type='text/javascript'></script>
+	<script src='../assets/js/iviewer/jquery.mousewheel.min.js' type='text/javascript'></script>
+	<script src='../assets/js/iviewer/jquery.iviewer.js' type='text/javascript'></script>
+	<link href='../assets/js/iviewer/jquery.iviewer.css' type='text/css' rel='stylesheet'>
+	<script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>
 	<script type='text/javascript'>
 		$(document).ready(function() {
 			<?php
