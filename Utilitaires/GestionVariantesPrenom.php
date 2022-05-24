@@ -18,8 +18,6 @@ $gst_get_mode = empty($_GET['mode']) ? 'AFFICHER' : $_GET['mode'];
 $gst_mode = empty($_POST['mode']) ? $gst_get_mode : $_POST['mode'];
 $gi_idf_groupe = empty($_POST['idf_groupe']) ? '' : $_POST['idf_groupe'];
 
-
-
 switch ($gst_mode) {
     case 'EXPORT':
 
@@ -224,7 +222,7 @@ print('<link rel="shortcut icon" href="images/favicon.ico">');
 
         function maj_variantes(term, variantes, idf_groupe, cmt_retour) {
             $.ajax({
-                url: "../ajax/variantes_prenom.php",
+                url: "/ajax/variantes_prenom.php",
                 type: "GET",
                 data: 'term=' + term,
                 dataType: 'json',
@@ -253,7 +251,7 @@ print('<link rel="shortcut icon" href="images/favicon.ico">');
             minLength: 3,
             source: function(request, response) {
                 $.ajax({
-                    url: "../ajax/variantes_prenom.php",
+                    url: "/ajax/variantes_prenom.php",
                     dataType: "json",
                     data: {
                         term: request.term

@@ -12,6 +12,7 @@ ob_start(); // Enclenche la temporisation de sortie
 
 $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
+$gst_repertoire_publication = __DIR__ . '/../storage/publication';
 
 $copy = "L�achat des tables ne donne pas droit � copie ou reproduction.
 Toute reproduction ou repr�sentation int�grale, ou partielle, par quelque proc�d� que ce soit, des pages publi�es dans la pr�sente
@@ -37,8 +38,7 @@ function Mois_Annee()  // PL 23/04/2014  Function pour affichage du mois en fran
 
 function charge_csv()
 {
-
-	$gst_repertoire_publication = $_SERVER['DOCUMENT_ROOT'] . '/v4/Publication/telechargements';
+	global $gst_repertoire_publication;
 	$st_export_nimv3 = "$gst_repertoire_publication/ExportNimV3.csv";
 
 	$sqlcsv = "CREATE TEMPORARY TABLE IF NOT EXISTS tmp_publication (
@@ -167,7 +167,6 @@ charge_csv(); //charge le fichier en table
 
 // Rajout PL *************************************************
 // On r�cup�re les donn�es date et nb d'actes dans le fichier txt
-$gst_repertoire_publication = $_SERVER['DOCUMENT_ROOT'] . '/v4/Publication/telechargements';
 $st_export_annee = "$gst_repertoire_publication/ExportAnnee.txt";
 $pa = fopen($st_export_annee, "r");
 $buffer = fgets($pa);
@@ -176,9 +175,6 @@ fclose($pa);
 //echo $datemini."-".$datemaxi."-".$nbractes;
 //************************************************************
 //Analyse du fichier
-
-
-
 
 $data = array();
 $sql = "SELECT * FROM tmp_publication LIMIT 0, 1"; //Lecture de la premiere ligne
@@ -263,11 +259,11 @@ while ($data = $connexionBD->ligne_suivante_resultat($req)) {
 		$pdf->Image($image1, 60, 120, 100, 80); // Logo
 		$pdf->Ln(100);
 		$pdf->Cell(20);
-		$pdf->MultiCell(150, 4, $message, 0, C);
+		$pdf->MultiCell(150, 4, $message, 0, 'C');
 		//$pdf->Ln(40);
 		$pdf->SetY(-45); // Positionnement � 1,5 cm du bas
 		$pdf->Cell(20);
-		$pdf->MultiCell(150, 4, $copy, 1, C);
+		$pdf->MultiCell(150, 4, $copy, 1, 'C');
 		$pdf->AddPage();
 	}
 
@@ -277,8 +273,8 @@ while ($data = $connexionBD->ligne_suivante_resultat($req)) {
 			//affichage de chaque champ de la ligne en question
 			//$l1 ="\n".$data[data10]."   ".$data[data11]."   sexe :  ".$data[data12]."   Le ".$data[data6]." ".$data[data7]."       ".$data[data13]."";
 			//$pdf->SetFont('Times','B',8 );//Passage en gras
-			$pdf->Cell(50, 3, $data[10] . '  ' . $data[11], 0, 0, L);
-			$pdf->Cell(20, 3, 'Sexe : ' . $data[12], 0, 0, L);
+			$pdf->Cell(50, 3, $data[10] . '  ' . $data[11], 0, 0, 'L');
+			$pdf->Cell(20, 3, 'Sexe : ' . $data[12], 0, 0, 'L');
 			$pdf->Cell(10, 3, $data[6] . '  ' . $data[7], 0, 1);
 			$l1 = '';
 			if (empty($data[14])) {
@@ -325,8 +321,8 @@ while ($data = $connexionBD->ligne_suivante_resultat($req)) {
 			} //$ages = $data[data15]
 			$commdef = $data[16];
 			$prof = $data[17];
-			$pdf->Cell(80, 3, $data[10] . '  ' . $data[11], 0, 0, L);
-			$pdf->Cell(20, 3, 'Sexe : ' . $data[14], 0, 0, L);
+			$pdf->Cell(80, 3, $data[10] . '  ' . $data[11], 0, 0, 'L');
+			$pdf->Cell(20, 3, 'Sexe : ' . $data[14], 0, 0, 'L');
 			$pdf->Cell(10, 3, $data[6] . '  ' . $data[7], 0, 1);
 			$l1 = '';
 			$infod = $lieuorigine . " " . $ages . "  " . $data[16] . " " . $data[17];
@@ -394,7 +390,7 @@ while ($data = $connexionBD->ligne_suivante_resultat($req)) {
 				$commentaire1 = " " . $data[15] . " ";
 			}  //commentaire1
 			$commentaireEpx = $prof . $commentaire;
-			$pdf->Cell(80, 3, $data[10] . '  ' . $data[11], 0, 0, L);
+			$pdf->Cell(80, 3, $data[10] . '  ' . $data[11], 0, 0, 'L');
 			$pdf->Cell(10, 3, $data[6] . '  ' . $data[7], 0, 1);
 			$l1 = '';
 			if (empty($info1)) {
@@ -548,7 +544,7 @@ while ($data = $connexionBD->ligne_suivante_resultat($req)) {
 			}  //commentaire1
 			$commentaireEpx = $prof . $commentaire;
 			/*$l1 ="\n".$data[data12]."   ".$data[data13]."  ".$data[data11]."                 		Le ".$data[data6]." ".$data[data7]."";*/
-			$pdf->Cell(80, 3, $data[12] . '  ' . $data[13], 0, 0, L);
+			$pdf->Cell(80, 3, $data[12] . '  ' . $data[13], 0, 0, 'L');
 			$pdf->Cell(10, 3, $data[6] . '  ' . $data[7], 0, 1);
 			$l1 = '';
 			if (empty($info1)) {

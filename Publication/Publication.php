@@ -9,7 +9,7 @@ require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 require_once __DIR__ . '/../Commun/commun.php';
 
-$gst_repertoire_publication = __DIR__ . '/storage/publication/telechargements';
+$gst_repertoire_publication = __DIR__ . '/../storage/publication';
 
 print('<!DOCTYPE html>');
 print("<head>");
@@ -26,7 +26,6 @@ print("</script>");
 print("<script src='VerifieGestionDonnees.js' type='text/javascript'></script>");
 print('<title>Gestion des publications !</title>');
 print('</head>');
-
 print("\n<body>");
 print('<div class="container">');
 
