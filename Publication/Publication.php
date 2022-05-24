@@ -9,18 +9,18 @@ require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 require_once __DIR__ . '/../Commun/commun.php';
 
-$gst_repertoire_publication = $_SERVER['DOCUMENT_ROOT'] . '/v4/Publication/telechargements';
+$gst_repertoire_publication = __DIR__ . '/storage/publication/telechargements';
 
 print('<!DOCTYPE html>');
 print("<head>");
-print('<link rel="shortcut icon" href="images/favicon.ico">');
+print('<link rel="shortcut icon" href="../assets/img/favicon.ico">');
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
 print('<meta http-equiv="content-language" content="fr">');
 print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-print("<link href='../css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='../css/bootstrap.min.css' rel='stylesheet'>");
-print("<script src='../js/jquery-min.js' type='text/javascript'></script>");
-print("<script src='../js/bootstrap.min.js' type='text/javascript'></script>");
+print("<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>");
+print("<link href='../assets/css/bootstrap.min.css' rel='stylesheet'>");
+print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>");
 print("<script type='text/javascript'>");
 print("</script>");
 print("<script src='VerifieGestionDonnees.js' type='text/javascript'></script>");

@@ -21,7 +21,7 @@ require_once __DIR__ . '/Administration/chargement/TypeActe.php';
 require_once __DIR__ . '/Administration/chargement/ModificationActe.php';
 require_once __DIR__ . '/Administration/chargement/ModificationPersonne.php';
 
-include_once  __DIR__ . '/Commun/crypt/cryptographp.fct.php';
+include_once  __DIR__ . '/libs/crypt/cryptographp.fct.php';
 
 $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 

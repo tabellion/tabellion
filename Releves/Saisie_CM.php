@@ -47,8 +47,8 @@ require_once __DIR__ . '/../Commun/commun.php';
 print("<head>");
 print('<meta http-equiv="Content-Type" content="text/html; charset=cp1252" />');
 print('<meta http-equiv="content-language" content="fr" /> ');
-print("<link href='$gst_chemin/Commun/Styles.css' type='text/css' rel='stylesheet'/>");
-print("<script src='$gst_chemin/Commun/jquery-min.js' type='text/javascript'></script>");
+print("<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'/>");
+print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
 //print("<script src='$gst_chemin/Commun/menu.js' type='text/javascript'></script>");
 ?>
 <script type='text/javascript'>

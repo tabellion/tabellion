@@ -6,7 +6,7 @@ require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_PUBLICATION);
 require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/fpdf/fpdf.php';
+require_once __DIR__ . '/../libs/fpdf/fpdf.php';
 
 ob_start(); // Enclenche la temporisation de sortie
 

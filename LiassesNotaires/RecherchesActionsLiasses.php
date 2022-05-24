@@ -16,22 +16,21 @@ print("<title>Base AGC: Vos recherches d'actions sur les liasses</title>");
 print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >');
 print('<meta http-equiv="content-language" content="fr">');
-print("<link href='../css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='../css/bootstrap.min.css' rel='stylesheet'>");
-print("<link href='../css/jquery-ui.css' type='text/css' rel='stylesheet'>");
-print("<link href='../css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>");
-print("<link href='../css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'>");
-print("<link href='../css/select2.min.css' type='text/css' rel='stylesheet'>");
-print("<link href='../css/select2-bootstrap.min.css' type='text/css' rel='stylesheet'>");
-print("<script src='../js/jquery-min.js' type='text/javascript'></script>");
-print("<script src='../js/jquery.validate.min.js' type='text/javascript'></script>");
-print("<script src='../js/additional-methods.min.js' type='text/javascript'></script>");
-print("<script src='../js/jquery-ui.min.js' type='text/javascript'></script>");
-print("<script src='../js/select2.min.js' type='text/javascript'></script>");
-print("<script src='../js/bootstrap.min.js' type='text/javascript'></script>");
-//print("<link href='../Commun/Styles.css' type='text/css' rel='stylesheet'>");
+print("<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>");
+print("<link href='../assets/css/bootstrap.min.css' rel='stylesheet'>");
+print("<link href='../assets/css/jquery-ui.css' type='text/css' rel='stylesheet'>");
+print("<link href='../assets/css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>");
+print("<link href='../assets/css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'>");
+print("<link href='../assets/css/select2.min.css' type='text/css' rel='stylesheet'>");
+print("<link href='../assets/css/select2-bootstrap.min.css' type='text/css' rel='stylesheet'>");
+print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/jquery.validate.min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/additional-methods.min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/jquery-ui.min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/select2.min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>");
 //print("<script src='./VerifieChampsRechercheActionLiasse.js' type='text/javascript'></script>");
-print('<link rel="shortcut icon" href="../images/favicon.ico">');
+print('<link rel="shortcut icon" href="../assets/img/favicon.ico">');
 ?>
 <script type='text/javascript'>
 	$(document).ready(function() {

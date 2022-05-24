@@ -11,7 +11,7 @@ require_once __DIR__ . '/../Commun/Identification.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_CHARGEMENT);
 require_once __DIR__ . '/../Commun/ConnexionBD.php';
-require_once __DIR__ . '/../Commun/phonex.cls.php';
+require_once __DIR__ . '/../libs/phonex.cls.php';
 
 $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 

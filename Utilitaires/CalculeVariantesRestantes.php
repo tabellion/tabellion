@@ -11,13 +11,13 @@ require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_UTILITAIRES);
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/ConnexionBD.php';
-require_once __DIR__ . '/../Commun/soundex2.cls.php';
+require_once __DIR__ . '/../libs/soundex2.cls.php';
 
 $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 print('<meta http-equiv="Content-Type" content="text/html; charset=cp1252" />');
 print('<meta http-equiv="content-language" content="fr" /> ');
-print("<link href='Commun/Styles.css' type='text/css' rel='stylesheet'/>");
+print("<link href='assets/css/styles.css' type='text/css' rel='stylesheet'/>");
 
 print("<body>");
 
