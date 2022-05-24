@@ -17,14 +17,14 @@ $gi_clef = isset($_GET['clef']) ? (int) $_GET['clef'] : null;
 
 print('<!DOCTYPE html>');
 print("<head>");
-print('<link rel="shortcut icon" href="images/favicon.ico">');
+print('<link rel="shortcut icon" href="assets/img/favicon.ico">');
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
 print('<meta http-equiv="content-language" content="fr">');
 print("<title>Creation d'un nouveau mot de passe</title>");
-print("<link href='$gst_url_site/css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='$gst_url_site/css/bootstrap.min.css' rel='stylesheet'>");
-print("<script src='$gst_url_site/js/jquery-min.js' type='text/javascript'></script>\n");
-print("<script src='$gst_url_site/js/bootstrap.min.js' type='text/javascript'></script>");
+print("<link href='assets/css/styles.css' type='text/css' rel='stylesheet'>");
+print("<link href='assets/css/bootstrap.min.css' rel='stylesheet'>");
+print("<script src='assets/js/jquery-min.js' type='text/javascript'></script>\n");
+print("<script src='assets/js/bootstrap.min.js' type='text/javascript'></script>");
 ?>
 <script type='text/javascript'>
     $(document).ready(function() {

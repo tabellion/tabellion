@@ -38,10 +38,10 @@ try {
 <head>
     <meta http-equiv="content-language" content="fr">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='css/styles.css' type='text/css' rel='stylesheet'>
-    <link href='css/bootstrap.min.css' rel='stylesheet'>
-    <script src='js/jquery-min.js' type='text/javascript'></script>
-    <script src='js/bootstrap.min.js' type='text/javascript'></script>
+    <link href='assets/css/styles.css' type='text/css' rel='stylesheet'>
+    <link href='assets/css/bootstrap.min.css' rel='stylesheet'>
+    <script src='assets/js/jquery-min.js' type='text/javascript'></script>
+    <script src='assets/js/bootstrap.min.js' type='text/javascript'></script>
     <script type='text/javascript'>
         $(document).ready(function() {
             $("#ferme").click(function() {

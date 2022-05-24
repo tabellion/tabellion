@@ -31,11 +31,11 @@ print('<meta http-equiv="content-language" content="fr">');
 $st_prefixe_asso = commence_par_une_voyelle(SIGLE_ASSO) ? "de l'" : "du ";
 print("<title>Bienvenue sur la base $st_prefixe_asso" . SIGLE_ASSO . "!</title>");
 print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-print("<link href='css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='css/bootstrap.min.css' rel='stylesheet'>");
-print("<script src='js/jquery-min.js' type='text/javascript'></script>");
-print("<script src='js/bootstrap.min.js' type='text/javascript'></script>");
-print('<link rel="shortcut icon" href="images/favicon.ico">');
+print("<link href='assets/css/styles.css' type='text/css' rel='stylesheet'>");
+print("<link href='assets/css/bootstrap.min.css' rel='stylesheet'>");
+print("<script src='assets/js/jquery-min.js' type='text/javascript'></script>");
+print("<script src='assets/js/bootstrap.min.js' type='text/javascript'></script>");
+print('<link rel="shortcut icon" href="assets/img/favicon.ico">');
 ?>
 <!-- script Google Analytics -- debut -->
 <script type='text/javascript'>
