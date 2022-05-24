@@ -7,7 +7,7 @@ require_once __DIR__ . '/../Commun/config.php';
 require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../RequeteRecherche.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
-require_once __DIR__ . '/../Commun/Benchmark.inc';
+require_once __DIR__ . '/../Commun/Benchmark.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_NOTAIRES);
 
@@ -16,7 +16,7 @@ $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst
 $requeteRecherche = new RequeteRecherche($connexionBD);
 $a_liasses = $connexionBD->sql_select_multiple($_SESSION['pdf']['requete']);
 
-require __DIR__ . '/../Publication/fpdf/fpdf.php';
+require __DIR__ . '/../libs/fpdf/fpdf.php';
 
 class PDF extends FPDF
 {

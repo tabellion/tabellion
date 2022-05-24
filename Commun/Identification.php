@@ -124,32 +124,27 @@ function verifie_utilisateur($pst_ident, $pst_mdp)
  */
 function affiche_menu_auth($pst_message)
 {
-    global $gst_url_site, $gst_logo_association, $gst_rep_site;
+    global $gst_logo_association, $gst_rep_site;
     print("<!DOCTYPE html>");
     print("<head>\n");
 
-    print("<link href='$gst_url_site/css/styles.css' type='text/css' rel='stylesheet'>");
-    print("<link href='$gst_url_site/css/bootstrap.min.css' rel='stylesheet'>");
+    print("<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>");
+    print("<link href='../assets/css/bootstrap.min.css' rel='stylesheet'>");
 
-    print("<link href='$gst_url_site/css/jquery-ui.css' type='text/css' rel='stylesheet'>");
-    print("<link href='$gst_url_site/css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>");
-    print("<link href='$gst_url_site/css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'> ");
-    print("<script src='$gst_url_site/js/jquery-min.js' type='text/javascript'></script>");
-    print("<script src='$gst_url_site/js/jquery-ui.min.js' type='text/javascript'></script>");
-    print("<script src='$gst_url_site/js/jquery.validate.min.js' type='text/javascript'></script>\n");
-    print("<script src='$gst_url_site/js/bootstrap.min.js' type='text/javascript'></script>");
-    print("<link rel=\"shortcut icon\" href=\"$gst_url_site/images/favicon.ico\">");
+    print("<link href='../assets/css/jquery-ui.css' type='text/css' rel='stylesheet'>");
+    print("<link href='../assets/css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>");
+    print("<link href='../assets/css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'> ");
+    print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
+    print("<script src='../assets/js/jquery-ui.min.js' type='text/javascript'></script>");
+    print("<script src='../assets/js/jquery.validate.min.js' type='text/javascript'></script>\n");
+    print("<script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>");
+    print("<link rel=\"shortcut icon\" href=\"../assets/img/favicon.ico\">");
     print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
     print("<title>Identification</title>\n");
     print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
     print("<script type='text/javascript'>");
     print("$(document).ready(function() {
   
-  $(\"#DemandeNouveauMDP\").click(function(){
-  window.open('$gst_url_site/Commun/DemandeNouveauMDP.php', 'RecreeMDP','width=400,height=280');
-  return false;
-  });
-
   $(\"#identification\").validate({
   rules: {
     ident: {
@@ -223,7 +218,6 @@ function affiche_menu_auth($pst_message)
  ");
     print("</script>");
     print("</head><body>");
-
     print('<div class="container">');
     print("<div class=\"text-center\"><img src= '$gst_logo_association' class=\"rounded mx-auto d-block\"  alt='Logo " . SIGLE_ASSO . "'></div>");
     print('<div class="panel panel-primary col-md-offset-2 col-md-8">');

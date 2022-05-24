@@ -12,7 +12,7 @@ verifie_privilege(DROIT_CHARGEMENT);
 require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/phonex.cls.php';
+require_once __DIR__ . '/../libs/phonex.cls.php';
 
 $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
@@ -65,15 +65,15 @@ print("<title>Gestion des Repertoires de notaire</title>");
 print('<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" >');
 print('<meta http-equiv="content-language" content="fr">');
 print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-print("<link href='../css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='../css/bootstrap.min.css' rel='stylesheet'>");
-print("<link href='../css/select2.min.css' type='text/css' rel='stylesheet'>");
-print("<link href='../css/select2-bootstrap.min.css' type='text/css' rel='stylesheet'>");
-print("<script src='../js/jquery-min.js' type='text/javascript'></script>");
-print("<script src='../js/jquery.validate.min.js' type='text/javascript'></script>");
-print("<script src='../js/additional-methods.min.js' type='text/javascript'></script>");
-print("<script src='../js/bootstrap.min.js' type='text/javascript'></script>");
-print("<script src='../js/select2.min.js' type='text/javascript'></script>");
+print("<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>");
+print("<link href='../assets/css/bootstrap.min.css' rel='stylesheet'>");
+print("<link href='../assets/css/select2.min.css' type='text/css' rel='stylesheet'>");
+print("<link href='../assets/css/select2-bootstrap.min.css' type='text/css' rel='stylesheet'>");
+print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/jquery.validate.min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/additional-methods.min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/select2.min.js' type='text/javascript'></script>");
 
 ?>
 <script type='text/javascript'>

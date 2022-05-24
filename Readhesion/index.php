@@ -10,36 +10,28 @@ require_once __DIR__ . '/../Commun/constantes.php';
 require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/Adherent.php';
 
+$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
-/*---------------------------------------------------------------------------
-  Démarrage du programme
-  ---------------------------------------------------------------------------*/
 print('<!DOCTYPE html>');
 print("<head>");
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
 print('<meta http-equiv="content-language" content="fr">');
 print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-print("<link href='../css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='../css/bootstrap.min.css' rel='stylesheet'>");
-print("<script src='../js/jquery-min.js' type='text/javascript'></script>");
-print("<script src='../js/bootstrap.min.js' type='text/javascript'></script>");
+print("<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>");
+print("<link href='../assets/css/bootstrap.min.css' rel='stylesheet'>");
+print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
+print("<script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>");
 $st_prefixe_asso = commence_par_une_voyelle(SIGLE_ASSO) ? "a l'" : "au ";
 print("<title>Re-Adhesion $st_prefixe_asso" . SIGLE_ASSO . "</title>");
 print('</head>');
-
-/*-----------------------------------------------------------------------------
-* Corps du programme
------------------------------------------------------------------------------*/
 print('<body>');
 print('<div class="container">');
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
+
 require_once __DIR__ . '/../Commun/menu.php';
 
 if (!isset($_SESSION['ident']))
     die("<div class=\"alert alert-danger\"> Identifiant non reconnu</div>");
 $gst_ident = $_SESSION['ident'];
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 $a_adh_agc = $connexionBD->sql_select_liste("select idf,nom, prenom,cp,pays, annee_cotisation from adherent where ident='$gst_ident'");
 if (empty($a_adh_agc))

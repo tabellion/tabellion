@@ -9,7 +9,7 @@ require_once __DIR__ . '/../Commun/config.php';
 require_once __DIR__ . '/../Commun/constantes.php';
 require_once __DIR__ . '/../Commun/Identification.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
-require_once __DIR__ . '/../Commun/Benchmark.inc';
+require_once __DIR__ . '/../Commun/Benchmark.php';
 verifie_privilege(DROIT_CHARGEMENT);
 require_once __DIR__ . '/../Commun/ConnexionBD.php';
 

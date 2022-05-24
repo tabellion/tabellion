@@ -13,7 +13,7 @@ require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_VALIDATION_TD);
 require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/finediff.php';
-require_once __DIR__ . '/../Commun/phonex.cls.php';
+require_once __DIR__ . '/../libs/phonex.cls.php';
 require_once __DIR__ . '/chargement/CompteurActe.php';
 require_once __DIR__ . '/chargement/Acte.php';
 require_once __DIR__ . '/chargement/CompteurPersonne.php';
