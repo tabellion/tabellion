@@ -1,60 +1,3 @@
-<!DOCTYPE html> 
-<html lang="fr">
-<head>
-  <title>Saisie du sommaire des bulletins</title>
-  <meta charset=UTF-8" />       <!-- ou charset="utf-8" -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="SaisieSommaire.css" />
-  <link href='../css/styles.css' type='text/css' rel='stylesheet'>
-  <link href='../css/bootstrap.min.css' rel='stylesheet'> 
-  <link href='../css/jquery-ui.css' type='text/css' rel='stylesheet'>  
-  <link href='../css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>
-  <link href='../css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'>
-  <script src='../js/jquery-min.js' type='text/javascript'></script>
-  <script src='../js/jquery.validate.min.js' type='text/javascript'></script>
-  <script src='../js/additional-methods.min.js' type='text/javascript'></script>
-  <script src='../js/jquery-ui.min.js' type='text/javascript'></script>
-  <script src='../js/bootstrap.min.js' type='text/javascript'></script>
-  <script type='text/javascript'>
-$(document).ready(function() {
-$("#annuler" ).click(function() {
-    window.location.href = 'SaisieSommaire.php';
-});
-
-$("#saisie_rubrique").validate({
-		rules:{
-				num: {
-					required: true,
-					number: true
-				},
-				moisaa: {
-					required: true,
-				},
-				nompre: {
-					required: true,
-				}
-				
-			},	
-		messages:{
-				num: {
-					required: "Le numéro est obligatoire",
-					number: "Le numéro doit être un entier"
-				},
-				moisaa: {
-					required: "Le mois et l'année sont obligatoires",
-				},
-				nompre: {
-					required: "Le nom et le prénom sont obligatoires",
-				}
-			}
-	});
-           
-});
-
-</script>
-</head>
-
-<body>
 <?php
 //http://127.0.0.1:8888/Saisie_Sommaire.php
 /*
@@ -65,26 +8,22 @@ PL 06/17
 $gst_chemin = "../";
 //$gst_chemin = ".";
 
-require_once("$gst_chemin/Commun/config.php");
-require_once("$gst_chemin/Commun/constantes.php");
-require_once("$gst_chemin/Commun/Identification.php");
-
-// La page est reservee uniquement aux gens ayant les droits utilitaires
-
-require_once("$gst_chemin/Commun/VerificationDroits.php");
+require_once __DIR__ . '/../Commun/config.php';
+require_once __DIR__ . '/../Commun/constantes.php';
+require_once __DIR__ . '/../Commun/commun.php';
+require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_UTILITAIRES);
-require_once("$gst_chemin/Commun/ConnexionBD.php");
-require_once("$gst_chemin/Commun/commun.php");
-require_once("$gst_chemin/Commun/PaginationTableau.php");
+require_once __DIR__ . '/../Commun/ConnexionBD.php';
+require_once __DIR__ . '/../Commun/PaginationTableau.php';
 
-require_once("$gst_chemin/Commun/menu.php");
-/*
-   $gst_serveur_bd  = 'localhost';
-	$gst_serveur_bd  = '127.0.0.1';
-   $gst_utilisateur_bd = 'root';
-   $gst_mdp_utilisateur_bd = '';
-   $gst_nom_bd = 'baseagc';
-
+$connexionBD = ConnexionBD::singleton($gst_serveur_bd,$gst_utilisateur_bd,$gst_mdp_utilisateur_bd,$gst_nom_bd);
+$gst_mode = empty($_POST['mode']) ? 'DEPART': $_POST['mode'] ;
+if (isset($_GET['mod']))
+{
+   $gst_mode='LIGNE';
+}
+$gi_num_page_cour = empty($_GET['num_page']) ? 1 : $_GET['num_page'];
 
 /*
 CREATE TABLE IF NOT EXISTS `sommaire`
@@ -376,19 +315,69 @@ function Confirmation()
 	print('</form>');
 }
 
-/* --- Début du programme --- */
+?>
 
-//   echo 'Connection à la base'.'<BR>';
-//$connexionBD = ConnexionBD::singleton($gst_serveur_bd,$gst_utilisateur_bd,$gst_mdp_utilisateur_bd,$gst_nom_bd);
-//require_once("$gst_chemin/Commun/menu.php");
+<!DOCTYPE html> 
+<html lang="fr">
+<head>
+  <title>Saisie du sommaire des bulletins</title>
+  <meta charset="UTF-8" />       <!-- ou charset="utf-8" -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="SaisieSommaire.css" />
+  <link href='../css/styles.css' type='text/css' rel='stylesheet'>
+  <link href='../css/bootstrap.min.css' rel='stylesheet'> 
+  <link href='../css/jquery-ui.css' type='text/css' rel='stylesheet'>  
+  <link href='../css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>
+  <link href='../css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'>
+  <script src='../js/jquery-min.js' type='text/javascript'></script>
+  <script src='../js/jquery.validate.min.js' type='text/javascript'></script>
+  <script src='../js/additional-methods.min.js' type='text/javascript'></script>
+  <script src='../js/jquery-ui.min.js' type='text/javascript'></script>
+  <script src='../js/bootstrap.min.js' type='text/javascript'></script>
+  <script type='text/javascript'>
+$(document).ready(function() {
+$("#annuler" ).click(function() {
+    window.location.href = 'SaisieSommaire.php';
+});
 
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd,$gst_utilisateur_bd,$gst_mdp_utilisateur_bd,$gst_nom_bd);
-$gst_mode = empty($_POST['mode']) ? 'DEPART': $_POST['mode'] ;
-if (isset($_GET['mod']))
-{
-   $gst_mode='LIGNE';
-}
-$gi_num_page_cour = empty($_GET['num_page']) ? 1 : $_GET['num_page'];
+$("#saisie_rubrique").validate({
+		rules:{
+				num: {
+					required: true,
+					number: true
+				},
+				moisaa: {
+					required: true,
+				},
+				nompre: {
+					required: true,
+				}
+				
+			},	
+		messages:{
+				num: {
+					required: "Le numéro est obligatoire",
+					number: "Le numéro doit être un entier"
+				},
+				moisaa: {
+					required: "Le mois et l'année sont obligatoires",
+				},
+				nompre: {
+					required: "Le nom et le prénom sont obligatoires",
+				}
+			}
+	});
+           
+});
+
+</script>
+</head>
+
+<body>
+
+<?php
+
+require_once __DIR__ . '/../Commun/menu.php';
 
 print('<div class="panel panel-primary">');
 print('<div class="panel-heading">Mise &agrave; jour du sommaire des bulletins</div>');
