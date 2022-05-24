@@ -106,7 +106,7 @@ require_once __DIR__ . '/Commun/menu.php';
 <ol style="margin-left: 80px;">
     <li>
         <div>C'est quoi au juste cette recherche&nbsp;? Il s'agit de rechercher le couple dans tous les actes où il peut se trouver c'est-à-dire en tant qu'époux et épouse, père et mère,
-            <span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;">intervenant et ancien conjoint
+            <span style="font-size: 12pt; font-family: Times New Roman, Times, serif;">intervenant et ancien conjoint
             </span>. Imaginez un peu les possibilités&nbsp;! en 2 clics, en ayant renseigné simplement les deux noms du couple, vous obtenez son mariage, la liste de tous ses enfants (naissance, mariage, décès)
         </div>
     </li>
