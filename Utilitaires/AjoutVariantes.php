@@ -380,7 +380,7 @@ print('<link rel="shortcut icon" href="../assets/img/favicon.ico">');
 
 		function maj_variantes(term, idf_groupe, majeure, variantes, cmt_retour) {
 			$.ajax({
-				url: "../ajax/variantes_patro.php",
+				url: "/ajax/variantes_patro.php",
 				type: "GET",
 				data: 'term=' + term,
 				dataType: 'json',
@@ -414,7 +414,7 @@ print('<link rel="shortcut icon" href="../assets/img/favicon.ico">');
 			minLength: 4,
 			source: function(request, response) {
 				$.ajax({
-					url: "../ajax/variantes_patro.php",
+					url: "/ajax/variantes_patro.php",
 					dataType: "json",
 					data: {
 						term: request.term
@@ -450,7 +450,7 @@ print('<link rel="shortcut icon" href="../assets/img/favicon.ico">');
 			minLength: 4,
 			source: function(request, response) {
 				$.ajax({
-					url: "../ajax/variantes_patro.php",
+					url: "/ajax/variantes_patro.php",
 					dataType: "json",
 					data: {
 						term: request.term

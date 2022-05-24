@@ -17,7 +17,7 @@ $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst
 $gst_mode = empty($_POST['mode']) ? 'FORMULAIRE' : $_POST['mode'];
 
 if ($gst_mode == 'COMPARAISON') {
-	$st_fich_dest = "$gst_repertoire_telechargement/adhts_cgcp";
+	$st_fich_dest = __DIR__ . '/../storage/telechargement/adhts_cgcp';
 	if (!move_uploaded_file($_FILES['AdhtsCGCP']['tmp_name'], $st_fich_dest)) {
 		print("<div class=\"alert alert-danger\">Erreur de t&eacute;l&eacute;chargement :</div>");
 		switch ($_FILES['AdhtsCGCP']['error']) {
