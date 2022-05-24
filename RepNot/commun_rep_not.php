@@ -5,5 +5,3 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 mb_internal_encoding('UTF-8');
-
-?>
