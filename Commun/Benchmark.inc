@@ -33,4 +33,3 @@ function benchmark ($nom_etape)
 	$etape_prec = getmicrotime();
 	return $retour;
 }
-?>
