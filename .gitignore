@@ -1,7 +1,4 @@
 /vendor/
-/v4
 /logs/
-/racine.txt
 /Commun/config.php
-/Articles/
-/storage
+/storage/
