@@ -5,13 +5,10 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------‌
 
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/Identification.php';
-require_once __DIR__ . '/../Commun/constantes.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_VALIDATION_TD);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/finediff.php';
 require_once __DIR__ . '/../libs/phonex.cls.php';
 require_once __DIR__ . '/chargement/CompteurActe.php';
@@ -28,8 +25,6 @@ require_once __DIR__ . '/chargement/StatsPatronyme.php';
 require_once __DIR__ . '/chargement/StatsCommune.php';
 require_once __DIR__ . '/chargement/ModificationActe.php';
 require_once __DIR__ . '/chargement/ModificationPersonne.php';
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 $gi_idf_demandeur = null;
 $gst_email_demandeur = '';

@@ -4,9 +4,7 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/Courriel.php';
 
@@ -390,11 +388,6 @@ function preinscrit_adherent($pst_ins_date, $pst_ins_nom, $pst_ins_prenom, $pst_
     $connexionBD->execute_requete("insert into inscription_prov(ins_date, ins_nom, ins_prenom, ins_adr1, ins_adr2, ins_cp, ins_commune, ins_pays, ins_email_perso, ins_site_web, ins_telephone, ins_cache, ins_idf_agc, ins_alea, ins_valid,ins_type) values(:ins_date, :nom, :prenom, :adr1, :adr2, :ins_cp, :ins_commune, :ins_pays,:ins_email_perso, :ins_site_web, :ins_telephone, :ins_cache, :ins_idf_agc, :ins_alea, :ins_valid,'" . TYPE_INSCRIPTION . "')");
 }
 
-/*---------------------------------------------------------------------------     
-  Démarrage du programme
-  ---------------------------------------------------------------------------*/
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 // TODO: What the f** is that!
 if ($_SERVER['HTTP_HOST'] == 'inscription.genea16.net')

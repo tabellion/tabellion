@@ -19,8 +19,7 @@
  */
 function a_droits($pst_ident, $pst_droit)
 {
-    global $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd, $gst_serveur_bd;
-    $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
+    global $connexionBD, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd, $gst_serveur_bd;
     $connexionBD->ajoute_params(array(':ident' => $pst_ident, ':droit' => $pst_droit));
     $st_requete = "select count(droit) from privilege join adherent on (adherent.idf=privilege.idf_adherent) where droit=:droit and ident=:ident";
     $i_a_droits = $connexionBD->sql_select1($st_requete);

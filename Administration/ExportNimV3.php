@@ -5,9 +5,8 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 require_once __DIR__ . '/chargement/CompteurActe.php';
 require_once __DIR__ . '/chargement/Acte.php';
@@ -19,8 +18,7 @@ require_once __DIR__ . '/chargement/CommunePersonne.php';
 require_once __DIR__ . '/chargement/TypeActe.php';
 require_once __DIR__ . '/chargement/Union.php';
 verifie_privilege(DROIT_CHARGEMENT);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
-require_once __DIR__ . '/../Commun/commun.php';
+
 
 if (isset($_REQUEST['idf_acte'])) {
     $i_idf_acte = (int) $_REQUEST['idf_acte'];
@@ -30,7 +28,6 @@ if (isset($_REQUEST['idf_acte'])) {
     header("Content-disposition: attachment; filename=\"ExportNimV3-$i_idf_acte.csv\"");
     $pf = @fopen('php://output', 'w');
     $gi_idf_acte = (int) $_REQUEST['idf_acte'];
-    $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
     $go_acte = new Acte($connexionBD, null, null, null, null, null, null);
     $go_acte->charge($gi_idf_acte);
     $a_col_personnes = $go_acte->colonnes_entete_nimv3();

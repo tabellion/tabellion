@@ -4,20 +4,15 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_VALIDATION_TD);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 require_once __DIR__ . '/../Administration/chargement/Acte.php';
 require_once __DIR__ . '/../Administration/chargement/Personne.php';
 require_once __DIR__ . '/../Administration/chargement/ModificationPersonne.php';
 require_once __DIR__ . '/../Administration/chargement/ModificationActe.php';
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 print('<!DOCTYPE html>');
 print("<head>");

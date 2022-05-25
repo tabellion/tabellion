@@ -4,17 +4,12 @@
 // Licence Publique G�n�rale GPL GNU publi�e par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_CHARGEMENT);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../libs/phonex.cls.php';
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 $gst_post_mode = isset($_POST['mode']) ? $_POST['mode'] : null;
 $gst_mode = empty($_POST['mode']) && empty($_GET['mod']) ? 'LISTE' : $gst_post_mode;

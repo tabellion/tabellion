@@ -1,10 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../RequeteRecherche.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 require_once __DIR__ . '/../Commun/Benchmark.php';
@@ -61,7 +58,6 @@ if (isset($_POST['menu'])) {
 	$_SESSION['publication_rla'] = isset($_POST['publication']) ? $_POST['publication'] : '';
 	$_SESSION['avec_commentaire_rla'] = isset($_POST['avec_commentaire']) ? $_POST['avec_commentaire'] : '';
 }
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 $requeteRecherche = new RequeteRecherche($connexionBD);
 

@@ -4,12 +4,9 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../../Commun/config.php';
-require_once __DIR__ . '/../../Commun/constantes.php';
-require_once __DIR__ . '/../../Commun/ConnexionBD.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 
 $a_resultats = array();
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 $st_requete = "select rnd.idf_repertoire,rnd.`nom_notaire`,ca.nom,rnd.`cote` from rep_not_desc rnd join commune_acte ca on (rnd.idf_commune=ca.idf) where rnd.publication='O'";
 if (isset($_GET['idf_commune_notaire']) && !empty($_GET['idf_commune_notaire'])) {
 	$st_requete .= " and rnd.idf_commune=" . (int) $_GET['idf_commune_notaire'];

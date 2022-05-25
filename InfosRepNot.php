@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__ . '/Commun/config.php';
-require_once __DIR__ . '/Commun/constantes.php';
+require_once __DIR__ . '/app/bootstrap.php';
+require_once __DIR__ . '/Commun/commun.php';
+
 print('<!DOCTYPE html>');
 print("<head>\n");
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
@@ -25,7 +26,7 @@ print("<body>");
 print('<div class="container">');
 print("<div class=\"text-center\"><img src=\"$gst_logo_association\" alt='Logo " . SIGLE_ASSO . "'></div>");
 
-require_once __DIR__ . '/Commun/constantes.php';
+require_once __DIR__ . '/Commun/menu.php';
 
 print("<div align=center>");
 print("Ce CM est issu d'un r&eacute;pertoire de notaire et n'a pas &eacute;t&eacute; encore relev&eacute;<br>");

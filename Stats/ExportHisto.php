@@ -4,13 +4,10 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../Commun/Identification.php';
-require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/constantes.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_STATS);
 require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 
 $ga_mois = array(
     1 => 'Janvier',
@@ -26,8 +23,6 @@ $ga_mois = array(
     11 => 'Novembre',
     12 => 'Decembre'
 );
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 function ecrit_tableau_stats($pfh, $pst_lib, $pa_valeurs)
 {

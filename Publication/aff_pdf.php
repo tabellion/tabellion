@@ -1,16 +1,11 @@
 <?php
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_PUBLICATION);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../libs/fpdf/fpdf.php';
 
 ob_start(); // Enclenche la temporisation de sortie
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 $gst_repertoire_publication = __DIR__ . '/../storage/publication';
 

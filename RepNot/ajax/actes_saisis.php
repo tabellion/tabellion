@@ -4,9 +4,7 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../../Commun/config.php';
-require_once __DIR__ . '/../../Commun/constantes.php';
-require_once __DIR__ . '/../../Commun/ConnexionBD.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../commun_rep_not.php';
 
 $a_resultats = array();
@@ -14,7 +12,6 @@ if (isset($_GET['idf_rep']) && isset($_GET['annee']) && isset($_GET['mois'])) {
 	$i_idf_repertoire = (int) $_GET['idf_rep'];
 	$i_annee = (int) $_GET['annee'];
 	$i_mois = (int) $_GET['mois'];
-	$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 	$st_requete = "select idf_acte,annee,mois,jour,date_rep,`type`,nom1,prenom1,nom2,prenom2,paroisse,commentaires from rep_not_actes where idf_repertoire=$i_idf_repertoire and annee=$i_annee and mois=$i_mois order by jour desc";
 	$a_actes = $connexionBD->sql_select_multiple($st_requete);
 	$a_resultats = array();

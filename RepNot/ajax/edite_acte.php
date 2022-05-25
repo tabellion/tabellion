@@ -4,12 +4,7 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-if ($_REQUEST['sid']) session_id($_REQUEST['sid']);
-
-require_once __DIR__ . '/../../Commun/config.php';
-require_once __DIR__ . '/../../Commun/constantes.php';
-require_once __DIR__ . '/../../Commun/ConnexionBD.php';
-require_once __DIR__ . '/../../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../commun_rep_not.php';
 
 $i_idf_rep = (int) $_POST['idf_rep'];
@@ -38,7 +33,6 @@ $st_nom1 = mb_convert_case(substr(trim($_POST['nom1']), 0, 40), MB_CASE_UPPER, "
 $st_prenom1 = isset($_POST['prenom1']) ? mb_convert_case(substr(trim($_POST['prenom1']), 0, 30), MB_CASE_TITLE, "UTF-8") : '';
 $st_nom2 = mb_convert_case(substr(trim($_POST['nom2']), 0, 40), MB_CASE_UPPER, "UTF-8");
 $st_prenom2 = isset($_POST['prenom2']) ? mb_convert_case(substr(trim($_POST['prenom2']), 0, 30), MB_CASE_TITLE, "UTF-8") : '';
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 $st_paroisse = isset($_POST['paroisse']) ? mb_convert_case(substr(trim($_POST['paroisse']), 0, 40), MB_CASE_TITLE, "UTF-8") : '';
 $st_commentaires = isset($_POST['commentaires']) ? substr(trim($_POST['commentaires']), 0, 255) : '';
 
