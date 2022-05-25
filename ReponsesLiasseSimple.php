@@ -1,16 +1,11 @@
 <?php
 
-require_once __DIR__ . '/Commun/Identification.php';
+require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Commun/commun.php';
-require_once __DIR__ . '/Commun/constantes.php';
-require_once __DIR__ . '/Commun/config.php';
-require_once __DIR__ . '/Commun/ConnexionBD.php';
 require_once __DIR__ . '/RequeteRecherche.php';
 require_once __DIR__ . '/Commun/PaginationTableau.php';
 require_once __DIR__ . '/Commun/Benchmark.php';
 require_once __DIR__ . '/Commun/VerificationDroits.php';
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 $a_clauses = array();
 $st_icone_info = './images/infos.png';

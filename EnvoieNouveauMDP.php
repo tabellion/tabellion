@@ -4,13 +4,9 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/Commun/config.php';
-require_once __DIR__ . '/Commun/constantes.php';
-require_once __DIR__ . '/Commun/ConnexionBD.php';
-require_once __DIR__ . '/Commun/Adherent.php';
+require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Commun/commun.php';
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
+require_once __DIR__ . '/Commun/Adherent.php';
 
 $gi_idf_adht = isset($_GET['idf_adht']) ? (int) $_GET['idf_adht'] : null;
 $gi_clef = isset($_GET['clef']) ? (int) $_GET['clef'] : null;

@@ -5,15 +5,11 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_CHARGEMENT);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../libs/phonex.cls.php';
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 /*
 * Renvoie la chaine équivalente sans accents
@@ -46,7 +42,6 @@ function entre_quotes($pst_nom)
  */
 function complete_variantes_connues($pconnexionBD, $pst_fichier)
 {
-
     $a_patronymes = $pconnexionBD->sql_select("select distinct libelle from patronyme where libelle REGEXP '^[A-Z \?\(\)]+$' and libelle not in (select patronyme from `variantes_patro`)");
     $a_groupes_variantes = $pconnexionBD->liste_valeur_par_clef("select patronyme,idf_groupe from `variantes_patro` order by idf_groupe, majeure desc");
     $oPhonex = new phonex;
@@ -296,7 +291,7 @@ print("<link href='../assets/css/bootstrap.min.css' rel='stylesheet'>");
 print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
 print("<script src='../assets/js/jquery.validate.min.js' type='text/javascript'></script>");
 print("<script src='../assets/js/additional-methods.min.js' type='text/javascript'></script>");
-print("<script src='../jassets/s/jquery-ui.min.js' type='text/javascript'></script>");
+// print("<script src='../jassets/js/jquery-ui.min.js' type='text/javascript'></script>");
 print("<script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>");
 ?>
 <script type="text/javascript">

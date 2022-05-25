@@ -4,10 +4,7 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/Identification.php';
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
 
 require_once("/usr/share/jpgraph/jpgraph.php");
@@ -21,8 +18,6 @@ $ga_couleurs = array(
 
 $gi_annee = isset($_GET['annee']) ? (int) $_GET['annee'] : 2011;
 $gi_idf_canton = isset($_GET['idf_canton']) ? (int) $_GET['idf_canton'] : 1;
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 $st_requete = "select ca.nom,month(date_demande) as mois, count(*) from stats_gbk sg join commune_acte ca on (sg.idf_commune=ca.idf) join canton c on (ca.idf_canton=c.idf) where c.idf=$gi_idf_canton and year(date_demande)=$gi_annee group by ca.nom, month(date_demande) order by ca.nom, mois";
 

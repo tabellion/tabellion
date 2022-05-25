@@ -79,7 +79,7 @@ class Adherent
     {
         global $gst_nom_bd, $gst_time_zone, $gst_rep_site, $gst_serveur_smtp, $gst_utilisateur_smtp, $gst_mdp_smtp, $gi_port_smtp;
 
-        date_default_timezone_set($gst_time_zone);
+        
         $this->connexionBD = $pconnexionBD;
         $this->st_ident_modificateur = isset($_SESSION['ident']) ?  $_SESSION['ident'] : '';
         $this->a_filtres_parametres = array();
@@ -1110,7 +1110,7 @@ class Adherent
     public function initialise_readhesion_en_ligne($pst_token)
     {
         global $gst_time_zone;
-        date_default_timezone_set($gst_time_zone);
+        
         $this->connexionBD->initialise_params(array(':jeton' => $pst_token));
         list($st_type_inscription, $st_nom, $st_prenom, $st_adr1, $st_adr2, $st_code_postal, $st_ville, $st_pays, $st_tel, $st_email_perso, $st_site, $st_confidentiel, $st_statut, $i_prix, $i_aide, $i_origine, $st_origine, $st_jeton_paiement) = $this->connexionBD->sql_select_liste("select ins_type,ins_nom,ins_prenom,ins_adr1,ins_adr2,ins_cp, ins_commune,ins_pays,ins_telephone,ins_email_perso,ins_site_web,ins_cache,ins_statut,ins_prix,ins_aide,ins_type_origine,ins_description_origine,ins_token from `inscription_prov` where ins_token=:jeton");
         if ($st_type_inscription == 'I') {
@@ -1194,7 +1194,7 @@ class Adherent
 	@returns false if no content is fetched
 	Matt Biscay (https://mattbiscay.com)
 	*/
-    private function sky_curl_get_file_contents($URL)
+    /* private function sky_curl_get_file_contents($URL)
     {
         $a_donnees = array('userid' => $gst_administrateur_gbk, 'pass' => $gst_mdp_administrateur_gbk, 'action' => 'login');
         $c = curl_init();
@@ -1208,7 +1208,7 @@ class Adherent
             return $contents;
         else
             return false;
-    }
+    } */
 
     /*
   *  Se connecte au compte administrateur Généabank

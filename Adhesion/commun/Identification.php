@@ -6,9 +6,15 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 
-require_once __DIR__ . '/../app/bootstrap.php';
+if (session_demarree() === FALSE) session_start();
+
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/constantes.php';
+require_once __DIR__ . '/ConnexionBD.php';
 require_once __DIR__ . '/commun.php';
 require_once __DIR__ . '/Courriel.php';
+
+$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 if (isset($_SERVER['REQUEST_URI'])) {
     $gst_url_retour  = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
@@ -32,7 +38,6 @@ function session_demarree()
     }
     return FALSE;
 }
-
 
 $gst_ip_restreinte = null;
 
@@ -118,27 +123,32 @@ function verifie_utilisateur($pst_ident, $pst_mdp)
  */
 function affiche_menu_auth($pst_message)
 {
-    global $gst_logo_association, $gst_rep_site;
+    global $gst_url_site, $gst_logo_association, $gst_rep_site;
     print("<!DOCTYPE html>");
     print("<head>\n");
 
-    print("<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>");
-    print("<link href='../assets/css/bootstrap.min.css' rel='stylesheet'>");
+    print("<link href='assets/css/styles.css' type='text/css' rel='stylesheet'>");
+    print("<link href='assets/css/bootstrap.min.css' rel='stylesheet'>");
 
-    print("<link href='../assets/css/jquery-ui.css' type='text/css' rel='stylesheet'>");
-    print("<link href='../assets/css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>");
-    print("<link href='../assets/css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'> ");
-    print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
-    print("<script src='../assets/js/jquery-ui.min.js' type='text/javascript'></script>");
-    print("<script src='../assets/js/jquery.validate.min.js' type='text/javascript'></script>\n");
-    print("<script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>");
-    print("<link rel=\"shortcut icon\" href=\"../assets/img/favicon.ico\">");
+    print("<link href='assets/css/jquery-ui.css' type='text/css' rel='stylesheet'>");
+    print("<link href='assets/css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>");
+    print("<link href='assets/css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'> ");
+    print("<script src='assets/js/jquery-min.js' type='text/javascript'></script>");
+    print("<script src='assets/js/jquery-ui.min.js' type='text/javascript'></script>");
+    print("<script src='assets/js/jquery.validate.min.js' type='text/javascript'></script>\n");
+    print("<script src='assets/js/bootstrap.min.js' type='text/javascript'></script>");
+    print("<link rel=\"shortcut icon\" href=\"assets/images/favicon.ico\">");
     print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
     print("<title>Identification</title>\n");
     print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
     print("<script type='text/javascript'>");
     print("$(document).ready(function() {
   
+  $(\"#DemandeNouveauMDP\").click(function(){
+  window.open('$gst_url_site/Commun/DemandeNouveauMDP.php', 'RecreeMDP','width=400,height=280');
+  return false;
+  });
+
   $(\"#identification\").validate({
   rules: {
     ident: {
@@ -212,6 +222,7 @@ function affiche_menu_auth($pst_message)
  ");
     print("</script>");
     print("</head><body>");
+
     print('<div class="container">');
     print("<div class=\"text-center\"><img src= '$gst_logo_association' class=\"rounded mx-auto d-block\"  alt='Logo " . SIGLE_ASSO . "'></div>");
     print('<div class="panel panel-primary col-md-offset-2 col-md-8">');
@@ -249,10 +260,8 @@ function affiche_menu_auth($pst_message)
     print('<button type="submit" id="bouton_soumission" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Se connecter</button>');
     print("<button class=\"form-row col-md-offset-2 col-md-8 btn btn-warning\" id=\"DemandeNouveauMDP\"><span class=\"glyphicon glyphicon-warning-sign\"></span> J'ai oubli&eacute; mon mot de passe</button>");
     print("</div>\n");
-
     print('</form>');
     print('</div></div>'); // fin panel body
-
 
     print("</div></body>");
     print("</html>");

@@ -6,12 +6,9 @@
 //-------------------------------------------------------------------
 //http://127.0.0.1:8888/Gestion_Photos.php
 
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_RELEVES);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 require_once __DIR__ . '/../Commun/commun.php';
 
@@ -481,13 +478,9 @@ function charge_photos($pconnexionBD)
     print('</form></div></div>');
 }
 
-/*-----------------------------------------------------------------------------
-* Corps du programme
------------------------------------------------------------------------------*/
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 require_once __DIR__ . '/../Commun/menu.php';
+
 $gst_commune_a_chercher = isset($_POST['commune_a_chercher']) ? trim($_POST['commune_a_chercher']) : '';
 
 $ga_communes    =    $connexionBD->liste_valeur_par_clef("select idf,nom from `commune_acte` order by nom");

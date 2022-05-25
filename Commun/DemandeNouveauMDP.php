@@ -5,9 +5,7 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/constantes.php';
-require_once __DIR__ . '/ConnexionBD.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/commun.php';
 require_once __DIR__ . '/Adherent.php';
 
@@ -121,13 +119,12 @@ function affiche_menu()
  */
 function verifie_demande($pst_email)
 {
-    global $gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd;
+    global $connexionBD, $gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd;
     global $gst_url_inscription;
     print('<div class="row">');
     print('<div class="panel panel-primary">');
     print('<div class="panel-heading">Demande d\'un nouveau mot de passe</div>');
     print('<div class="panel-body">');
-    $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
     $connexionBD->ajoute_params(array(':email_perso' => $pst_email));
     $st_requete = "SELECT idf FROM adherent where email_perso=:email_perso";
     $i_idf = $connexionBD->sql_select1($st_requete);

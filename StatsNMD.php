@@ -4,10 +4,7 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/Commun/config.php';
-require_once __DIR__ . '/Commun/constantes.php';
-require_once __DIR__ . '/Commun/Identification.php';
-require_once __DIR__ . '/Commun/ConnexionBD.php';
+require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Commun/commun.php';
 
 $gi_idf_commune_acte = isset($_POST['idf_commune_acte']) ? (int) $_POST['idf_commune_acte'] : '';
@@ -16,7 +13,6 @@ $gi_annee_min = isset($_POST['annee_min']) ? (int) $_POST['annee_min'] : '';
 $gi_annee_max = isset($_POST['annee_max']) ? (int) $_POST['annee_max'] : '';
 $gi_rayon = isset($_POST['rayon']) ? (int) $_POST['rayon'] : '';
 $ga_rayons = array(0 => '', 1 => '1 Km', 2 => '2 Km', 3 => '3 Km', 4 => '4 Km', 5 => '5 Km', 6 => '6 Km', 7 => '7 Km', 8 => '8 Km', 9 => '9 Km', 10 => '10 Km');
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 $a_communes_acte = $connexionBD->liste_valeur_par_clef("select idf,nom from commune_acte order by nom");
 $a_types_acte = $connexionBD->liste_valeur_par_clef("select idf,nom from type_acte where idf in (" . IDF_MARIAGE . ',' . IDF_NAISSANCE . ',' . IDF_DECES . ") order by nom");
 

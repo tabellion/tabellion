@@ -4,17 +4,12 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/Commun/config.php';
-require_once __DIR__ . '/Commun/constantes.php';
-require_once __DIR__ . '/Commun/Identification.php';
-require_once __DIR__ . '/Commun/VerificationDroits.php';
-require_once __DIR__ . '/Commun/ConnexionBD.php';
-require_once __DIR__ . '/Commun/PaginationTableau.php';
+require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Commun/commun.php';
+require_once __DIR__ . '/Commun/VerificationDroits.php';
+require_once __DIR__ . '/Commun/PaginationTableau.php';
 require_once __DIR__ . '/Commun/Adherent.php';
 require_once __DIR__ . '/Commun/Courriel.php';
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 if (!isset($_SESSION['ident']))
     die("<div class=\"alert alert-danger\"> Identifiant non reconnu</div>");
@@ -65,9 +60,9 @@ print('<meta http-equiv="content-language" content="fr">');
 print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
 print("<link href='assets/css/styles.css' type='text/css' rel='stylesheet'>");
 print("<link href='assets/css/bootstrap.min.css' rel='stylesheet'>");
-print("<link href='assets/css/jquery-ui.css' type='text/css' rel='stylesheet'>");
+//print("<link href='assets/css/jquery-ui.css' type='text/css' rel='stylesheet'>");
 print("<link href='assets/css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>");
-print("<link href='assets/css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'> ");
+// print("<link href='assets/css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'> ");
 print("<link href='assets/css/select2.min.css' type='text/css' rel='stylesheet'>");
 print("<link href='assets/css/select2-bootstrap.min.css' type='text/css' rel='stylesheet'>");
 print("<script src='assets/js/jquery-min.js' type='text/javascript'></script>");

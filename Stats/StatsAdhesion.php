@@ -5,16 +5,11 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_STATS);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 require_once __DIR__ . '/../Commun/commun.php';
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 $gst_mode = empty($_POST['mode']) ? 'DEPART' : $_POST['mode'];
 $gi_num_page_cour = empty($_GET['num_page']) ? 1 : $_GET['num_page'];

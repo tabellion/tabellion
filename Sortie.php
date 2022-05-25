@@ -5,12 +5,9 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 
-// require_once('Commun/Identification.php');
-require_once __DIR__ .'/Commun/config.php';
+require_once __DIR__ . '/app/bootstrap.php';
 
-session_start();
+$session->delete();
 
-session_destroy();
-                              
-header("Location: $gst_url_sortie ");
+header("Location: /");
 

@@ -6,18 +6,13 @@ PL 06/17
 */
 
 $gst_chemin = "../";
-//$gst_chemin = ".";
-
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/Identification.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_UTILITAIRES);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd,$gst_utilisateur_bd,$gst_mdp_utilisateur_bd,$gst_nom_bd);
 $gst_mode = empty($_POST['mode']) ? 'DEPART': $_POST['mode'] ;
 if (isset($_GET['mod']))
 {

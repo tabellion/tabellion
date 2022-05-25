@@ -4,9 +4,7 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../RequeteRecherche.php';
 
 $gi_idf_commune_acte = isset($_GET['idf_commune_acte']) ? (int) $_GET['idf_commune_acte'] : '';
@@ -19,7 +17,6 @@ $ga_couleurs = array("#FF7F50", "#00008B", "#BDB76B", "#8FBC8F", "#00BFFF", "#FF
 
 $a_resultats = array();
 if (!empty($gi_idf_commune_acte) && !empty($gc_idf_type_acte) && !empty($gi_annee_min) && !empty($gi_annee_max)) {
-	$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 	$requeteRecherche = new RequeteRecherche($connexionBD);
 	$st_clause_communes = $requeteRecherche->clause_droite_commune($gi_idf_commune_acte, $gi_rayon, '');
 	$st_requete = "select ca.nom,a.annee,count(*) from acte a join commune_acte ca on (a.idf_commune=ca.idf) where a.idf_commune $st_clause_communes and a.idf_type_acte=$gc_idf_type_acte and a.annee>=$gi_annee_min and a.annee<=$gi_annee_max group by ca.nom,a.annee";

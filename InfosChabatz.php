@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__ . '/Commun/config.php';
-require_once __DIR__ . '/Commun/constantes.php';
+require_once __DIR__ . '/app/bootstrap.php';
+require_once __DIR__ . '/Commun/commun.php';
+
 print('<!DOCTYPE html>');
 print("<head>\n");
 print('<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">');

@@ -6,7 +6,7 @@
 //-------------------------------------------------------------------
 require_once __DIR__ . '/commun/config.php';
 require_once __DIR__ . '/commun/constantes.php';
-require_once __DIR__ . '/commun/Identification.php';
+//require_once __DIR__ . '/commun/Identification.php';
 require_once __DIR__ . '/commun/VerificationDroits.php';
 verifie_privilege(DROIT_GESTION_ADHERENT);
 require_once __DIR__ . '/commun/ConnexionBD.php';

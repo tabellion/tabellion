@@ -4,14 +4,10 @@
 // Licence Publique G�n�rale GPL GNU publi�e par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-//http://127.0.0.1:8888/Gestion_Suivi.php
 
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 //verifie_privilege(DROIT_UTILITAIRES);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 require_once __DIR__ . '/../Commun/commun.php';
 
@@ -222,7 +218,6 @@ function menu_ajouter($pa_communes, $pa_collections, $pa_adherents)
     print('</form>');
 }
 
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 require_once __DIR__ . '/../Commun/menu.php';
 
 $ga_communes    =    $connexionBD->liste_valeur_par_clef("select idf,nom from `commune_acte` order by nom");

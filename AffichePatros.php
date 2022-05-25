@@ -4,48 +4,21 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-session_start();
 
-require_once __DIR__ . '/Commun/config.php';
-require_once __DIR__ . '/Commun/constantes.php';
-require_once __DIR__ . '/Commun/ConnexionBD.php';
+require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Commun/commun.php';
 require_once __DIR__ . '/RequeteRecherche.php';
 require_once __DIR__ . '/Commun/PaginationTableau.php';
 
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd,$gst_utilisateur_bd,$gst_mdp_utilisateur_bd,$gst_nom_bd);
+$gi_idf_source = $_POST['idf_source'] ?? 0;
+$gi_num_page = $_POST['num_page_pat'] ?? 1;
+$gst_tri = $_GET['tri_pat'] ?? 'patronyme';
+$gi_idf_commune = $_POST['idf_commune_patro'] ?? 0;
+$gi_rayon = $_POST['rayon_patro'] ?? 0;
+$gst_mode = $_POST['mode'] ?? 'DEMANDE';
+$gst_patronyme = $_POST['patronyme'] ?? '';
+$st_variantes = $_POST['variantes_pat'] ?? '';
 
-$i_session_idf_source = empty($_SESSION['idf_source']) ? 0 : $_SESSION['idf_source'];
-$gi_idf_source=isset($_POST['idf_source']) ? (int) $_POST['idf_source']:$i_session_idf_source;
-$i_session_num_page = isset($_SESSION['num_page_pat']) ? $_SESSION['num_page_pat'] : 1;
-$gi_num_page = empty($_POST['num_page_pat']) ? $i_session_num_page : (int) $_POST['num_page_pat'];
-$st_session_tri = empty($_SESSION['tri_pat']) ? 'patronyme' : $_SESSION['tri_pat'];
-$gst_tri = empty($_GET['tri_pat']) ? $st_session_tri : $_GET['tri_pat'];
-
-$i_session_idf_commune = empty($_SESSION['idf_commune_patro']) ? 0 : $_SESSION['idf_commune_patro'];
-$gi_idf_commune=isset($_POST['idf_commune_patro']) ? (int) $_POST['idf_commune_patro']:$i_session_idf_commune;
-$i_session_rayon = empty($_SESSION['rayon_patro']) ? 0 : $_SESSION['rayon_patro'];
-$gi_rayon=isset($_POST['rayon_patro']) ? (int) $_POST['rayon_patro']:$i_session_rayon;
-
-//if (isset ($_GET['tri_pat']))
-//   $gi_num_page=1;
-
-$st_session_mode = empty($_SESSION['mode']) ? 'DEMANDE' : $_SESSION['mode'];   
-$gst_mode = empty($_POST['mode']) ? $st_session_mode: $_POST['mode'] ;
-
-$st_session_patronyme = empty($_SESSION['patronyme']) ?  '' :$_SESSION['patronyme'];
-$st_session_variantes = empty($_SESSION['variantes_pat']) ?  '' :$_SESSION['variantes_pat'];
-
-$gst_patronyme = empty($_POST['patronyme'])? $st_session_patronyme :substr(trim($_POST['patronyme']),0,30);
-
-$st_variantes = empty($_POST['variantes_pat']) ?  $st_session_variantes :$_POST['variantes_pat'] ;
-
-$_SESSION['patronyme'] = $gst_patronyme;
-$_SESSION['variantes_pat'] = $st_variantes;
-$_SESSION['idf_source'] = $gi_idf_source;
-$_SESSION['num_page_pat'] = $gi_num_page;
-$_SESSION['idf_commune_patro'] = $gi_idf_commune;
-$_SESSION['rayon_patro'] = $gi_rayon;
 
 print('<!DOCTYPE html>');
 print("<head>\n");
@@ -186,14 +159,6 @@ function affiche_menu($gi_idf_commune,$gi_rayon,$gi_idf_source,$pst_msg)
   print("<div class=\"form-group col-md-4\"><div class=\"input-group\"><span class=\"input-group-addon\">Rayon de recherche:</span><label for=\"rayon_patro\" class=\"sr-only\">Rayon</label><div class=\"lib_erreur\"><input type=text name=rayon_patro id='rayon_patro' size=2 maxlength=2 value=\"$gi_rayon\" class=\"form-control\"></div><span class=\"input-group-addon\">Km</span></div>");
   print("</div>"); // fin ligne 
   print ("</form>");
-
-  unset($_SESSION['variantes_pat']);
-  unset($_SESSION['patronyme']);
-  unset($_SESSION['mode']);
-  unset($_SESSION['tri_pat']);
-  unset($_SESSION['num_page_pat']);
-  unset($_SESSION['idf_commune_patro']);
-  unset($_SESSION['rayon_patro']); 
 }
 
 print("<body>");

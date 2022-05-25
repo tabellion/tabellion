@@ -4,15 +4,11 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/constantes.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_STATS);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 $i_session_idf_adherent =  isset($_SESSION['idf_adherent']) ? $_SESSION['idf_adherent'] : null;
 $gi_idf_adherent =   isset($_GET['idf_adherent']) ? (int) $_GET['idf_adherent'] : $i_session_idf_adherent;

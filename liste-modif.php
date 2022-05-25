@@ -71,4 +71,4 @@ if ($go_back > 0) {
     }
     print "</table>";
     print "</body></html>";
-} // if go_back > 0 )            
+}           

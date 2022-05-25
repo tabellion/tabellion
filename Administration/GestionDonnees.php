@@ -5,14 +5,12 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
-require_once __DIR__ . '/../Commun/Identification.php';
+require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 require_once __DIR__ . '/../libs/phonex.cls.php';
 verifie_privilege(DROIT_CHARGEMENT);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
-require_once __DIR__ . '/../Commun/commun.php';
+
 require_once __DIR__ . '/chargement/chargement.php';
 require_once __DIR__ . '/chargement/CompteurPersonne.php';
 require_once __DIR__ . '/chargement/Personne.php';

@@ -4,15 +4,12 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../../Commun/config.php';
-require_once __DIR__ . '/../../Commun/constantes.php';
-require_once __DIR__ . '/../../Commun/ConnexionBD.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 
 $a_resultats = array();
 if (isset($_GET['term'])) {
     $st_rech = substr(trim($_GET['term']), 0, 30);
     $st_rech = utf8_decode($st_rech);
-    $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
     $st_requete = "select idf,nom,code_insee from commune_acte where nom COLLATE latin1_german1_ci like '%$st_rech%'";
     $a_communes = $connexionBD->sql_select_multiple_par_idf($st_requete);
     $a_resultats = array();

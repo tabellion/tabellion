@@ -2,17 +2,14 @@
 
 session_start();
 
-//http://127.0.0.1:8888/Recherche_Sommaire.php
 /*
 Programme de recherche des �l�ments du sommaire des bulletins AGC
 PL 06/13
 */
 
 
-require_once __DIR__ . '/../Commun/config.php';
-require_once __DIR__ . '/../Commun/constantes.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Commun/PaginationTableau.php';
 
 print('<!DOCTYPE html>');
@@ -248,7 +245,6 @@ function Saisie_recherche($connexionBD)
 
 /* --- D�but du programme --- */
 
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 require_once __DIR__ . '/../Commun/menu.php';
 
 

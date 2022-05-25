@@ -4,16 +4,13 @@
 // Licence Publique Générale GPL GNU publiée par la Free Software Foundation
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
-require_once __DIR__ . '/../../Commun/config.php';
-require_once __DIR__ . '/../../Commun/constantes.php';
-require_once __DIR__ . '/../../Commun/ConnexionBD.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 
 $a_resultats = array();
 if (isset($_GET['term'])) {
     $st_rech = substr(trim($_GET['term']), 0, 30);
     $st_rech = utf8_decode($st_rech);
     $st_rech = "$st_rech%";
-    $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
     $connexionBD->initialise_params(array(':rech' => $st_rech));
     $st_requete = "select distinct prenom from (select `prenom1` as prenom from rep_not_actes where `prenom1` COLLATE latin1_german1_ci like :rech union all select `prenom2` as prenom from rep_not_actes where `prenom2` COLLATE latin1_german1_ci like :rech) AS R order by prenom";
     $a_patros = $connexionBD->sql_select($st_requete);
