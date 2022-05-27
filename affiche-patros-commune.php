@@ -176,13 +176,10 @@ if (!in_array($gi_idf_type_acte, $a_types_acte_dispo))
 				$a_initiales_patronymes = $connexionBD->sql_select($st_requete);
 				if (count($a_initiales_patronymes) > 0) {
 					print('<div class="text-center"><ul class="pagination">');
-					$st_patro = isset($a_initiales_patronymes[0]) ? $a_initiales_patronymes[0] : '';
-					$i_session_initiale = isset($_SESSION['initiale_patcom']) ? $_SESSION['initiale_patcom'] : $st_patro;
-					if (empty($_GET['initiale_patcom']))
-						$gc_initiale = $i_session_initiale;
-					else {
-						$gc_initiale = $_GET['initiale_patcom'];
-					}
+
+					$st_patro = $a_initiales_patronymes[0] ?? '';
+					$gc_initiale = $_GET['initiale_patcom'] ?? $st_patro;
+
 					if (!in_array(utf8_vers_cp1252($gc_initiale), $a_initiales_patronymes)) {
 						$gc_initiale = array_key_exists(0, $a_initiales_patronymes) ? $a_initiales_patronymes[0] : 'A';
 						$gi_num_page = 1;
@@ -258,12 +255,9 @@ if (!in_array($gi_idf_type_acte, $a_types_acte_dispo))
 				$a_initiales_patronymes = $connexionBD->sql_select($st_requete);
 				if (count($a_initiales_patronymes) > 0) {
 					print('<div class="text-center"><ul class="pagination">');
-					$i_session_initiale = isset($_SESSION['initiale_patcom']) ? $_SESSION['initiale_patcom'] : $a_initiales_patronymes[0];
-					if (empty($_GET['initiale_patcom']))
-						$gc_initiale = $i_session_initiale;
-					else {
-						$gc_initiale = $_GET['initiale_patcom'];
-					}
+
+					$gc_initiale = $_GET['initiale_patcom'] ?? $a_initiales_patronymes[0];
+					
 					if (!in_array(utf8_vers_cp1252($gc_initiale), $a_initiales_patronymes)) {
 						$gc_initiale = $a_initiales_patronymes[0];
 						$gi_num_page = 1;

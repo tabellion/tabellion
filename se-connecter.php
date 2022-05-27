@@ -24,7 +24,7 @@ if (isset($_POST['ident']) && isset($_POST['mdp'])) {
         $i_mois++;
         $i_annee += 1900;
         $st_date_log = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $i_jmois, $i_mois, $i_annee, $i_heure, $i_min, $i_sec);
-        $st_chaine_log = join(';', array($st_date_log, $_SESSION['ident'], $gst_adresse_ip));
+        $st_chaine_log = join(';', array($st_date_log, $session->getAttribute('ident'), $gst_adresse_ip));
         $pf = @fopen("../logs/connexions.log", 'a');
         @fwrite($pf, "$st_chaine_log\n");
         @fclose($pf);

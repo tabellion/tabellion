@@ -21,7 +21,7 @@ if ($session->getAttribute('user')) {
 $menu = [
     'Accueil' => 'index.php',
     'Les Recherches' => [
-        'Couple/Individu' => '/index.php',
+        'Couple/Individu' => '/recherche.php',
         'Etat des relevés' => '/affiche-stats-commune.php',
         'Stats/Commune' => '/affiche-stats-type-acte-commune.php',
         'Patronymes/Commune' => '/affiche-patros-commune.php',
@@ -89,7 +89,7 @@ $menu = [
         <li class="dropdown"><a data-toggle="dropdown" href="#">Les Recherches <b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="/">Couple/Individu</a>
+                    <a href="/recherche.php">Couple/Individu</a>
                     <a href="/affiche-stats-commune.php">Etat des relevés</a>
                     <a href="/affiche-stats-type-acte-commune.php">Stats/Commune</a>
                     <a href="/affiche-patros-commune.php">Patronymes/Commune</a>

@@ -903,8 +903,9 @@ class Acte
 
     /**
      * Initialise les variables de sessions
+     * @Deprecated Ne JAMAIS utiliser les sessions pour des données autre qu l'utilisateur!
      */
-    public function intialise_variables_sessions()
+    /* public function intialise_variables_sessions()
     {
         $_SESSION["idf_commune"] = $this->i_idf_commune;
         $_SESSION["idf_releveur"] = $this->i_idf_releveur;
@@ -919,14 +920,14 @@ class Acte
         foreach ($this->a_liste_personnes as $o_pers) {
             $o_pers->intialise_variables_sessions();
         }
-    }
+    } */
 
     /**
      * Charge l'objet à partir des variables de session
-     * 
+     * @Deprecated Ne JAMAIS utiliser les sessions pour des données autre qu l'utilisateur!
      * @param integer $pi_num_parametre numéro de paramètre
      */
-    public function charge_variables_sessions()
+    /* public function charge_variables_sessions()
     {
         $this->i_idf_commune = isset($_SESSION["idf_commune"]) ? $_SESSION["idf_commune"] : $this->i_idf_commune;
         $this->i_idf_releveur = isset($_SESSION["idf_releveur"]) ? $_SESSION["idf_releveur"] : $this->i_idf_releveur;
@@ -953,13 +954,14 @@ class Acte
             $i++;
             $this->a_liste_personnes[] = $o_pers;
         }
-    }
+    } */
 
 
     /**
      * Supprimer les variables de session
+     * @Deprecated Ne JAMAIS utiliser les sessions pour des données autre qu l'utilisateur!
      */
-    public function detruit_variables_sessions()
+    /* public function detruit_variables_sessions()
     {
         unset($_SESSION["idf_commune"]);
         unset($_SESSION["idf_releveur"]);
@@ -976,7 +978,7 @@ class Acte
         foreach ($this->a_liste_personnes as $o_pers) {
             $o_pers->detruit_variables_sessions();
         }
-    }
+    } */
 
     /**
      * Supprimer les personnes de l'acte et met à jour la table des statistiques de patronyme

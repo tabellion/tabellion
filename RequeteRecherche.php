@@ -17,7 +17,7 @@ class RequeteRecherche
 
     public function __construct($pconnexionBD)
     {
-        $this->connexionBD =  $pconnexionBD;
+        $this->connexionBD = $pconnexionBD;
         $this->a_variantes_trouvees = array();
         $this->a_variantes_prenoms_trouvees = array();
         $this->a_patronymes_trouves = array();

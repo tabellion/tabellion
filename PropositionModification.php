@@ -19,12 +19,8 @@ require_once __DIR__ . '/Administration/chargement/ModificationPersonne.php';
 
 include_once  __DIR__ . '/libs/crypt/cryptographp.fct.php';
 
-$gi_idf_demandeur = null;
-$gst_email_demandeur = '';
-if (!empty($_SESSION['ident'])) {
-    $st_requete = "select idf,email_perso from adherent where ident='" . $_SESSION['ident'] . "'";
-    list($gi_idf_demandeur, $gst_email_demandeur) = $connexionBD->sql_select_liste($st_requete);
-}
+$gi_idf_demandeur = $user['idf'];
+$gst_email_demandeur = $user['email_perso'];
 
 /*
 * Construit la chaine permettant la validation des paramètres d'un formulaire
@@ -78,20 +74,21 @@ if (isset($_REQUEST['idf_acte'])) {
     // Vérification des droits d'accès
     if ($gi_idf_source != IDF_SOURCE_TD) {
         if (empty($gi_idf_demandeur)) {
-            die("<div class=\"alert alert-danger\">Cet acte n'est pas issu d'une table d&eacute;cennale</div>");
+            die("<div class=\"alert alert-danger\">Cet acte n'est pas issu d'une table décennale</div>");
         } else {
             $gi_nb_demandes = $connexionBD->sql_select1("select count(*) from demandes_adherent where idf_adherent=$gi_idf_demandeur and idf_acte=$gi_idf_acte");
             if ($gi_nb_demandes == 0)
-                die("<div class=\"alert alert-danger\">Vous n'avez pas encore consult&eacute; cet acte</div>");
+                die("<div class=\"alert alert-danger\">Vous n'avez pas encore consulté cet acte</div>");
         }
     }
     $go_acte = new Acte($connexionBD, null, null, null, null, null, null);
     $a_filtres_acte = array();
     $go_acte->setFiltresParametres($a_filtres_acte);
     $go_acte->charge($gi_idf_acte);
-    if ($gst_mode == "ERREUR") {
+    // @Deprecated Ne JAMAIS utiliser les sessions pour des données autre qu l'utilisateur!
+    /* if ($gst_mode == "ERREUR") {
         $go_acte->charge_variables_sessions();
-    }
+    } */
     if (empty($gst_mode) || $gst_mode == "ERREUR") {
         $gst_permalien = $go_acte->affichage_image_permalien(800, 800);
         $gst_formulaire = $go_acte->formulaire_haut_acte();
@@ -99,7 +96,7 @@ if (isset($_REQUEST['idf_acte'])) {
         $gst_formulaire .= $go_acte->formulaire_bas_acte();
     }
 } else {
-    die("<div class=\"alert alert-danger\">Pas d'identifiant d'acte speacute;cifi&eacute;</div>");
+    die("<div class=\"alert alert-danger\">Pas d'identifiant d'acte spécifié</div>");
 }
 ?>
 <!DOCTYPE html>
@@ -194,17 +191,17 @@ if (isset($_REQUEST['idf_acte'])) {
         print($gst_formulaire);
         print("</table>");
         print("<div class=\"text-center\">Si les photos ne sont pas disponibles sur le site des AD, vous pouvez les joindre ci-dessous. Celles-ci doivent peser moins de 2 MO ");
-        print("et ne sont pas publi&eacute;es pour &eacute;viter les probl&egrave;mes de licence</div>");
+        print("et ne sont pas publiées pour éviter les probl&egrave;mes de licence</div>");
         print('<table class="table table-bordered table-striped">');
         for ($i = 1; $i <= ModificationActe::getNbPhotos(); $i++) {
             print("<tr><th>Photo $i (JPEG, GIF ou PNG):</th><td><input type=\"file\" name=\"photo$i\"></td></tr>");
         }
         print('</table>');
-        print("<fieldset><legend>Commentaires &eacute;ventuels &agrave destination du valideur:</legend>");
+        print("<fieldset><legend>Commentaires éventuels &agrave destination du valideur:</legend>");
         print("<label for=\"cmt_modif\">Commentaires</label><textarea name=cmt_modif id=cmt_modif rows=4 cols=80 class=\"form-control\"></textarea>");
 
         if (empty($gi_idf_demandeur)) {
-            print("<label for=\"email_demandeur\">Votre email:</label><input type=\"text\" name=\"email_demandeur\" id=\"email_demandeur\" value=\"$gst_email_demandeur\" size=\"30\" aria-describedby=\"cmt_email_demandeur\"><small id=cmt_email_demandeur class=\"form-text text-muted\">Non publi&eacute;. Il sert uniquement au valideur &agrave; vous contacter en cas de probl&egrave;me</small>>");
+            print("<label for=\"email_demandeur\">Votre email:</label><input type=\"text\" name=\"email_demandeur\" id=\"email_demandeur\" value=\"$gst_email_demandeur\" size=\"30\" aria-describedby=\"cmt_email_demandeur\"><small id=cmt_email_demandeur class=\"form-text text-muted\">Non publié. Il sert uniquement au valideur &agrave; vous contacter en cas de probl&egrave;me</small>>");
             print("<div class=\"text-center\"");
             dsp_crypt(0, 1);
             print('Recopier tous les chiffres du code ci-dessus:<br><input type="text" name="code"></div>');
@@ -215,7 +212,7 @@ if (isset($_REQUEST['idf_acte'])) {
     } else {
         $gi_idf_acte = isset($_REQUEST['idf_acte']) ? (int) $_REQUEST['idf_acte'] :  null;
         if (empty($gi_idf_acte)) {
-            print("<div class=\"alert alert-danger\">Pas d'identifiant d'acte d&eacute;fini</div>");
+            print("<div class=\"alert alert-danger\">Pas d'identifiant d'acte défini</div>");
         } else {
             if (empty($gi_idf_demandeur)) {
                 // Modification de TD => une vérification du captch doit être faite
@@ -223,14 +220,14 @@ if (isset($_REQUEST['idf_acte'])) {
                     $go_acte = new ModificationActe($connexionBD, $gi_idf_acte, null, $gst_rep_site, $gst_serveur_smtp, $gst_utilisateur_smtp, $gst_mdp_smtp, $gi_port_smtp);
                     $go_acte->initialise_depuis_formulaire($gi_idf_acte);
                     $go_acte->cree();
-                    $go_acte->detruit_variables_sessions();
-                    print("<div class=\"alert alert-success\">Modification demand&eacute;e</div>\n");
+                    // $go_acte->detruit_variables_sessions(); @Deprecated Ne JAMAIS utiliser les sessions pour des données autre qu l'utilisateur!
+                    print("<div class=\"alert alert-success\">Modification demandée</div>\n");
                 } else {
                     $go_acte = new ModificationActe($connexionBD, $gi_idf_acte, null, $gst_rep_site, $gst_serveur_smtp, $gst_utilisateur_smtp, $gst_mdp_smtp, $gi_port_smtp);
                     $go_acte->initialise_depuis_formulaire($gi_idf_acte);
                     //print $go_acte->versTableauHTML();
-                    $go_acte->intialise_variables_sessions();
-                    print("<div class=\"alert alert-danger\">Le code n'a pas &eacute;t&eacute; reconnu</div>");
+                    //$go_acte->intialise_variables_sessions(); @Deprecated Ne JAMAIS utiliser les sessions pour des données autre qu l'utilisateur!
+                    print("<div class=\"alert alert-danger\">Le code n'a pas été reconnu</div>");
                     print("<form METHOD=POST NAME=RETOUR_ERREUR >");
                     print("<input type=hidden name=idf_acte value=$gi_idf_acte>");
                     print("<input type=hidden name=\"MODE\" value=\"ERREUR\">");
@@ -243,7 +240,7 @@ if (isset($_REQUEST['idf_acte'])) {
                 $go_acte->initialise_depuis_formulaire($gi_idf_acte);
                 $go_acte->setEmailDemandeur($gst_email_demandeur);
                 $go_acte->cree();
-                print("<div class=\"alert alert-success\">Modification demand&eacute;e</div>\n");
+                print("<div class=\"alert alert-success\">Modification demandée</div>\n");
                 print('<button type="button" class="btn btn-primary col-md-4 col-md-offset-4 fermeture_fenetre">Retour</button>');
             }
         }
