@@ -100,7 +100,7 @@ class ConnexionBD
 		$this->pdo_stmt = $pdo_stmt;
 		$a_resultat = $pdo_stmt->fetch(PDO::FETCH_NUM);
 		list($st_val) = $a_resultat;
-		$this->a_params            = array();
+		$this->a_params = array();
 		return $st_val;
 	}
 
@@ -116,7 +116,7 @@ class ConnexionBD
 		while (list($st_champ) = $pdo_stmt->fetch(PDO::FETCH_NUM)) {
 			$a_resultat[] = $st_champ;
 		}
-		$this->a_params            = array();
+		$this->a_params = array();
 		return $a_resultat;
 	}
 
@@ -162,7 +162,7 @@ class ConnexionBD
 			print_r($this->o_lien_bd->errorInfo());
 		}
 		$this->pdo_stmt = $pdo_stmt;
-		$this->a_params            = array();
+		$this->a_params = array();
 		return	$pdo_stmt->fetch(PDO::FETCH_NUM);
 	}
 
@@ -498,5 +498,17 @@ class ConnexionBD
 	public function msg_erreur()
 	{
 		return $this->o_lien_bd->errorInfo()[2];
+	}
+
+	public function find($pst_requete)
+	{
+		$pdo_stmt = $this->o_lien_bd->prepare($pst_requete);
+		if (!$pdo_stmt->execute($this->a_params)) {
+			throw new Exception("sql_select_liste impossible: ");
+			print_r($this->o_lien_bd->errorInfo());
+		}
+		$this->pdo_stmt = $pdo_stmt;
+		$this->a_params = array();
+		return	$pdo_stmt->fetch(PDO::FETCH_ASSOC);
 	}
 }

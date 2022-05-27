@@ -10,12 +10,12 @@ require_once __DIR__ . '/Commun/commun.php';
 $gst_type_recherche         = isset($_GET['recherche']) ? $_GET['recherche'] : '';
 
 if ($gst_type_recherche == 'nouvelle') {
-    $gi_idf_source        = isset($_GET['idf_src']) ? (int) $_GET['idf_src'] : '0';
-    $gi_idf_commune       = isset($_GET['idf_ca']) ? (int) $_GET['idf_ca'] : '0';
+    $gi_idf_source        = $_GET['idf_src'] ?? '0';
+    $gi_idf_commune       = $_GET['idf_ca'] ?? '0';
     $gi_rayon             = '';
-    $gi_idf_type_acte     = isset($_GET['idf_ta']) ? (int) $_GET['idf_ta'] : '0';
-    $gi_annee_min         = isset($_GET['a_min']) ? (int) $_GET['a_min'] : '';
-    $gi_annee_max         = isset($_GET['a_max']) ? (int) $_GET['a_max'] : '';
+    $gi_idf_type_acte     = $_GET['idf_ta'] ?? '0';
+    $gi_annee_min         = $_GET['a_min'] ?? '';
+    $gi_annee_max         = $_GET['a_max'] ?? '';
 
     $gst_nom_epx          = '';
     $gst_prenom_epx       = '';
@@ -25,7 +25,7 @@ if ($gst_type_recherche == 'nouvelle') {
     $gst_variantes_epse   = 'oui';
     $gi_idf_type_presence = '0';
     $gst_sexe             = '0';
-    $gst_nom              = isset($_GET['nom']) ? stripslashes($_GET['nom']) : '';
+    $gst_nom              = $_GET['nom'] ?? '';
     $gst_prenom           = '';
     $gst_variantes        = isset($_GET['var']) && $_GET['var'] == 'N' ? '' : 'oui';
     $gst_paroisses_rattachees = 'oui';
@@ -37,63 +37,7 @@ if ($gst_type_recherche == 'nouvelle') {
     $gst_releve_annee_max   = '';
     $gst_releve_type         = 0;
     $gst_releve_tous_patronymes = '';
-} else {
-    $gi_idf_source        = isset($_SESSION['idf_source_recherche']) ? $_SESSION['idf_source_recherche'] : '0';
-    $gi_idf_commune       = isset($_SESSION['idf_commune_recherche']) ? $_SESSION['idf_commune_recherche'] : '0';
-    $gi_rayon             = isset($_SESSION['rayon']) ? $_SESSION['rayon'] : '';
-    $gi_idf_type_acte      = isset($_SESSION['idf_type_acte_recherche']) ? $_SESSION['idf_type_acte_recherche'] : '0';
-    $gi_annee_min         = isset($_SESSION['annee_min']) ? $_SESSION['annee_min'] : '';
-    $gi_annee_max         = isset($_SESSION['annee_max']) ? $_SESSION['annee_max'] : '';
-
-    $gst_nom_epx          = isset($_SESSION['nom_epx']) ? $_SESSION['nom_epx'] : '';
-    $gst_prenom_epx       = isset($_SESSION['prenom_epx']) ? $_SESSION['prenom_epx'] : '';
-    $gst_variantes_epx    = isset($_SESSION['variantes_epx']) ? $_SESSION['variantes_epx'] : 'oui';
-    $gst_nom_epse         = isset($_SESSION['nom_epse']) ? $_SESSION['nom_epse'] : '';
-    $gst_prenom_epse      = isset($_SESSION['prenom_epse']) ? $_SESSION['prenom_epse'] : '';
-    $gst_variantes_epse   = isset($_SESSION['variantes_epse']) ? $_SESSION['variantes_epse'] : 'oui';
-    $gst_sexe             = isset($_SESSION['sexe']) ? $_SESSION['sexe'] : '0';
-    $gi_idf_type_presence = isset($_SESSION['idf_type_presence']) ? $_SESSION['idf_type_presence'] : '0';
-    $gst_nom              = isset($_SESSION['nom']) ? $_SESSION['nom'] : '';
-    $gst_prenom           = isset($_SESSION['prenom']) ? $_SESSION['prenom'] : '';
-    $gst_variantes        = isset($_SESSION['variantes']) ? $_SESSION['variantes'] : 'oui';
-    $gst_paroisses_rattachees = isset($_SESSION['paroisses_rattachees']) ? $_SESSION['paroisses_rattachees'] : 'oui';
-    $gst_commentaires     = isset($_SESSION['commentaires']) ? $_SESSION['commentaires'] : '';
-
-    $gst_releve_mois_min  = isset($_SESSION['releve_mois_min']) ? $_SESSION['releve_mois_min'] : '';
-    $gst_releve_annee_min   = isset($_SESSION['releve_annee_min']) ? $_SESSION['releve_annee_min'] : '';
-    $gst_releve_mois_max  = isset($_SESSION['releve_mois_max']) ? $_SESSION['releve_mois_max'] : '';
-    $gst_releve_annee_max   = isset($_SESSION['releve_annee_max']) ? $_SESSION['releve_annee_max'] : '';
-    $gst_releve_type       = isset($_SESSION['releve_type']) ? $_SESSION['releve_type'] : 0;
-    $gst_releve_tous_patronymes = isset($_SESSION['releve_tous_patronymes']) ? $_SESSION['releve_tous_patronymes'] : '';
 }
-
-unset($_SESSION['idf_source_recherche']);
-unset($_SESSION['idf_commune_recherche']);
-unset($_SESSION['rayon']);
-unset($_SESSION['idf_type_acte_recherche']);
-unset($_SESSION['annee_min']);
-unset($_SESSION['annee_max']);
-unset($_SESSION['nom_epx']);
-unset($_SESSION['prenom_epx']);
-unset($_SESSION['variantes_epx']);
-unset($_SESSION['nom_epse']);
-unset($_SESSION['prenom_epse']);
-unset($_SESSION['variantes_epse']);
-unset($_SESSION['sexe']);
-unset($_SESSION['nom']);
-unset($_SESSION['prenom']);
-unset($_SESSION['variantes']);
-unset($_SESSION['idf_type_presence']);
-unset($_SESSION['paroisses_rattachees']);
-unset($_SESSION['commentaires']);
-
-unset($_SESSION['releve_mois_min']);
-unset($_SESSION['releve_annee_min']);
-unset($_SESSION['releve_mois_max']);
-unset($_SESSION['releve_annee_max']);
-unset($_SESSION['releve_type']);
-unset($_SESSION['releve_tous_patronymes']);
-unset($_SESSION['nb_reponses']);
 
 $a_communes_acte = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM commune_acte order by nom");
 $a_types_acte = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM type_acte order by nom");
@@ -692,7 +636,7 @@ print('</div>');
 print('</div>');
 
 /* dates de releves */
-date_default_timezone_set($gst_time_zone);
+// date_default_timezone_set($gst_time_zone); // NB: Doit utiliser le timezone du serveur
 
 print('<div class="form-row col-md-12">');
 
