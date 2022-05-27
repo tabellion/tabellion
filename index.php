@@ -64,8 +64,8 @@ print('<div class="panel-body">');
 // Heure & Date
 $st_date = date("d-m-Y");
 $st_heure = date("H:i");
-print("<div class=\"row text-center\">Aujourd'hui le $st_date &agrave; $st_heure</div>");
-print("<div class=\"row text-center\">$gi_nb_adherents adh&eacute;rents inscrits sur la base de $st_prefixe_asso" . SIGLE_ASSO . "</div>");
+print("<div class=\"row text-center\">Aujourd'hui le $st_date à $st_heure</div>");
+print("<div class=\"row text-center\">$gi_nb_adherents adhérents inscrits sur la base " . SIGLE_ASSO . "</div>");
 print('</div></div>');
 print('<div class="panel panel-primary">');
 print('<div class="panel-heading">Info sur la base</div>');
@@ -73,7 +73,7 @@ print('<div class="panel-body">');
 print("<div class=\"row text-center\">" . number_format($gi_nb_actes_total, 0, ',', ' ') . " actes dont :</div>");
 print("<div class=\"row text-center\">Naissances: " . number_format($gi_nb_nai, 0, ',', ' ') . " actes</div>");
 print("<div class=\"row text-center\">Mariages: " . number_format($gi_nb_mar, 0, ',', ' ') . " actes</div>");
-print("<div class=\"row text-center\">D&eacute;c&egrave;s: " . number_format($gi_nb_dec, 0, ',', ' ') . " actes</div>");
+print("<div class=\"row text-center\">Décès: " . number_format($gi_nb_dec, 0, ',', ' ') . " actes</div>");
 print("<div class=\"row text-center\">CM: " . number_format($gi_nb_cm, 0, ',', ' ') . " actes</div>");
 print("<div class=\"row text-center\">et autres...</div>");
 print('</div></div>');
@@ -167,7 +167,7 @@ print('<div class="col-md-4">');
 </div>
 
 <div class="panel panel-primary">
-    <div class="panel-heading ">Loi sur les d&eacute;lais de communication des archives (Journal Officiel du 16&nbsp;juillet&nbsp;2008) </div>
+    <div class="panel-heading ">Loi sur les délais de communication des archives (Journal Officiel du 16 juillet 2008) </div>
     <div class="panel-body ">
 
         <table class="table table-bordered table-striped table-sm">
@@ -175,15 +175,15 @@ print('<div class="col-md-4">');
                 <tr>
                     <th scope="col"> Nature des documents
                     </th>
-                    <th scope="col"> D&eacute;lai initial
+                    <th scope="col"> Délai initial
                     </th>
-                    <th scope="col"> Nouveau d&eacute;lai
+                    <th scope="col"> Nouveau délai
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td> Vie priv&eacute;e </td>
+                    <td> Vie privée </td>
                     <td> 60 ans </td>
                     <td> 50 ans </td>
                 </tr>
@@ -198,24 +198,24 @@ print('<div class="col-md-4">');
                     <td> 75 ans </td>
                 </tr>
                 <tr>
-                    <td> Registres de naissance de l'&eacute;tat civil </td>
+                    <td> Registres de naissance de l'état civil </td>
                     <td> 100 ans </td>
                     <td> 75 ans </td>
                 </tr>
                 <tr>
-                    <td> Registres de mariage de l'&eacute;tat civil </td>
+                    <td> Registres de mariage de l'état civil </td>
                     <td> 100 ans </td>
                     <td> 75 ans </td>
                 </tr>
                 <tr>
-                    <td> Registres de d&eacute;c&egrave;s de l'&eacute;tat civil </td>
+                    <td> Registres de décès de l'état civil </td>
                     <td> - </td>
-                    <td> Imm&eacute;diat </td>
+                    <td> Immédiat </td>
                 </tr>
                 <tr>
-                    <td> Tables d&eacute;cennales </td>
+                    <td> Tables décennales </td>
                     <td> 100 ans </td>
-                    <td> Imm&eacute;diat </td>
+                    <td> Immédiat </td>
                 </tr>
                 <tr>
                     <td> Questionnaires de recensement de la population </td>
@@ -228,9 +228,9 @@ print('<div class="col-md-4">');
                     <td> 75 ans </td>
                 </tr>
                 <tr>
-                    <td> Secret m&eacute;dical </td>
+                    <td> Secret médical </td>
                     <td> 150 ans </td>
-                    <td> 120 ans ou 25 ans &agrave; compter du d&eacute;c&egrave;s </td>
+                    <td> 120 ans ou 25 ans à compter du décès </td>
                 </tr>
             </tbody>
         </table>

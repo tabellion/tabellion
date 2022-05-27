@@ -3,62 +3,26 @@
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Commun/commun.php';
 
-$gst_type_recherche = isset($_GET['recherche']) ? $_GET['recherche'] : '';
+$gst_type_recherche = $_GET['recherche'] ?? '';
 
 if ($gst_type_recherche == 'nouvelle') {
-	$gi_idf_dept				= isset($_GET['idf_dept']) ? (int) $_GET['idf_dept'] : '0';
-	$gi_idf_commune			= isset($_GET['idf_ca']) ? (int) $_GET['idf_ca'] : '0';
+	$gi_idf_dept				= $_GET['idf_dept'] ?? '0';
+	$gi_idf_commune				= $_GET['idf_ca'] ?? '0';
 	$gi_rayon					= '';
-	$gi_annee_min				= isset($_GET['a_min']) ? (int) $_GET['a_min'] : '';
-	$gi_annee_max				= isset($_GET['a_max']) ? (int) $_GET['a_max'] : '';
-
+	$gi_annee_min				= $_GET['a_min'] ?? '';
+	$gi_annee_max				= $_GET['a_max'] ?? '';
 	$gst_paroisses_rattachees	= 'oui';
 	$gst_nom_notaire			= '';
-	$gst_prenom_notaire		= '';
-	$gst_variantes			= 'oui';
-	$gst_idf_serie_liasse     = '2E';
-	$gst_cote_debut			= '';
+	$gst_prenom_notaire			= '';
+	$gst_variantes				= 'oui';
+	$gst_idf_serie_liasse     	= '2E';
+	$gst_cote_debut				= '';
 	$gst_cote_fin				= '';
-	$gst_repertoire			= 'non';
+	$gst_repertoire				= 'non';
 	$gst_sans_notaire			= 'non';
 	$gst_sans_periode			= 'non';
-	$gst_liasse_releve		= 'non';
-} else {
-	$gi_idf_dept				= isset($_SESSION['idf_dept_recherche_rls']) ? $_SESSION['idf_dept_recherche_rls'] : '0';
-	$gi_idf_commune			= isset($_SESSION['idf_commune_recherche_rls']) ? $_SESSION['idf_commune_recherche_rls'] : '0';
-	$gi_rayon					= isset($_SESSION['rayon_rls']) ? $_SESSION['rayon_rls'] : '';
-	$gi_annee_min				= isset($_SESSION['annee_min_rls']) ? $_SESSION['annee_min_rls'] : '';
-	$gi_annee_max				= isset($_SESSION['annee_max_rls']) ? $_SESSION['annee_max_rls'] : '';
-
-	$gst_paroisses_rattachees	= isset($_SESSION['paroisses_rattachees_rls']) ? $_SESSION['paroisses_rattachees_rls'] : 'oui';
-	$gst_nom_notaire			= isset($_SESSION['nom_notaire_rls']) ? $_SESSION['nom_notaire_rls'] : '';
-	$gst_prenom_notaire		= isset($_SESSION['prenom_notaire_rls']) ? $_SESSION['prenom_notaire_rls'] : '';
-	$gst_variantes			= isset($_SESSION['variantes_rls']) ? $_SESSION['variantes_rls'] : 'oui';
-	$gst_idf_serie_liasse		= isset($_SESSION['idf_serie_liasse_rls']) ? $_SESSION['idf_serie_liasse_rls'] : '';
-	$gst_cote_debut			= isset($_SESSION['cote_debut_rls']) ? $_SESSION['cote_debut_rls'] : '';
-	$gst_cote_fin				= isset($_SESSION['cote_fin_rls']) ? $_SESSION['cote_fin_rls'] : '';
-	$gst_repertoire			= isset($_SESSION['repertoire_rls']) ? $_SESSION['repertoire_rls'] : 'non';
-	$gst_sans_notaire			= isset($_SESSION['sans_notaire_rls']) ? $_SESSION['sans_notaire_rls'] : 'non';
-	$gst_sans_periode			= isset($_SESSION['sans_periode_rls']) ? $_SESSION['sans_periode_rls'] : 'non';
-	$gst_liasse_releve		= isset($_SESSION['liasse_releve_rls']) ? $_SESSION['liasse_releve_rls'] : 'non';
+	$gst_liasse_releve			= 'non';
 }
-
-unset($_SESSION['idf_dept_recherche_rls']);
-unset($_SESSION['idf_commune_recherche_rls']);
-unset($_SESSION['rayon_rls']);
-unset($_SESSION['paroisses_rattachees_rls']);
-unset($_SESSION['annee_min_rls']);
-unset($_SESSION['annee_max_rls']);
-unset($_SESSION['nom_notaire_rls']);
-unset($_SESSION['prenom_notaire_rls']);
-unset($_SESSION['variantes_rls']);
-unset($_SESSION['idf_serie_liasse_rls']);
-unset($_SESSION['cote_debut_rls']);
-unset($_SESSION['cote_fin_rls']);
-unset($_SESSION['repertoire_rls']);
-unset($_SESSION['sans_notaire_rls']);
-unset($_SESSION['sans_periode_rls']);
-unset($_SESSION['liasse_releve_rls']);
 
 $a_dept = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM departement order by idf");
 $a_dept = array(0 => 'Tous') + $a_dept;
