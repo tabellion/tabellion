@@ -212,11 +212,8 @@ switch ($mode) {
         print('</div></div></div>');
         break;
     case 'VUE_DEMANDES_COMMUNE':
-        // $i_session_idf_commune = isset($_SESSION['idf_commune']) ? $_SESSION['idf_commune'] : null;
         $i_idf_commune = $_GET['idf_commune'] ?? null;
-        // $i_session_idf_type_acte = isset($_SESSION['idf_type_acte']) ? $_SESSION['idf_type_acte'] : null;
         $i_idf_type_acte = isset($_GET['idf_type_acte']) ?? null;
-        $i_session_num_page = isset($_SESSION['num_page_ddes_adht']) ? $_SESSION['num_page_ddes_adht'] : 1;
         $st_commune = $connexionBD->sql_select1("SELECT nom FROM commune_acte WHERE idf=$i_idf_commune");
         $st_type_acte = $connexionBD->sql_select1("SELECT nom FROM type_acte WHERE idf=$i_idf_type_acte");
 
@@ -226,7 +223,7 @@ switch ($mode) {
         print('<div class="panel panel-info">');
         print("<div class=\"panel-heading\">" . cp1252_vers_utf8($st_type_acte) . " à " . cp1252_vers_utf8($st_commune) . "</div>");
         print('<div class="panel-body">');
-        $gi_num_page = empty($_POST['num_page_ddes_adht']) ?  $i_session_num_page : (int) $_POST['num_page_ddes_adht'];
+        $gi_num_page = $_POST['num_page_ddes_adht'] ?? 1;
         $st_requete = "SELECT DISTINCT date_demande, idf_acte 
                 FROM demandes_adherent 
                 WHERE idf_adherent=$user[idf] 

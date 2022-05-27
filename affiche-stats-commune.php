@@ -369,7 +369,7 @@ function affiche_entete_liens_navigation($pi_num_page_cour, $pi_nb_pages)
                 $i_annee += 1900;
                 $st_date_log = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $i_jmois, $i_mois, $i_annee, $i_heure, $i_min, $i_sec);
                 $gst_adresse_ip = $_SERVER['REMOTE_ADDR'];
-                $st_ident = isset($_SESSION['ident']) ? $_SESSION['ident'] : '';
+                $st_ident = $session->getAttribute('ident');
                 $st_chaine_log = join(';', array($st_date_log, $st_ident, $gst_adresse_ip, cp1252_vers_utf8($gst_nom_commune), cp1252_vers_utf8($gst_type_acte)));
                 @fwrite($pf, "$st_chaine_log\n");
                 @fclose($pf);

@@ -138,36 +138,33 @@ print('<div class="container">');
 require_once __DIR__ . '/Commun/menu.php';
 
 $gst_mode = empty($_POST['mode']) ? 'LISTE_DEMANDES' : $_POST['mode'];
-if (isset($_SESSION['ident'])) {
-    $st_ident = $_SESSION['ident'];
-    $st_requete = "select idf from adherent where ident = '$st_ident'";
-    //print("Req=$st_requete<br>");
-    $gi_idf_adherent = $connexionBD->sql_select1($st_requete);
-    switch ($gst_mode) {
-        case 'AFFICHAGE_CANTONS':
-            affiche_cantons_choisis($connexionBD, $gi_idf_adherent);
-            break;
-        case 'MODIFICATION_CANTONS':
-            $a_cantons_choisis = isset($_POST['cantons_choisis']) ? $_POST['cantons_choisis'] :  array();
-            $st_requete = "delete from cantons_adherent where idf_adherent=$gi_idf_adherent";
-            $connexionBD->execute_requete($st_requete);
-            $a_cantons = array();
-            if (count($a_cantons_choisis) > 0) {
-                foreach ($a_cantons_choisis as $i_idf_canton) {
-                    $a_cantons[] = "($gi_idf_adherent,$i_idf_canton)";
-                }
-                $st_cantons = join(',', $a_cantons);
-                $st_requete = "insert cantons_adherent(idf_adherent,idf_canton) values $st_cantons";
-                $connexionBD->execute_requete($st_requete);
+
+$st_ident = $session->getAttribute('ident');
+$st_requete = "select idf from adherent where ident = '$st_ident'";
+//print("Req=$st_requete<br>");
+$gi_idf_adherent = $connexionBD->sql_select1($st_requete);
+switch ($gst_mode) {
+    case 'AFFICHAGE_CANTONS':
+        affiche_cantons_choisis($connexionBD, $gi_idf_adherent);
+        break;
+    case 'MODIFICATION_CANTONS':
+        $a_cantons_choisis = isset($_POST['cantons_choisis']) ? $_POST['cantons_choisis'] :  array();
+        $st_requete = "delete from cantons_adherent where idf_adherent=$gi_idf_adherent";
+        $connexionBD->execute_requete($st_requete);
+        $a_cantons = array();
+        if (count($a_cantons_choisis) > 0) {
+            foreach ($a_cantons_choisis as $i_idf_canton) {
+                $a_cantons[] = "($gi_idf_adherent,$i_idf_canton)";
             }
-            affiche_dernieres_demandes($connexionBD, $gi_idf_adherent, "Liste mise &agrave; jour");
-            break;
-        case 'LISTE_DEMANDES':
-            affiche_dernieres_demandes($connexionBD, $gi_idf_adherent, '');
-            break;
-    }
-} else {
-    print("<div class=\"alert alert-danger\">Ad&eacute;r&eacute;rent pas identifi&eacute;</div>");
+            $st_cantons = join(',', $a_cantons);
+            $st_requete = "insert cantons_adherent(idf_adherent,idf_canton) values $st_cantons";
+            $connexionBD->execute_requete($st_requete);
+        }
+        affiche_dernieres_demandes($connexionBD, $gi_idf_adherent, "Liste mise &agrave; jour");
+        break;
+    case 'LISTE_DEMANDES':
+        affiche_dernieres_demandes($connexionBD, $gi_idf_adherent, '');
+        break;
 }
 print("</div></body>");
 print("</html>");

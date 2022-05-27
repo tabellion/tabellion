@@ -70,9 +70,7 @@ print('<div class="panel-body">');
 
 if (isset($_GET['idf_acte'])) {
     $gi_idf_acte = (int) $_GET['idf_acte'];
-    $_SESSION['idf_acte'] = $gi_idf_acte;
-} else if (isset($_SESSION['idf_acte']))
-    $gi_idf_acte = (int) $_SESSION['idf_acte'];
+}
 else
     die("Erreur: L'identifiant de l'acte est manquant");
 
@@ -83,16 +81,16 @@ $gst_adresse_ip = $_SERVER['REMOTE_ADDR'];
 
 if ($i_idf_source == IDF_SOURCE_TD) {
     if ($i_age_acte > 100) {
-        $st_ident = isset($_SESSION['ident']) ?  $_SESSION['ident'] : '';
+        $st_ident = $session->getAttribute('ident');
         switch ($i_idf_type_acte) {
             case IDF_NAISSANCE:
-                enregistre_journal("$gst_rep_logs/requetes_td_naissances.log", $st_ident, $gst_adresse_ip, $i_idf_commune);
+                enregistre_journal("logs/requetes_td_naissances.log", $st_ident, $gst_adresse_ip, $i_idf_commune);
                 break;
             case IDF_DECES:
-                enregistre_journal("$gst_rep_logs/requetes_td_deces.log", $st_ident, $gst_adresse_ip, $i_idf_commune);
+                enregistre_journal("logs/requetes_td_deces.log", $st_ident, $gst_adresse_ip, $i_idf_commune);
                 break;
             default:
-                enregistre_journal("$gst_rep_logs/requetes_td_mariages.log", $st_ident, $gst_adresse_ip, $i_idf_commune);
+                enregistre_journal("logs/requetes_td_mariages.log", $st_ident, $gst_adresse_ip, $i_idf_commune);
         }
         $o_acte = new Acte($connexionBD, null, null, null, null, null, null);
         $o_acte->charge($gi_idf_acte);

@@ -10,75 +10,35 @@ require_once __DIR__ . '/Commun/VerificationDroits.php';
 $a_clauses = array();
 $st_icone_info = './images/infos.png';
 
-/* ------------------------------------------------------
-   r�cup�ration des crit�res de recherche 
-*/
-$i_session_idf_commune				= empty($_SESSION['idf_commune_recherche_rls']) ? '0' : $_SESSION['idf_commune_recherche_rls'];
-$i_session_rayon					= empty($_SESSION['rayon_rls']) ? '' : $_SESSION['rayon_rls'];
-$st_session_paroisses_rattachees	= empty($_SESSION['paroisses_rattachees_rls']) ? '' : $_SESSION['paroisses_rattachees_rls'];
-$i_session_annee_min				= empty($_SESSION['annee_min_rls']) ? '' : $_SESSION['annee_min_rls'];
-$i_session_annee_max				= empty($_SESSION['annee_max_rls']) ? '' : $_SESSION['annee_max_rls'];
-$st_session_nom_notaire				= empty($_SESSION['nom_notaire_rls']) ? '' : $_SESSION['nom_notaire_rls'];
-$st_session_prenom_notaire			= empty($_SESSION['prenom_notaire_rls']) ? '' : $_SESSION['prenom_notaire_rls'];
-$st_session_variantes				= empty($_SESSION['variantes_rls']) ? '' : $_SESSION['variantes_rls'];
-$st_session_idf_serie_liasse		= empty($_SESSION['idf_serie_liasse_rls']) ? '' : $_SESSION['idf_serie_liasse_rls'];
-$st_session_cote_debut				= empty($_SESSION['cote_debut_rls']) ? '' : $_SESSION['cote_debut_rls'];
-$st_session_cote_fin				= empty($_SESSION['cote_fin_rls']) ? '' : $_SESSION['cote_fin_rls'];
-$i_session_idf_forme_liasse			= empty($_SESSION['idf_forme_liasse_rls']) ? '0' : $_SESSION['idf_forme_liasse_rls'];
-$st_session_repertoire				= empty($_SESSION['repertoire_rls']) ? 'non' : $_SESSION['repertoire_rls'];
-$st_session_sans_notaire			= empty($_SESSION['sans_notaire_rls']) ? 'non' : $_SESSION['sans_notaire_rls'];
-$st_session_sans_periode			= empty($_SESSION['sans_periode_rls']) ? 'non' : $_SESSION['sans_periode_rls'];
-$st_session_liasse_releve			= empty($_SESSION['liasse_releve_rls']) ? 'non' : $_SESSION['liasse_releve_rls'];
+$gi_idf_commune						= $_POST['idf_commune_recherche'] ?? '0';
+$gi_rayon							= $_POST['rayon'] ?? '';
+$gst_paroisses_rattachees			= $_POST['paroisses_rattachees'] ?? '';
+$gi_annee_min						= $_POST['annee_min'] ?? '';
+$gi_annee_max						= $_POST['annee_max'] ?? '';
+$gst_nom_notaire					= $_POST['nom_notaire'] ?? '';
+$gst_prenom_notaire					= $_POST['prenom_notaire'] ?? '';
+$gst_variantes						= $_POST['variantes'] ?? '';
+$gst_idf_serie_liasse				= $_POST['idf_serie_liasse'] ?? '';
+$gst_cote_debut						= $_POST['cote_debut'] ?? '';
+$gst_cote_fin						= $_POST['cote_fin'] ?? '';
+$gi_idf_forme_liasse				= $_POST['idf_forme_liasse'] ?? '0';
+$gst_repertoire						= $_POST['repertoire'] ?? 'non';
+$gst_sans_notaire					= $_POST['sans_notaire'] ?? 'non';
+$gst_sans_periode					= $_POST['sans_periode'] ?? 'non';
+$gst_liasse_releve					= $_POST['liasse_releve'] ?? 'non';
 
-$gi_idf_commune						= empty($_POST['idf_commune_recherche']) ? $i_session_idf_commune : (int) $_POST['idf_commune_recherche'];
-$gi_rayon							= empty($_POST['rayon']) ? $i_session_rayon : (int) trim($_POST['rayon']);
-$gst_paroisses_rattachees			= empty($_POST['paroisses_rattachees']) ? $st_session_paroisses_rattachees : trim($_POST['paroisses_rattachees']);
-$gi_annee_min						= empty($_POST['annee_min']) ? $i_session_annee_min : (int) trim($_POST['annee_min']);
-$gi_annee_max						= empty($_POST['annee_max']) ? $i_session_annee_max : (int) trim($_POST['annee_max']);
-$gst_nom_notaire					= empty($_POST['nom_notaire']) ? $st_session_nom_notaire : trim($_POST['nom_notaire']);
-$gst_prenom_notaire					= empty($_POST['prenom_notaire']) ? $st_session_prenom_notaire : trim($_POST['prenom_notaire']);
-$gst_variantes						= empty($_POST['variantes']) ? $st_session_variantes : trim($_POST['variantes']);
-$gst_idf_serie_liasse				= empty($_POST['idf_serie_liasse']) ? $st_session_idf_serie_liasse : $_POST['idf_serie_liasse'];
-$gst_cote_debut						= empty($_POST['cote_debut']) ? $st_session_cote_debut : trim($_POST['cote_debut']);
-$gst_cote_fin						= empty($_POST['cote_fin']) ? $st_session_cote_fin : trim($_POST['cote_fin']);
-$gi_idf_forme_liasse				= empty($_POST['idf_forme_liasse']) ? $i_session_idf_forme_liasse : (int) trim($_POST['idf_forme_liasse']);
-$gst_repertoire						= empty($_POST['repertoire']) ? $st_session_repertoire : trim($_POST['repertoire']);
-$gst_sans_notaire					= empty($_POST['sans_notaire']) ? $st_session_sans_notaire : trim($_POST['sans_notaire']);
-$gst_sans_periode					= empty($_POST['sans_periode']) ? $st_session_sans_periode : trim($_POST['sans_periode']);
-$gst_liasse_releve					= empty($_POST['liasse_releve']) ? $st_session_liasse_releve : trim($_POST['liasse_releve']);
-
-$gi_get_num_page = empty($_GET['num_page']) ? 1 : (int) $_GET['num_page'];
-$gi_num_page = empty($_POST['num_page']) ? $gi_get_num_page : (int) $_POST['num_page'];
+$gi_get_num_page = $_GET['num_page'] ?? 1;
+$gi_num_page = $_POST['num_page'] ?? 1;
 
 $st_communes_voisines   = '';
-
-$_SESSION['idf_commune_recherche_rls']		= $gi_idf_commune;
-$_SESSION['rayon_rls']						= $gi_rayon;
-$_SESSION['paroisses_rattachees_rls']		= $gst_paroisses_rattachees;
-$_SESSION['annee_min_rls']					= $gi_annee_min;
-$_SESSION['annee_max_rls']					= $gi_annee_max;
-
-$_SESSION['nom_notaire_rls']				= $gst_nom_notaire;
-$_SESSION['prenom_notaire_rls']				= $gst_prenom_notaire;
-$_SESSION['variantes_rls']					= $gst_variantes;
-$_SESSION['idf_serie_liasse_rls']			= $gst_idf_serie_liasse;
-$_SESSION['cote_debut_rls']					= $gst_cote_debut;
-$_SESSION['cote_fin_rls']					= $gst_cote_fin;
-$_SESSION['repertoire_rls']					= $gst_repertoire;
-$_SESSION['sans_notaire_rls']				= $gst_sans_notaire;
-$_SESSION['sans_periode_rls']				= $gst_sans_periode;
-$_SESSION['liasse_releve_rls']				= $gst_liasse_releve;
-
 $b_pers_def = false;
 
 if ($gst_nom_notaire != '')
 	$b_pers_def = true;
 
-/* ------------------------------------------------------
-   constitution de la log 
-*/
+// ================ Log
 $gst_adresse_ip = $_SERVER['REMOTE_ADDR'];
-$pf = @fopen("$gst_rep_logs/requetes_liasse.log", 'a');
+$pf = @fopen("logs/requetes_liasse.log", 'a');
 list($i_sec, $i_min, $i_heure, $i_jmois, $i_mois, $i_annee, $i_j_sem, $i_j_an, $b_hiver) = localtime();
 $i_mois++;
 $i_annee += 1900;
@@ -90,32 +50,33 @@ $st_chaine_log = join(';', array(
 ));
 @fwrite($pf, "$st_chaine_log\n");
 @fclose($pf);
+// ===================
 
-function nomNotaire($pConnexionBD, $pst_patronyme, $pst_variantes)
+function nomNotaire($pst_patronyme, $pst_variantes)
 {
 	$st_clause = '';
 	//$st_patronyme=utf8_vers_cp1252($pst_patronyme);
 	$st_patronyme = $pst_patronyme;
 	if (($pst_variantes == '') || preg_match('/\%/', $st_patronyme)) {
 		if (preg_match('/\%/', $st_patronyme))
-			$st_clause = " like '" . $st_patronyme . "'";
+			$st_clause = " LIKE '" . $st_patronyme . "'";
 		else
 			$st_clause = "='" . $st_patronyme . "'";
 	} else {
 		if ($pst_variantes == 'oui') {
-			$st_requete = "select vp1.patronyme from variantes_patro vp1, variantes_patro vp2 " .
-				"where vp2.patronyme = '" . $st_patronyme . "' and vp1.idf_groupe=vp2.idf_groupe";
+			$st_requete = "SELECT vp1.patronyme FROM variantes_patro vp1, variantes_patro vp2 
+				WHERE vp2.patronyme=$st_patronyme AND vp1.idf_groupe=vp2.idf_groupe";
 		} else {
 			// variantes phonetiques
-			$st_requete = "select p2.libelle from `patronyme` p1 join `patronyme` p2 on (truncate(p1.phonex,7)=truncate(p2.phonex,7)) " .
-				"where p1.libelle='" . $st_patronyme . "' ";
+			$st_requete = "SELECT p2.libelle FROM `patronyme` p1 JOIN `patronyme` p2 ON (truncate(p1.phonex,7)=truncate(p2.phonex,7)) 
+				WHERE p1.libelle=$st_patronyme";
 		}
-		$st_clause = "in ($st_requete) ";
+		$st_clause = " IN ($st_requete) ";
 	}
 	return $st_clause;
 }
 
-function prenomNotaire($pConnexionBD, $pst_prenom, $pst_variantes)
+function prenomNotaire($pst_prenom, $pst_variantes)
 {
 	$st_clause = '';
 	if (!empty($pst_prenom)) {
@@ -128,9 +89,9 @@ function prenomNotaire($pConnexionBD, $pst_prenom, $pst_variantes)
 				$st_clause = "= '" . $st_prenom . "' ";
 		} else {
 			$st_prenom = ucfirst(strtolower(trim($st_prenom)));
-			$st_requete = "select vp1.libelle from variantes_prenom vp1, variantes_prenom vp2 " .
-				"where vp2.libelle = '" . $st_prenom . "'  and vp1.idf_groupe=vp2.idf_groupe";
-			$st_clause = "in ($st_requete) ";
+			$st_requete = "SELECT vp1.libelle FROM variantes_prenom vp1, variantes_prenom vp2 
+				WHERE vp2.libelle=$st_prenom AND vp1.idf_groupe=vp2.idf_groupe";
+			$st_clause = "IN ($st_requete) ";
 		}
 	}
 	return $st_clause;
@@ -188,16 +149,18 @@ print("<form  method=\"post\">");
 
 $requeteRecherche = new RequeteRecherche($connexionBD);
 
-$a_communes_acte = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM commune_acte");
+$a_communes_acte = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM commune_acte");
 
-$gst_requete_nb_liasses = "SELECT !isnull(r.cote_liasse), min(l.cote_liasse), min(n.nom_notaire), min(n.prenom_notaire), min(n.commentaire), " .
-	"       min(d.date_debut_periode) as date_tri, min(l.libelle_annees), " .
-	"       min(f.nom) as forme, n.idf_commune_etude, l.info_complementaires, l.in_liasse_consultable, " .
-	"       case when r.idf is null then 'non' else 'oui' end " .
-	"FROM liasse l join forme_liasse f on l.idf_forme_liasse = f.idf " .
-	"     left outer join liasse_dates d on d.cote_liasse = l.cote_liasse " .
-	"     left outer join liasse_notaire n on n.cote_liasse = l.cote_liasse " .
-	"     left outer join liasse_releve r on r.cote_liasse = l.cote_liasse ";
+$gst_requete_nb_liasses = "SELECT !isnull(r.cote_liasse), 
+	min(l.cote_liasse), min(n.nom_notaire), min(n.prenom_notaire), min(n.commentaire), 
+	min(d.date_debut_periode) AS date_tri, min(l.libelle_annees), 
+	min(f.nom) AS forme, n.idf_commune_etude, l.info_complementaires, l.in_liasse_consultable, 
+	case when r.idf is null then 'non' else 'oui' end 
+	FROM liasse l 
+	JOIN forme_liasse f ON l.idf_forme_liasse=f.idf 
+	LEFT OUTER JOIN liasse_dates d ON d.cote_liasse=l.cote_liasse 
+	LEFT OUTER JOIN liasse_notaire n ON n.cote_liasse = l.cote_liasse 
+	LEFT OUTER JOIN liasse_releve r ON r.cote_liasse = l.cote_liasse ";
 print('   <br>');
 if ($gi_idf_commune == -9)
 	$a_clauses[] = "( n.idf_commune_etude is null or n.idf_commune_etude=0 )";
@@ -231,12 +194,12 @@ if ($gst_liasse_releve == 'oui')
 $gst_nom_notaire  = str_replace('*', '%', $gst_nom_notaire);
 if ($gst_nom_notaire != '' && $gst_nom_notaire != '*') {
 	$gst_nom_notaire = strtoupper($gst_nom_notaire);
-	$a_clauses[] = "n.nom_notaire " . nomNotaire($connexionBD, $gst_nom_notaire, $gst_variantes);
+	$a_clauses[] = "n.nom_notaire " . nomNotaire($gst_nom_notaire, $gst_variantes);
 	if ($gst_prenom_notaire != '') {
 		$gst_prenom_notaire  = str_replace('*', '%', $gst_prenom_notaire);
 		$st_prenom_groupe = str_replace('%', '', $gst_prenom_notaire);
 		$a_clauses[] = "(n.prenom_notaire " . $requeteRecherche->clause_droite_prenom($gst_prenom_notaire, $gst_variantes, 1) .
-			" or n.prenom_notaire like '%" . $st_prenom_groupe . "%')";
+			" OR n.prenom_notaire LIKE '%" . $st_prenom_groupe . "%')";
 	}
 }
 
@@ -253,19 +216,19 @@ if ($gst_cote_debut != '' && $gst_cote_fin != '') {
 }
 
 if ($gst_repertoire == 'oui')
-	$st_tri = " order by 2";
+	$st_tri = " ORDER BY 2";
 elseif ($gst_nom_notaire != '' && $gst_nom_notaire != '*')
-	$st_tri = " order by 3,4,2";
+	$st_tri = " ORDER BY 3,4,2";
 else
-	$st_tri = "order by 5,2";
+	$st_tri = "ORDER BY 5,2";
 
-$st_clauses = implode(" and ", $a_clauses);
-$st_where = " where l.cote_liasse like '" . $gst_idf_serie_liasse . "%' ";
+$st_clauses = implode(" AND ", $a_clauses);
+$st_where = " WHERE l.cote_liasse LIKE '" . $gst_idf_serie_liasse . "%' ";
 if ($st_clauses != '')
-	$st_where .= ' and ' . $st_clauses;
+	$st_where .= ' AND ' . $st_clauses;
 
-$st_groupe = "group by l.cote_liasse, l.libelle_annees, f.nom, n.nom_notaire, n.prenom_notaire, n.idf_commune_etude," .
-	"         l.info_complementaires, case when r.idf is null then 'non' else 'oui' end";
+$st_groupe = "GROUP BY l.cote_liasse, l.libelle_annees, f.nom, n.nom_notaire, n.prenom_notaire, n.idf_commune_etude, 
+	l.info_complementaires, case when r.idf is null then 'non' else 'oui' end";
 
 $gst_requete_liasses = "$gst_requete_nb_liasses $st_where $st_groupe $st_tri";
 
@@ -275,14 +238,14 @@ $gst_requete_liasses = "$gst_requete_nb_liasses $st_where $st_groupe $st_tri";
 */
 print("<div class=\"row col-md-12\">");
 print('<div id=col_paroisses class="col-md-4 col-md-offset-4 alert  alert-info">');
-$st_criteres = "Recherche des liasses:\nS&eacute;rie " . $gst_idf_serie_liasse . "\n";
+$st_criteres = "Recherche des liasses:\nSérie " . $gst_idf_serie_liasse . "\n";
 
 if ($gst_nom_notaire != '')
-	$st_criteres .= "Notaire s&eacute;lectionn&eacute;: $gst_prenom_notaire $gst_nom_notaire";
+	$st_criteres .= "Notaire sélectionné: $gst_prenom_notaire $gst_nom_notaire";
 elseif ($gst_sans_notaire == 'oui')
 	$st_criteres .= "Liasses sans notaire";
 else
-	$st_criteres .= "Pas de notaire s&eacute;lectionn&eacute;";
+	$st_criteres .= "Pas de notaire sélectionné";
 $st_criteres .= "\n";
 
 if ($gst_cote_debut != '' && $gst_cote_fin != '')
@@ -292,46 +255,46 @@ elseif ($gst_cote_debut != '')
 elseif ($gi_annee_max != '')
 	$st_criteres .= "Cotes:  jusqu'&agrave; $gst_cote_fin";
 else
-	$st_criteres .= "Pas de cote s&eacute;lectionn&eacute;e";
+	$st_criteres .= "Pas de cote sélectionnée";
 $st_criteres .= "\n";
 
 if ($gi_annee_min != '' && $gi_annee_max != '')
-	$st_criteres .= "P&eacute;riode:  de $gi_annee_min &agrave; $gi_annee_max";
+	$st_criteres .= "Période:  de $gi_annee_min &agrave; $gi_annee_max";
 else if ($gi_annee_min != '')
-	$st_criteres .= "P&eacute;riode:  &agrave; partir de $gi_annee_min";
+	$st_criteres .= "Période:  &agrave; partir de $gi_annee_min";
 else if ($gi_annee_max != '')
-	$st_criteres .= "P&eacute;riode:  jusqu'en $gi_annee_max";
+	$st_criteres .= "Période:  jusqu'en $gi_annee_max";
 elseif ($gst_sans_periode == 'oui')
 	$st_criteres .= "Liasses sans date";
 else
-	$st_criteres .= 'Pas de p&eacute;riode selectionn&eacute;e';
+	$st_criteres .= 'Pas de période selectionnée';
 $st_criteres .= "\n";
 
 if ($gi_idf_commune > 0) {
 	$a_params_precedents = $connexionBD->params();
 	$st_nom_commune = $connexionBD->sql_select1("select nom from commune_acte where idf=$gi_idf_commune");
-	$st_criteres .= "Commune s&eacute;lectionn&eacute;e: " . cp1252_vers_utf8($st_nom_commune);
+	$st_criteres .= "Commune sélectionnée: " . cp1252_vers_utf8($st_nom_commune);
 	$connexionBD->initialise_params($a_params_precedents);
 } elseif ($gi_idf_commune == -9)
 	$st_criteres .=  'Commune inconnue';
 else
-	$st_criteres .=  'Pas de commune selectionn&eacute;e';
+	$st_criteres .=  'Pas de commune selectionnée';
 $st_criteres .= "\n";
 
 if ($gst_repertoire == 'oui')
-	$st_criteres .= "uniquement les r&eacute;pertoires";
+	$st_criteres .= "uniquement les répertoires";
 $st_criteres .= "\n";
 
 if ($gst_liasse_releve == 'oui')
-	$st_criteres .= "uniquement les liasses relev&eacute;es";
+	$st_criteres .= "uniquement les liasses relevées";
 //$st_criteres .= "\n";
-$st_criteres .= "** fond jaune = liasses relev&eacute;es\n";
+$st_criteres .= "** fond jaune = liasses relevées\n";
 
 print(nl2br($st_criteres));
 
 if (count(array_values($requeteRecherche->communes_voisines())) > 1) {
 	$st_communes_voisines = join("\n", array_values($requeteRecherche->communes_voisines()));
-	print("Paroisses voisines ou rattach&eacute;es<br>");
+	print("Paroisses voisines ou rattachées<br>");
 	if ($gi_rayon != '') {
 		print("(avec recherches dans un rayon de $gi_rayon km)\n");
 		$st_criteres .= " (avec recherches dans un rayon de $gi_rayon km)\n";
@@ -349,10 +312,10 @@ $connexionBD->initialise_params($a_params_precedents);
 
 print benchmark("Recherche ");
 $i_nb_liasses = count($a_liasses);
-print("<div class=\"row text-center col-md-12\"><span class=\"badge\">$i_nb_liasses</span> occurrences trouv&eacute;es.</div>");
+print("<div class=\"row text-center col-md-12\"><span class=\"badge\">$i_nb_liasses</span> occurrences trouvées.</div>");
 print('<div id="curseur" class="infobulle"></div>');
 /*if ($i_nb_liasses>$gi_nb_max_reponses) {
-	print("<div class=\"row text-center col-md-12\">Seules les $gi_nb_max_reponses premi&egrave;res sont affich&eacute;es</div>");
+	print("<div class=\"row text-center col-md-12\">Seules les $gi_nb_max_reponses premières sont affichées</div>");
 	$a_liasses = array_slice($a_liasses,0,$gi_nb_max_reponses);
 }*/
 if ($i_nb_liasses > 0) {
@@ -387,7 +350,7 @@ if ($i_nb_liasses > 0) {
 		count($a_tableau),
 		NB_LIGNES_PAR_PAGE,
 		DELTA_NAVIGATION,
-		array('Cote', 'Nom notaire', 'Pr&eacute;nom notaire', 'Commentaire', 'Commune &eacute;tude', 'Dates', 'Forme de liasse', '')
+		array('Cote', 'Nom notaire', 'Prénom notaire', 'Commentaire', 'Commune étude', 'Dates', 'Forme de liasse', '')
 	);
 	$pagination->init_page_cour($gi_num_page);
 	$pagination->affiche_entete_liens_navlimite();
@@ -395,9 +358,9 @@ if ($i_nb_liasses > 0) {
 	$pagination->affiche_entete_liens_navlimite();
 } else {
 	print('<div class="alert alert-danger">');
-	print("Aucun r&eacute;sultat<br>");
-	print("V&eacute;rifiez que vous n'avez pas mis trop de contraintes (commune,type d'acte,...)");
-	print("Rappel de vos crit&egrave;res:");
+	print("Aucun résultat<br>");
+	print("Vérifiez que vous n'avez pas mis trop de contraintes (commune,type d'acte,...)");
+	print("Rappel de vos critères:");
 	print(nl2br($st_criteres));
 	print("</div>");
 }

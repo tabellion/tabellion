@@ -11,15 +11,47 @@ require_once __DIR__ . '/Commun/PaginationTableau.php';
 require_once __DIR__ . '/Commun/Benchmark.php';
 require_once __DIR__ . '/Commun/VerificationDroits.php';
 
-$current_page = (isset($_GET['page'])) ? intval($_GET['page']) : 0;
+// ======== Default
 $per_page_options = array(NB_LIGNES_PAR_PAGE => NB_LIGNES_PAR_PAGE, 50 => 50, 100 => 100);
+$per_page = 25;
 
-if (!isset($_SESSION['per_page'])) {
-    $_SESSION['per_page'] =  NB_LIGNES_PAR_PAGE;
+/* if (isset($_POST)) {
+    echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
 }
+exit; */
+// ================
+
+$current_page = $_GET['page'] ?? 1;
+$gi_num_page = empty($_REQUEST['num_page']) ? 1 : (int) $_REQUEST['num_page'];
 if (isset($_GET['per_page']) && in_array($_GET['per_page'], array_keys($per_page_options))) {
-    $_SESSION['per_page'] = $_GET['per_page'];
+    $per_page = $_GET['per_page'];
 }
+
+$a_requetes           = array();
+$a_clauses            = array();
+
+$gst_type_recherche     = $_POST['type_recherche'] ?? null;
+$gi_idf_source          = $_POST['idf_source_recherche'] ?? null;
+$gi_idf_commune         = $_POST['idf_commune_recherche'] ?? null;
+$gst_paroisses_rattachees = $_POST['paroisses_rattachees'] ?? null;
+$gi_rayon               = $_POST['rayon'] ?? null;
+$gi_idf_type_acte       = $_POST['idf_type_acte_recherche'] ?? null;
+$gi_annee_min           = $_POST['annee_min'] ?? null;
+$gi_annee_max           = $_POST['annee_max'] ?? null;
+
+$gi_releve_mois_min     = $_POST['releve_mois_min'] ?? null;
+$gi_releve_mois_max     = $_POST['releve_mois_max'] ?? null;
+$gi_releve_annee_min    = $_POST['releve_annee_min'] ?? null;
+$gi_releve_annee_max    = $_POST['releve_annee_max'] ?? null;
+$releve_type            = $_POST['releve_type'] ?? null;
+
+$gst_adresse_ip         = $_SERVER['REMOTE_ADDR'];
+$st_criteres            = '';
+
+$requeteRecherche = new RequeteRecherche($connexionBD);
+
 
 if (empty($gst_logo_association))
     $gi_largeur_page = 600;
@@ -37,15 +69,95 @@ else {
     }
 }
 
-print('<!DOCTYPE html>');
-print("<head>\n");
-print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >');
-print('<meta http-equiv="content-language" content="fr"> ');
-print('<link rel="shortcut icon" href="assets/img/favicon.ico">');
-print("<link href='assets/css/styles.css' type='text/css' rel='stylesheet'>");
-print("<script src='assets/js/jquery-min.js' type='text/javascript'></script>");
+
+
+
+/*
+* Renvoie la chaine représentant la partie "recherches communes"  de la recherche
+* @param object $pconnexionBD Connexion à la BD
+* @param string $pst_titre titre de la recherche
+* @param integer $pi_idf_type_acte identifiant du type d'acte recherché
+* @param integer $pi_annee_min année minimale de la recherche
+* @param integer $pi_annee_max année maximale de la recherche
+* @param integer $pi_idf_source source utilisée
+* @param integer $pi_idf_commune identifiant de la commune recherchée
+* @param integer $pi_rayon rayon de recherche
+* @global object $requeteRecherche objet requête recherche
+* @global string $st_criteres critères utilisés pour la recherche
+*/
+function rappel_recherches_communes($pst_titre, $pi_idf_type_acte, $pi_annee_min, $pi_annee_max, $pi_idf_source, $pi_idf_commune, $pi_rayon)
+{
+    global $connexionBD, $requeteRecherche;
+    global $st_criteres;
+    $a_params_precedents = $connexionBD->params();
+    print("<div class=\"panel panel-primary col-md-4\">");
+    print("<div class=\"panel-heading\">Vos critères de recherche</div>");
+    print("<div class=\"panel-body\">");
+    $st_criteres = "$pst_titre\n";
+    if (!empty($pi_idf_type_acte)) {
+        $st_type_acte = $connexionBD->sql_select1("select nom from type_acte where idf=$pi_idf_type_acte");
+        $st_criteres .= "Type d'acte: " . cp1252_vers_utf8($st_type_acte) . "\n";
+    }
+    if ($pi_annee_min != '' && $pi_annee_max != '')
+        $st_criteres .= " de $pi_annee_min à $pi_annee_max";
+    else if ($pi_annee_min != '')
+        $st_criteres .= " à partir de $pi_annee_min";
+    else if ($pi_annee_max != '')
+        $st_criteres .= " jusqu'en $pi_annee_max";
+    $st_criteres .= "\n";
+    $st_nom_commune =  $pi_idf_commune != 0 ? $connexionBD->sql_select1("SELECT nom FROM commune_acte WHERE idf=$pi_idf_commune") : 'Pas de commune selectionnée';
+
+    if (!empty($pi_idf_source)) {
+        $st_type_acte = $connexionBD->sql_select1("select nom from source where idf=$pi_idf_source");
+        $st_criteres .= "Source sélectionnée: " . cp1252_vers_utf8($st_type_acte) . "\n";
+    }
+    $st_criteres .= "Commune sélectionnée: " . cp1252_vers_utf8($st_nom_commune) . "\n";
+    $st_bloc_rappel = nl2br($st_criteres);
+    $st_communes_voisines = join("\n", array_values($requeteRecherche->communes_voisines()));
+    if (count(array_values($requeteRecherche->communes_voisines())) > 1) {
+        $st_bloc_rappel .= "<div class=\"form-group\"><label for=\"communes_voisines\">Paroisses voisines ou rattachées";
+        if (!empty($pi_rayon)) {
+            $st_bloc_rappel .= "(avec recherches dans un rayon de $pi_rayon km)\n";
+        }
+        $st_bloc_rappel .= "</label>";
+        $st_bloc_rappel .= "<textarea rows=6 cols=40 id=\"communes_voisines\" class=\"form-control\">" . cp1252_vers_utf8($st_communes_voisines) . "</textarea></div>";
+    }
+    $st_bloc_rappel .= "</div>";
+    $st_bloc_rappel .= "</div>";
+    $connexionBD->initialise_params($a_params_precedents);
+    return $st_bloc_rappel;
+}
+
+function getDebutDateReleve($mois, $annee)
+{
+    if ($mois > 0 && $mois <= 12 && $annee <= date('Y')) {
+        return strtotime($annee . '-' . str_pad($mois, 2, '0', STR_PAD_LEFT) . '-01');
+    }
+
+    return 0;
+}
+
+function getFinDateReleve($mois, $annee)
+{
+    if ($mois > 0 && $mois <= 12 && $annee < date('Y')) {
+        return strtotime($annee . '-' . str_pad($mois, 2, '0', STR_PAD_LEFT) . '-31');
+    }
+
+    return time();
+}
 ?>
-<script type='text/javascript'>
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-language" content="fr">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="assets/img/favicon.ico">
+<link href="assets/css/styles.css" type="text/css" rel="stylesheet">
+<link href="assets/css/styles.css" type="text/css" rel="stylesheet">
+<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+<script src="assets/js/jquery-min.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript">
     $(document).ready(function() {
         $('a.popup').click(function() {
             var url = $(this).attr("href");
@@ -63,206 +175,55 @@ print("<script src='assets/js/jquery-min.js' type='text/javascript'></script>");
         })
     });
 </script>
-<?php
-print('<title>Base ' . SIGLE_ASSO . ': Reponses a une recherche</title>');
-print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-print("<link href='css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='css/bootstrap.min.css' rel='stylesheet'>");
-print("<script src='js/bootstrap.min.js' type='text/javascript'></script>");
-print('<link rel="shortcut icon" href="images/favicon.ico">');
-print('</head>');
-print("<body>");
-print('<div class="container">');
+<title>Base <?= SIGLE_ASSO; ?> : Reponses a une recherche</title>
+</head>
+<body>
+<div class="container">
 
-require_once __DIR__ . '/Commun/menu.php';
-
-/*
-* Renvoie la valeur du paramètre de type entier selon les variables de session et CGI
-* @param string $st_param nom du paramètre
-* @param string $pst_init valeur du paramètre si pas défini
-* @return integer valeur du paramètre
-*/
-function param_entier($pst_param, $pst_init)
-{
-    $st_session_param       = empty($_SESSION[$pst_param]) ? $pst_init : $_SESSION[$pst_param];
-    return empty($_REQUEST[$pst_param]) ? $st_session_param : (int) $_REQUEST[$pst_param];
-}
-
-/*
-* Renvoie la valeur du paramètre de type chaine selon les variables de session et POST
-* @param string $st_param nom du paramètre
-* @param integer longueur maximale du paramètre
-* @return string valeur du paramètre
-*/
-function param_chaine($pst_param, $pi_longueur)
-{
-    global $_SESSION, $_REQUEST;
-    $st_session_param       = empty($_SESSION[$pst_param]) ? '' : $_SESSION[$pst_param];
-    $st_param        = empty($_REQUEST[$pst_param]) ? $st_session_param : substr(trim($_REQUEST[$pst_param]), 0, $pi_longueur);
-    return $st_param;
-}
-
-/*
-* Renvoie la chaine représentant la partie "recherches communes"  de la recherche
-* @param object $pconnexionBD Connexion à la BD
-* @param string $pst_titre titre de la recherche
-* @param integer $pi_idf_type_acte identifiant du type d'acte recherché
-* @param integer $pi_annee_min année minimale de la recherche
-* @param integer $pi_annee_max année maximale de la recherche
-* @param integer $pi_idf_source source utilisée
-* @param integer $pi_idf_commune identifiant de la commune recherchée
-* @param integer $pi_rayon rayon de recherche
-* @global object $requeteRecherche objet requête recherche
-* @global string $st_criteres critères utilisés pour la recherche
-*/
-
-function rappel_recherches_communes($pconnexionBD, $pst_titre, $pi_idf_type_acte, $pi_annee_min, $pi_annee_max, $pi_idf_source, $pi_idf_commune, $pi_rayon)
-{
-    global $requeteRecherche;
-    global $st_criteres;
-    $a_params_precedents = $pconnexionBD->params();
-    print("<div class=\"panel panel-primary col-md-4\">");
-    print("<div class=\"panel-heading\">Vos crit&egrave;res de recherche</div>");
-    print("<div class=\"panel-body\">");
-    $st_criteres = "$pst_titre\n";
-    if (!empty($pi_idf_type_acte)) {
-        $st_type_acte = $pconnexionBD->sql_select1("select nom from type_acte where idf=$pi_idf_type_acte");
-        $st_criteres .= "Type d'acte: " . cp1252_vers_utf8($st_type_acte) . "\n";
-    }
-    if ($pi_annee_min != '' && $pi_annee_max != '')
-        $st_criteres .= " de $pi_annee_min &agrave; $pi_annee_max";
-    else if ($pi_annee_min != '')
-        $st_criteres .= " &agrave; partir de $pi_annee_min";
-    else if ($pi_annee_max != '')
-        $st_criteres .= " jusqu'en $pi_annee_max";
-    $st_criteres .= "\n";
-    $st_nom_commune =  $pi_idf_commune != 0 ? $pconnexionBD->sql_select1("select nom from commune_acte where idf=$pi_idf_commune") : 'Pas de commune selectionn&eacute;e';
-    $st_nom_commune =  $pi_idf_commune != 0 ? $pconnexionBD->sql_select1("select nom from commune_acte where idf=$pi_idf_commune") : 'Pas de commune selectionn&eacute;e';
-
-    if (!empty($pi_idf_source)) {
-        $st_type_acte = $pconnexionBD->sql_select1("select nom from source where idf=$pi_idf_source");
-        $st_criteres .= "Source s&eacute;lectionn&eacute;e: " . cp1252_vers_utf8($st_type_acte) . "\n";
-    }
-    $st_criteres .= "Commune s&eacute;lectionn&eacute;e: " . cp1252_vers_utf8($st_nom_commune) . "\n";
-    $st_bloc_rappel = nl2br($st_criteres);
-    $st_communes_voisines = join("\n", array_values($requeteRecherche->communes_voisines()));
-    if (count(array_values($requeteRecherche->communes_voisines())) > 1) {
-        $st_bloc_rappel .= "<div class=\"form-group\"><label for=\"communes_voisines\">Paroisses voisines ou rattach&eacute;es";
-        if (!empty($pi_rayon)) {
-            $st_bloc_rappel .= "(avec recherches dans un rayon de $pi_rayon km)\n";
-        }
-        $st_bloc_rappel .= "</label>";
-        $st_bloc_rappel .= "<textarea rows=6 cols=40 id=\"communes_voisines\" class=\"form-control\">" . cp1252_vers_utf8($st_communes_voisines) . "</textarea></div>";
-    }
-    $st_bloc_rappel .= "</div>";
-    $st_bloc_rappel .= "</div>";
-    $pconnexionBD->initialise_params($a_params_precedents);
-    return $st_bloc_rappel;
-}
-
-function getDebutDateReleve($mois, $annee)
-{
-
-    if ($mois > 0 && $mois <= 12 && $annee <= date('Y')) {
-        return strtotime($annee . '-' . str_pad($mois, 2, '0', STR_PAD_LEFT) . '-01');
-    }
-
-    return 0;
-}
-function getFinDateReleve($mois, $annee)
-{
-
-    if ($mois > 0 && $mois <= 12 && $annee < date('Y')) {
-        return strtotime($annee . '-' . str_pad($mois, 2, '0', STR_PAD_LEFT) . '-31');
-    }
-
-    return time();
-}
-
-$a_requetes           = array();
-$a_clauses            = array();
-
-$gst_type_recherche     = param_chaine('type_recherche', 8);
-$gi_idf_source          = param_entier('idf_source_recherche', 0);
-$gi_idf_commune         = param_entier('idf_commune_recherche', 0);
-$gst_paroisses_rattachees = param_chaine('paroisses_rattachees', 3);
-$gi_rayon               = param_entier('rayon', '');
-$gi_idf_type_acte       = param_entier('idf_type_acte_recherche', 0);
-$gi_annee_min           = param_entier('annee_min', '');
-$gi_annee_max           = param_entier('annee_max', '');
-
-$gi_releve_mois_min       = param_entier('releve_mois_min', '');
-$gi_releve_mois_max       = param_entier('releve_mois_max', '');
-$gi_releve_annee_min        = param_entier('releve_annee_min', '');
-$gi_releve_annee_max        = param_entier('releve_annee_max', '');
-$releve_type            = param_entier('releve_type', '');
-
-$_SESSION['releve_mois_min']       = $gi_releve_mois_min;
-$_SESSION['releve_mois_max']       = $gi_releve_mois_max;
-$_SESSION['releve_annee_min']      = $gi_releve_annee_min;
-$_SESSION['releve_annee_max']      = $gi_releve_annee_max;
-$_SESSION['releve_type']            = $releve_type;
-
-$gst_adresse_ip         = $_SERVER['REMOTE_ADDR'];
-
-$st_criteres            = '';
-
-$requeteRecherche = new RequeteRecherche($connexionBD);
+<?php require_once __DIR__ . '/Commun/menu.php';
 
 switch ($gst_type_recherche) {
     case 'couple':
-        $st_libelle_commentaire = 'Couple recherch&eacute;';
-        $gst_nom_epx = param_chaine('nom_epx', 30);
-        $gst_prenom_epx = param_chaine('prenom_epx', 35);
-        $gst_variantes_epx          = param_chaine('variantes_epx', 3);
-        $gst_nom_epse = param_chaine('nom_epse', 30);
-        $gst_prenom_epse = param_chaine('prenom_epse', 35);
-        $gst_variantes_epse         = param_chaine('variantes_epse', 3);
+        $st_libelle_commentaire     = 'Couple recherché';
+        $gst_nom_epx                = $_POST['nom_epx'] ?? null;
+        $gst_prenom_epx             = $_POST['prenom_epx'] ?? null;
+        $gst_variantes_epx          = $_POST['variantes_epx'] ?? null;
+        $gst_nom_epse               = $_POST['nom_epse'] ?? null;
+        $gst_prenom_epse            = $_POST['prenom_epse'] ?? null;
+        $gst_variantes_epse         = $_POST['variantes_epse'] ?? null;
         $st_variantes_epx_trouvees  = '';
         $st_variantes_epse_trouvees = '';
         $st_communes_voisines       = '';
         $gst_nom_epx  = preg_replace('/\*+/', '*', $gst_nom_epx);
         $gst_nom_epse  = preg_replace('/\*+/', '*', $gst_nom_epse);
         if ((($gst_nom_epx == '*' && empty($gst_prenom_epx))  || ($gst_nom_epse == '*' && empty($gst_prenom_epse))) && empty($gi_idf_commune)) {
-            print(nl2br("La recherche par joker * seul n'est autoris&eacute;e que si une paroisse est choisie<br>"));
+            print(nl2br("La recherche par joker * seul n'est autorisée que si une paroisse est choisie<br>"));
             print("<a href=" . PAGE_RECHERCHE . " class=\"RetourReponses\">Nouvelle Recherche</a><br>");
             exit();
         }
         $st_erreur_nom = '';
         if (($gst_nom_epx != '*') && ($gst_nom_epx != '!') && strlen(str_replace('*', '', $gst_nom_epx)) < 2)
-            $st_erreur_nom = "<div class='alert alert-danger'>Le nom de l'&eacute;poux doit comporter au moins trois caract&egrave;res</div>\n";
+            $st_erreur_nom = "<div class='alert alert-danger'>Le nom de l'époux doit comporter au moins trois caractères</div>\n";
         if (($gst_nom_epse != '*' && $gst_nom_epse != '!') && strlen(str_replace('*', '', $gst_nom_epse)) < 2)
-            $st_erreur_nom .= "<div class='alert alert-danger'>Le nom de l'&eacute;pouse doit comporter au moins trois caract&egrave;res</div>\n";
+            $st_erreur_nom .= "<div class='alert alert-danger'>Le nom de l'épouse doit comporter au moins trois caractères</div>\n";
         if (($gst_nom_epx == '*') && ($gst_nom_epse == '*'))
-            $st_erreur_nom .= "<div class='alert alert-danger'>Au moins un des noms ne doit pas correspondre au caract&egrave;re joker \"*\"</div>\n";
+            $st_erreur_nom .= "<div class='alert alert-danger'>Au moins un des noms ne doit pas correspondre au caractère joker \"*\"</div>\n";
         if ($st_erreur_nom != '') {
             print(nl2br($st_erreur_nom));
             print("<a href=" . PAGE_RECHERCHE . " class=\"btn btn-primary col-md-4 col-md-offset-4\">Nouvelle Recherche</a><br>");
             exit();
         }
-        $_SESSION['type_recherche']           = $gst_type_recherche;
-        $_SESSION['idf_source_recherche']     = $gi_idf_source;
-        $_SESSION['idf_commune_recherche']    = $gi_idf_commune;
-        $_SESSION['rayon']                    = $gi_rayon;
-        $_SESSION['paroisses_rattachees']     = $gst_paroisses_rattachees;
-        $_SESSION['idf_type_acte_recherche']  = $gi_idf_type_acte;
-        $_SESSION['annee_min']                = $gi_annee_min;
-        $_SESSION['annee_max']                = $gi_annee_max;
-        $_SESSION['nom_epx']                  = $gst_nom_epx;
-        $_SESSION['prenom_epx']               = $gst_prenom_epx;
-        $_SESSION['variantes_epx']            = $gst_variantes_epx;
-        $_SESSION['nom_epse']                 = $gst_nom_epse;
-        $_SESSION['prenom_epse']              = $gst_prenom_epse;
-        $_SESSION['variantes_epse']           = $gst_variantes_epse;
 
-        $gi_num_page = empty($_REQUEST['num_page']) ? 1 : (int) $_REQUEST['num_page'];
-        $pf = @fopen("$gst_rep_logs/requetes_couple.log", 'a');
+        
+
+        //===================== Log
+        $pf = @fopen("logs/requetes_couple.log", 'a');
         date_default_timezone_set($gst_time_zone);
         list($i_sec, $i_min, $i_heure, $i_jmois, $i_mois, $i_annee, $i_j_sem, $i_j_an, $b_hiver) = localtime();
         $i_mois++;
         $i_annee += 1900;
         $st_date_log = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $i_jmois, $i_mois, $i_annee, $i_heure, $i_min, $i_sec);
-        $st_chaine_log = join(';', array($st_date_log, $_SESSION['ident'], $gst_adresse_ip, $gst_nom_epx, $gst_prenom_epx, $gst_nom_epse, $gst_prenom_epse, $gi_idf_commune, $gi_rayon, $gi_annee_min, $gi_annee_max));
+        $st_chaine_log = join(';', array($st_date_log, $session->getAttribute('ident'), $gst_adresse_ip, $gst_nom_epx, $gst_prenom_epx, $gst_nom_epse, $gst_prenom_epse, $gi_idf_commune, $gi_rayon, $gi_annee_min, $gi_annee_max));
         @fwrite($pf, "$st_chaine_log\n");
         @fclose($pf);
         $st_tables_prenom_epx = '';
@@ -319,7 +280,7 @@ switch ($gst_type_recherche) {
 
         if (!empty($gst_variantes_epx) || !empty($st_variantes_prenoms_epx)) {
             print("<div class=\"panel panel-primary col-md-4\">");
-            print("<div class=\"panel-heading\">Variantes connues pour l'&eacute;poux</div>");
+            print("<div class=\"panel-heading\">Variantes connues pour l'époux</div>");
             print("<div class=\"panel-body\">");
             print('<form>');
             print('<div class="form-row">');
@@ -328,19 +289,19 @@ switch ($gst_type_recherche) {
             else
                 print("<div class=\"col-md-4\">Pas de variantes patronymiques connues</div>");
             if ($st_variantes_prenoms_epx != "")
-                print("<div class=\"form-group col-md-6\"><label for=\"variantes_prenoms_epx\">Pr&eacute;nom:</label><textarea class=\"form-control\" rows=8 cols=20 id=\"variantes_prenoms_epx\">" . cp1252_vers_utf8($st_variantes_prenoms_epx) . "</textarea></div>");
+                print("<div class=\"form-group col-md-6\"><label for=\"variantes_prenoms_epx\">Prénom:</label><textarea class=\"form-control\" rows=8 cols=20 id=\"variantes_prenoms_epx\">" . cp1252_vers_utf8($st_variantes_prenoms_epx) . "</textarea></div>");
             else
-                print("<div class=\"col-md-6\">Pas de variantes de pr&eacute;noms connues</div>");
+                print("<div class=\"col-md-6\">Pas de variantes de prénoms connues</div>");
             print("</div>"); // fin ligne
             print("</form>");
             print("</div>");
             print("</div>");
         } else
             print("<div class=\"row col-md-4\"></div>");
-        print(rappel_recherches_communes($connexionBD, "Recherche du couple: $gst_prenom_epx $gst_nom_epx X $gst_prenom_epse $gst_nom_epse", $gi_idf_type_acte, $gi_annee_min, $gi_annee_max, $gi_idf_source, $gi_idf_commune, $gi_rayon));
+        print(rappel_recherches_communes("Recherche du couple: $gst_prenom_epx $gst_nom_epx X $gst_prenom_epse $gst_nom_epse", $gi_idf_type_acte, $gi_annee_min, $gi_annee_max, $gi_idf_source, $gi_idf_commune, $gi_rayon));
         if (!empty($gst_variantes_epse) ||  !empty($st_variantes_prenoms_epse)) {
             print("<div class=\"panel panel-primary col-md-4\">");
-            print("<div class=\"panel-heading\">Variantes connues pour l'&eacute;pouse</div>");
+            print("<div class=\"panel-heading\">Variantes connues pour l'épouse</div>");
             print("<div class=\"panel-body\">");
             print('<form>');
             print('<div class="form-row">');
@@ -349,9 +310,9 @@ switch ($gst_type_recherche) {
             else
                 print("<div class=\"col-md-6\">Pas de variantes patronymiques connues</div>");
             if ($st_variantes_prenoms_epse != "")
-                print("<div class=\"form-group col-md-6\"><label for=\"variantes_prenoms_epse\">Pr&eacute;nom:</label><textarea class=\"form-control\" rows=8 cols=20 id=\"variantes_prenoms_epse\">" . cp1252_vers_utf8($st_variantes_prenoms_epse) . "</textarea></div>");
+                print("<div class=\"form-group col-md-6\"><label for=\"variantes_prenoms_epse\">Prénom:</label><textarea class=\"form-control\" rows=8 cols=20 id=\"variantes_prenoms_epse\">" . cp1252_vers_utf8($st_variantes_prenoms_epse) . "</textarea></div>");
             else
-                print("<div class=\"col-md-6\">Pas de variantes de pr&eacute;noms connues</div>");
+                print("<div class=\"col-md-6\">Pas de variantes de prénoms connues</div>");
             print("</div>"); // fin ligne
             print("</form>");
             print("</div>");
@@ -360,52 +321,36 @@ switch ($gst_type_recherche) {
             print("<div class=\"row col-md-4\"></div>");
         break;
     case 'personne':
-    case 'tous_pat':
-        $st_libelle_commentaire = 'Personne recherch&eacute;e';
-        $gst_nom          = param_chaine('nom', 30);
-        $gst_prenom       = param_chaine('prenom', 35);
-        $gst_variantes    = param_chaine('variantes', 3);
-        $gi_idf_type_presence = param_entier('idf_type_presence', 0);
-        $gst_sexe         = param_chaine('sexe', 1);
-        $gst_commentaires = param_chaine('commentaires', 40);
+    case 'tous_patronymes':
+        $st_libelle_commentaire = 'Personne recherchée';
+        $gst_nom                = $_POST['nom'] ?? null;
+        $gst_prenom             = $_POST['prenom'] ?? null;
+        $gst_variantes          = $_POST['variantes'] ?? null;
+        $gi_idf_type_presence   = $_POST['idf_type_presence'] ?? null;
+        $gst_sexe               = $_POST['sexe'] ?? null;
+        $gst_commentaires       = $_POST['commentaires'] ?? null;
 
         if ($gst_type_recherche == 'personne') {
             $gst_nom  = preg_replace('/\*+/', '*', $gst_nom);
             if ($gst_nom == '*' && empty($gi_idf_commune)) {
-                print(nl2br("La recherche par joker * seul n'est autoris&eacute;e que si une paroisse est choisie<br>"));
+                print(nl2br("La recherche par joker * seul n'est autorisée que si une paroisse est choisie<br>"));
                 print("<a href=" . PAGE_RECHERCHE . " class=\"RetourReponses\">Nouvelle Recherche</a><br>");
                 exit();
             }
             if (($gst_nom != '*') && ($gst_nom != '!') && strlen($gst_nom) < 3) {
-                print("<div>Le nom $gst_nom doit comporter au moins trois caract&egrave;res</div>\n");
+                print("<div>Le nom $gst_nom doit comporter au moins trois caractères</div>\n");
                 print("<div><a href=" . PAGE_RECHERCHE . "?recherche=nouvelle class=\"RetourReponses\">Commencer une nouvelle recherche</a><br></div>");
                 exit();
             }
         }
-        $_SESSION['type_recherche']           = $gst_type_recherche;
-        $_SESSION['idf_source_recherche']     = $gi_idf_source;
-        $_SESSION['idf_commune_recherche']    = $gi_idf_commune;
-        $_SESSION['rayon']                    = $gi_rayon;
-        $_SESSION['paroisses_rattachees']     = $gst_paroisses_rattachees;
-        $_SESSION['idf_type_acte_recherche']  = $gi_idf_type_acte;
-        $_SESSION['annee_min']                = $gi_annee_min;
-        $_SESSION['annee_max']                = $gi_annee_max;
-        $_SESSION['nom']                      = $gst_nom;
-        $_SESSION['prenom']                   = $gst_prenom;
-        $_SESSION['variantes']                = $gst_variantes;
-        $_SESSION['idf_type_presence']        = $gi_idf_type_presence;
-        $_SESSION['sexe']                     = empty($gst_sexe) ?  '0' : $gst_sexe;
-        $_SESSION['commentaires']             = $gst_commentaires;
 
-        $gi_num_page = empty($_REQUEST['num_page']) ? 1 : (int) $_REQUEST['num_page'];
-
-        $pf = @fopen("$gst_rep_logs/requetes_personne.log", 'a');
-        date_default_timezone_set($gst_time_zone);
+        $pf = @fopen("logs/requetes_personne.log", 'a');
+        // date_default_timezone_set($gst_time_zone); NB: doit prendre le timezone du serveur
         list($i_sec, $i_min, $i_heure, $i_jmois, $i_mois, $i_annee, $i_j_sem, $i_j_an, $b_hiver) = localtime();
         $i_mois++;
         $i_annee += 1900;
         $st_date_log = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $i_jmois, $i_mois, $i_annee, $i_heure, $i_min, $i_sec);
-        $st_chaine_log = join(';', array($st_date_log, $_SESSION['ident'], $gst_adresse_ip, $gst_nom, $gst_prenom, $gi_idf_commune, $gi_rayon, $gi_annee_min, $gi_annee_max, $gst_commentaires));
+        $st_chaine_log = join(';', array($st_date_log, $session->getAttribute('ident'), $gst_adresse_ip, $gst_nom, $gst_prenom, $gi_idf_commune, $gi_rayon, $gi_annee_min, $gi_annee_max, $gst_commentaires));
         @fwrite($pf, "$st_chaine_log\n");
         @fclose($pf);
         $st_tables_prenom = '';
@@ -466,7 +411,7 @@ switch ($gst_type_recherche) {
             else
                 print("<div class=\"col-md-6\">Pas de variantes connues</div>");
             if ($st_variantes_prenoms != "")
-                print("<div class=\"form-group col-md-6\"><label for=\"variantes_prenoms\">Pr&eacute;nom:</label><textarea class=\"form-control\" id=\"variantes_prenoms\" rows=8 cols=20>" . cp1252_vers_utf8($st_variantes_prenoms) . "</textarea></div>");
+                print("<div class=\"form-group col-md-6\"><label for=\"variantes_prenoms\">Prénom:</label><textarea class=\"form-control\" id=\"variantes_prenoms\" rows=8 cols=20>" . cp1252_vers_utf8($st_variantes_prenoms) . "</textarea></div>");
             else
                 print("<div class=\"col-md-6\">Pas de variantes connues</div>");
             print("</div>"); // fin ligne
@@ -474,7 +419,7 @@ switch ($gst_type_recherche) {
             print("</div>");
             print("</div>");
         }
-        print(rappel_recherches_communes($connexionBD, "Recherche de la personne: $gst_prenom $gst_nom", $gi_idf_type_acte, $gi_annee_min, $gi_annee_max, $gi_idf_source, $gi_idf_commune, $gi_rayon));
+        print(rappel_recherches_communes("Recherche de la personne: $gst_prenom $gst_nom", $gi_idf_type_acte, $gi_annee_min, $gi_annee_max, $gi_idf_source, $gi_idf_commune, $gi_rayon));
         print("<div class=\"col-md-4\"></div>");
 
         //FBOprint("Req=$gst_requete_actes<br>");
@@ -499,7 +444,7 @@ foreach ($a_actes_recherches as $a_recherche) {
 }
 $a_actes_trouves = array_keys($a_acte_vers_recherche);
 $i_nb_reponses = count($a_actes_trouves);
-$a_actes_page_courante = array_splice($a_actes_trouves, $current_page * $_SESSION['per_page'], $_SESSION['per_page']);
+$a_actes_page_courante = array_splice($a_actes_trouves, $current_page * $per_page, $per_page);
 
 $ga_sources = $connexionBD->sql_select_multiple_par_idf("select idf,script_demande,utilise_ds,icone_info,icone_ninfo,icone_index from source");
 
@@ -507,9 +452,9 @@ $i_temps_recherche = temps_ecoule_en_ms("Temps de recherche");
 if ($i_temps_recherche > 10000) {
     // enregistre les requêtes de plus de 10s
     $a_communes_acte = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM commune_acte order by nom");
-    $connexionBD->initialise_params(array(':ident' => $_SESSION['ident']));
+    $connexionBD->initialise_params(array(':ident' => $session->getAttribute('ident')));
     $st_adherent = cp1252_vers_utf8($connexionBD->sql_select1("SELECT concat(prenom,' ',nom,' (',idf,')') FROM adherent where ident=:ident"));
-    $pf = @fopen("$gst_rep_logs/requetes_lentes.log", 'a');
+    $pf = @fopen("logs/requetes_lentes.log", 'a');
     $st_date_log = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $i_jmois, $i_mois, $i_annee, $i_heure, $i_min, $i_sec);
     $st_parties = ($gst_type_recherche == 'couple') ? "$gst_nom_epx $gst_prenom_epx X $gst_nom_epse $gst_prenom_epse (Var pat epx=$gst_variantes_epx, Var pat epse=$gst_variantes_epse)" : "$gst_nom $gst_prenom (Var=$gst_variantes)";
     $st_commune = array_key_exists($gi_idf_commune, $a_communes_acte) ? cp1252_vers_utf8($a_communes_acte[$gi_idf_commune]) : '';
@@ -520,13 +465,13 @@ if ($i_temps_recherche > 10000) {
 }
 print('<div class="text-center row col-md-12">' . "Temps de la recherche" . ' : ' . $i_temps_recherche . 'ms</div>');
 
-print("<div class=\"row col-md-12 text-center\"><span class=\"badge\">$i_nb_reponses</span> occurrence(s) trouv&eacute;e(s). ");
+print("<div class=\"row col-md-12 text-center\"><span class=\"badge\">$i_nb_reponses</span> occurrence(s) trouvée(s). ");
 print('<div id="curseur" class="infobulle"></div>');
 print("<div class='form-group col-md-2 col-md-offset-5'>");
-print '<label for="per-page">Nombre de r&eacute;sultats par page</label>';
+print '<label for="per-page">Nombre de résultats par page</label>';
 print '<select id="per-page" name="per_page" class="form-control">';
 foreach ($per_page_options as $key => $value) {
-    $elected = ($value == $_SESSION['per_page']) ? ' selected="selected" ' : '';
+    $elected = ($value == $per_page) ? ' selected="selected" ' : '';
     print '<option value="' . $key . '" ' . $elected . '>' . $value . '</option>';
 }
 print '</select>';
@@ -567,17 +512,17 @@ if ($i_nb_reponses > 0) {
             else if ($i_details == 2)
                 $st_detail = "<img src=\"./images/$st_icone_index\" border=0 alt=\"$st_cote\" data-toggle=\"tooltip\" data-html=\"true\"  title=\"$st_cote<br> $releve\" class=\"popup\">";
             else
-                $st_detail = "<img src=\"./images/$st_icone_ninfo\" alt=\"pas d'infos\" data-toggle=\"tooltip\" data-html=\"true\" title=\"Le relev&eacute; ne comporte pas de renseignements suppl&eacute;mentaires que ceux d&eacute;j&agrave; affich&eacute;s\">";
+                $st_detail = "<img src=\"./images/$st_icone_ninfo\" alt=\"pas d'infos\" data-toggle=\"tooltip\" data-html=\"true\" title=\"Le relevé ne comporte pas de renseignements supplémentaires que ceux déjà affichés\">";
         } else
             $st_detail = "<a href=\"$st_script_demande?idf_acte=$i_idf_acte\" data-toggle=\"tooltip\"  data-html=\"true\" title=\"$releve\" class=\"popup\"><img src=\"./images/$st_icone_info\" border=0 alt=\"infos\"></a>";
 
         if ($gst_type_recherche == 'tous_pat') {
-            if (a_droits($_SESSION['ident'], DROIT_CHARGEMENT))
+            if (a_droits($session->getAttribute('ident'), DROIT_CHARGEMENT))
                 $a_tableau[] =  array($st_type_acte, $st_parties, $st_commune, $st_date, $st_detail, "<a href=\"./Administration/ModifieActe.php?idf_acte=$i_idf_acte\"><span class=\"glyphicon glyphicon-edit\"></a>");
             else
                 $a_tableau[] =  array($st_type_acte, $st_parties, $st_commune, $st_date, $st_detail);
         } else {
-            if (a_droits($_SESSION['ident'], DROIT_CHARGEMENT))
+            if (a_droits($session->getAttribute('ident'), DROIT_CHARGEMENT))
                 $a_tableau[] =  array($st_type_acte, $st_parties, $st_commune, $st_date, $a_acte_vers_recherche[$i_idf_acte], $st_detail, "<a href=\"./Administration/ModifieActe.php?idf_acte=$i_idf_acte\"><span class=\"glyphicon glyphicon-edit\"></span></a>");
             else
                 $a_tableau[] =  array($st_type_acte, $st_parties, $st_commune, $st_date, $a_acte_vers_recherche[$i_idf_acte], $st_detail);
@@ -586,35 +531,35 @@ if ($i_nb_reponses > 0) {
 
 
     if ($gst_type_recherche == 'tous_pat') {
-        if (a_droits($_SESSION['ident'], DROIT_CHARGEMENT))
-            $pagination = new PaginationTableau(basename(__FILE__), 'num_page', count($a_tableau), $_SESSION['per_page'], 100, array('Type d\'acte', 'Parties', 'Commune', 'Date', '', ''));
+        if (a_droits($session->getAttribute('ident'), DROIT_CHARGEMENT))
+            $pagination = new PaginationTableau(basename(__FILE__), 'num_page', count($a_tableau), $per_page, 100, array('Type d\'acte', 'Parties', 'Commune', 'Date', '', ''));
         else
-            $pagination = new PaginationTableau(basename(__FILE__), 'num_page', count($a_tableau), $_SESSION['per_page'], 100, array('Type d\'acte', 'Parties', 'Commune', 'Date', ''));
+            $pagination = new PaginationTableau(basename(__FILE__), 'num_page', count($a_tableau), $per_page, 100, array('Type d\'acte', 'Parties', 'Commune', 'Date', ''));
     } else {
-        if (a_droits($_SESSION['ident'], DROIT_CHARGEMENT))
-            $pagination = new PaginationTableau(basename(__FILE__), 'num_page', count($a_tableau), $_SESSION['per_page'], 100, array('Type d\'acte', 'Parties', 'Commune', 'Date', $st_libelle_commentaire, '', ''));
+        if (a_droits($session->getAttribute('ident'), DROIT_CHARGEMENT))
+            $pagination = new PaginationTableau(basename(__FILE__), 'num_page', count($a_tableau), $per_page, 100, array('Type d\'acte', 'Parties', 'Commune', 'Date', $st_libelle_commentaire, '', ''));
         else
-            $pagination = new PaginationTableau(basename(__FILE__), 'num_page', count($a_tableau), $_SESSION['per_page'], 100, array('Type d\'acte', 'Parties', 'Commune', 'Date', $st_libelle_commentaire, ''));
+            $pagination = new PaginationTableau(basename(__FILE__), 'num_page', count($a_tableau), $per_page, 100, array('Type d\'acte', 'Parties', 'Commune', 'Date', $st_libelle_commentaire, ''));
     }
 
     $pagination->init_page_cour($gi_num_page);
     $pagination->affiche_entete_liens_navigation();
     $pagination->affiche_tableau_simple($a_tableau);
-    print $pagination->get_pagination(basename(__FILE__), $i_nb_reponses, $_SESSION['per_page'], $current_page);
+    print $pagination->get_pagination(basename(__FILE__), $i_nb_reponses, $per_page, $current_page);
 } else {
     print('<div class="row col-md-12 alert alert-danger">');
-    print("Aucun r&eacute;sultat<br>");
-    print("V&eacute;rifiez que vous n'avez pas mis trop de contraintes (commune,type d'acte,...)<br>");
+    print("Aucun résultat<br>");
+    print("Vérifiez que vous n'avez pas mis trop de contraintes (commune,type d'acte,...)<br>");
     print("</div>");
     print("<div class=\"row col-md-12 alert alert-info\">");
-    print("Rappel de vos crit&egrave;res: <br>");
+    print("Rappel de vos critères: <br>");
     print(nl2br($st_criteres));
     print("</div>");
 }
 
 print('<div class="row">');
 print('<div class="btn-group col-md-offset-3 col-md-6" role="group">');
-print('<a class="btn btn-primary" href="' . PAGE_RECHERCHE . '" role="button"><span class="glyphicon glyphicon-search"></span>  Revenir &agrave; la page de recherche</a>');
+print('<a class="btn btn-primary" href="' . PAGE_RECHERCHE . '" role="button"><span class="glyphicon glyphicon-search"></span>  Revenir à la page de recherche</a>');
 print('<a class="btn btn-warning" href="' . PAGE_RECHERCHE . '?recherche=nouvelle" role="button"><span class="glyphicon glyphicon-erase"></span> Commencer une nouvelle recherche</a>');
 print("</div>");
 print("</div>");

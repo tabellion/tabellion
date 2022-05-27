@@ -9,41 +9,41 @@ require_once __DIR__ . '/Commun/commun.php';
 
 $gst_type_recherche         = isset($_GET['recherche']) ? $_GET['recherche'] : '';
 
-if ($gst_type_recherche == 'nouvelle') {
-    $gi_idf_source        = $_GET['idf_src'] ?? '0';
-    $gi_idf_commune       = $_GET['idf_ca'] ?? '0';
-    $gi_rayon             = '';
-    $gi_idf_type_acte     = $_GET['idf_ta'] ?? '0';
-    $gi_annee_min         = $_GET['a_min'] ?? '';
-    $gi_annee_max         = $_GET['a_max'] ?? '';
 
-    $gst_nom_epx          = '';
-    $gst_prenom_epx       = '';
-    $gst_variantes_epx    = 'oui';
-    $gst_nom_epse         = '';
-    $gst_prenom_epse      = '';
-    $gst_variantes_epse   = 'oui';
-    $gi_idf_type_presence = '0';
-    $gst_sexe             = '0';
-    $gst_nom              = $_GET['nom'] ?? '';
-    $gst_prenom           = '';
-    $gst_variantes        = isset($_GET['var']) && $_GET['var'] == 'N' ? '' : 'oui';
-    $gst_paroisses_rattachees = 'oui';
-    $gst_commentaires     = '';
+$gi_idf_source        = $_GET['idf_src'] ?? '0';
+$gi_idf_commune       = $_GET['idf_ca'] ?? '0';
+$gi_rayon             = '';
+$gi_idf_type_acte     = $_GET['idf_ta'] ?? '0';
+$gi_annee_min         = $_GET['a_min'] ?? '';
+$gi_annee_max         = $_GET['a_max'] ?? '';
 
-    $gst_releve_mois_min  = '';
-    $gst_releve_annee_min   = '';
-    $gst_releve_mois_max  = '';
-    $gst_releve_annee_max   = '';
-    $gst_releve_type         = 0;
-    $gst_releve_tous_patronymes = '';
-}
+$gst_nom_epx          = '';
+$gst_prenom_epx       = '';
+$gst_variantes_epx    = 'oui';
+$gst_nom_epse         = '';
+$gst_prenom_epse      = '';
+$gst_variantes_epse   = 'oui';
+$gi_idf_type_presence = '0';
+$gst_sexe             = '0';
+$gst_nom              = $_GET['nom'] ?? '';
+$gst_prenom           = '';
+$gst_variantes        = isset($_GET['var']) && $_GET['var'] == 'N' ? '' : 'oui';
+$gst_paroisses_rattachees = 'oui';
+$gst_commentaires     = '';
 
-$a_communes_acte = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM commune_acte order by nom");
-$a_types_acte = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM type_acte order by nom");
-$a_types_presence = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM type_presence order by nom");
+$gst_releve_mois_min  = '';
+$gst_releve_annee_min   = '';
+$gst_releve_mois_max  = '';
+$gst_releve_annee_max   = '';
+$gst_releve_type         = 0;
+$gst_releve_tous_patronymes = '';
+
+
+$a_communes_acte = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM commune_acte ORDER BY nom");
+$a_types_acte = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM type_acte ORDER BY nom");
+$a_types_presence = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM type_presence ORDER BY nom");
 $a_types_presence[0] = 'Toutes';
-$a_sources = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM source order by nom");
+$a_sources = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM source ORDER BY nom");
 
 print('<!DOCTYPE html>');
 print("<head>");
@@ -678,7 +678,7 @@ print('<div class="pave-couple panel panel-primary">');
 print('<div class="panel-heading">Recherche par couple</div>');
 
 print('<div class="panel-body">');
-print('<form id="recherches_couple" method="post" action="ReponsesRecherches.php">');
+print('<form id="recherches_couple" method="post" action="recherche-reponse.php">');
 print('<input type="hidden" name="type_recherche" value="couple">');
 print('<input type="hidden" id="idf_source_recherches_couple" name="idf_source_recherche">');
 print('<input type="hidden" id="idf_type_acte_recherches_couple" name="idf_type_acte_recherche">');
@@ -758,7 +758,7 @@ print('<div class="pave-personne panel panel-primary">');
 print('<div class="panel-heading">Recherche par personne</div>');
 print('<div class="panel-body">');
 
-print('<form id="recherches_personne" method="post" action="ReponsesRecherches.php">');
+print('<form id="recherches_personne" method="post" action="recherche-reponse.php">');
 print('<input type="hidden" name="type_recherche" value="personne">');
 print('<input type="hidden" id="idf_source_recherches_personne" name="idf_source_recherche">');
 print('<input type="hidden" id="idf_type_acte_recherches_personne" name="idf_type_acte_recherche">');
@@ -843,7 +843,7 @@ print('<div class="pave-tous-patronymes panel panel-primary">');
 print('<div class="panel-heading">Recherche sur tous les patronymes</div>');
 print('<div class="panel-body">');
 
-print('<form id="recherches_tous_patronymes" method="post" action="ReponsesRecherches.php">');
+print('<form id="recherches_tous_patronymes" method="post" action="recherche-reponse.php">');
 print('<input type="hidden" name="type_recherche" value="tous_patronymes">');
 print('<input type="hidden" id="idf_source_recherches_tous_patronymes" name="idf_source_recherche">');
 print('<input type="hidden" id="idf_type_acte_recherches_tous_patronymes" name="idf_type_acte_recherche">');

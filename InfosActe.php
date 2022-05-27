@@ -24,7 +24,7 @@ function getRecapitulatifMessage($pst_type, $pi_max, $pi_compteur)
             $pst_type = "naissance";
             break;
         case IDF_DECES:
-            $pst_type = "d&eacute;c&eacute;s";
+            $pst_type = "décés";
             break;
         default:
             $pst_type = "mariages et actes divers";
@@ -44,7 +44,7 @@ function getContentBottom($pst_type, $pst_email_adht, $pi_idf_acte)
             case IDF_DECES:
                 $st_msg = "";
             default:
-                $st_msg = "<blockquote class=\"blockquote\"><p class=\"row text-justify\">Vous pouvez mettre vos commentaires dans la cellule ci-dessous qui paraitra sur le forum &agrave; la suite de la r&eacute;ponse de la base. Votre adresse <span class=\"label label-danger\">$pst_email_adht</span> doit &ecirc;tre inscrite sur le forum Google Groupes $st_prefixe_asso" . SIGLE_ASSO . "<br>
+                $st_msg = "<blockquote class=\"blockquote\"><p class=\"row text-justify\">Vous pouvez mettre vos commentaires dans la cellule ci-dessous qui paraitra sur le forum &agrave; la suite de la réponse de la base. Votre adresse <span class=\"label label-danger\">$pst_email_adht</span> doit &ecirc;tre inscrite sur le forum Google Groupes $st_prefixe_asso" . SIGLE_ASSO . "<br>
                                 <span class=\"label label-danger\">Sans cela, votre demande ne pourra &ecirc;tre prise en compte</span></p></blockquote>
                                 <form id=\"envoi_forum\" method=post>
                                 <input type=\"hidden\" name=\"mode\" value=\"ENVOI_FORUM\">
@@ -127,7 +127,7 @@ print("<script src='assets/js/bootstrap.min.js' type='text/javascript'></script>
         $("#bouton_impression").click(function() {
             $("#texte_acte").print({
                 iframe: false,
-                append: "Relev&eacute; provenant de: <?php print(LIB_ASSO); ?>"
+                append: "Relevé provenant de: <?php print(LIB_ASSO); ?>"
             });
         });
     });
@@ -146,12 +146,12 @@ if (isset($_REQUEST['idf_acte'])) {
     die("Erreur: L'identifiant de l'acte est manquant");
 
 
+$sql = "SELECT idf, max_nai, max_dec, max_mar_div, prenom, nom, email_forum FROM adherent WHERE ident=$session->getAttribute('ident')";
+list($i_idf_adherent, $i_max_nai, $i_max_dec, $i_max_mar_div, $st_prenom_adht, $st_nom_adht, $st_email_adht) = $connexionBD->sql_select_liste();
+$i_idf_commune = $connexionBD->sql_select1("SELECT idf_commune FROM acte WHERE idf=$gi_idf_acte");
 
-list($i_idf_adherent, $i_max_nai, $i_max_dec, $i_max_mar_div, $st_prenom_adht, $st_nom_adht, $st_email_adht) = $connexionBD->sql_select_liste("select idf,max_nai,max_dec,max_mar_div,prenom,nom,email_forum from adherent where ident='" . $_SESSION['ident'] . "'");
-$i_idf_commune = $connexionBD->sql_select1("select idf_commune from acte where idf=$gi_idf_acte");
-
-$a_profession = $connexionBD->liste_valeur_par_clef("select idf, nom from profession");
-list($i_idf_type_acte, $i_idf_commune) = $connexionBD->sql_select_liste("select idf_type_acte,idf_commune from acte where idf=$gi_idf_acte");
+$a_profession = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM profession");
+list($i_idf_type_acte, $i_idf_commune) = $connexionBD->sql_select_liste("SELECT idf_type_acte, idf_commune FROM acte WHERE idf=$gi_idf_acte");
 $gst_adresse_ip = $_SERVER['REMOTE_ADDR'];
 
 if (empty($_POST['mode'])) {
@@ -188,7 +188,8 @@ if (empty($_POST['mode'])) {
 
         if ($i_nb_ddes_acte == 0) {
             $i_nb_ddes++;
-            $st_requete = "insert into demandes_adherent(idf_adherent,adresse_ip,idf_commune,idf_acte,idf_type_acte,date_demande) values($i_idf_adherent,'$gst_adresse_ip',$i_idf_commune,$gi_idf_acte,$i_idf_type_acte,now())";
+            $st_requete = "INSERT INTO demandes_adherent(idf_adherent, adresse_ip, idf_commune, idf_acte, idf_type_acte, date_demande) 
+                VALUES ($i_idf_adherent, '', $i_idf_commune, $gi_idf_acte, $i_idf_type_acte, now())";
             $connexionBD->execute_requete($st_requete);
         }
         print(getRecapitulatifMessage($i_idf_type_acte, $i_max, $i_nb_ddes));
@@ -197,11 +198,19 @@ if (empty($_POST['mode'])) {
         print('<div class="alert alert-danger">Vous avez atteint votre quota. Merci d\'attendre le prochain mois</div>');
     }
 } else {
-    $st_requete = "select a.date,ta.nom,ca.nom,GROUP_CONCAT(concat(prn.libelle,' ',p.patronyme) order by p.idf separator ' X ') from acte a join commune_acte ca on (a.idf_commune=ca.idf) join type_acte ta on (a.idf_type_acte=ta.idf) join personne p on (p.idf_acte=a.idf) join prenom prn on (p.idf_prenom=prn.idf)  where a.idf=$gi_idf_acte and p.idf_type_presence=" . IDF_PRESENCE_INTV . " group by a.idf";
+    $st_requete = "SELECT a.date, ta.nom, ca.nom , GROUP_CONCAT(concat(prn.libelle,' ',p.patronyme) ORDER BY p.idf separator ' X ') 
+        FROM acte a 
+        JOIN commune_acte ca ON (a.idf_commune=ca.idf) 
+        JOIN type_acte ta ON (a.idf_type_acte=ta.idf) 
+        JOIN personne p ON (p.idf_acte=a.idf) 
+        JOIN prenom prn ON (p.idf_prenom=prn.idf) 
+        WHERE a.idf=$gi_idf_acte 
+        AND p.idf_type_presence=" . IDF_PRESENCE_INTV . " 
+        GROUP BY a.idf";
     list($st_date, $st_type_acte, $st_commune, $st_personnes) = $connexionBD->sql_select_liste($st_requete);
     $st_titre = cp1252_vers_utf8($st_personnes) . " le $st_date à " . cp1252_vers_utf8($st_commune);
-    $a_commune_personne = $connexionBD->liste_valeur_par_clef("select idf, nom from commune_personne");
-    $a_type_acte = $connexionBD->liste_valeur_par_clef("select idf, nom from type_acte");
+    $a_commune_personne = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM commune_personne");
+    $a_type_acte = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM type_acte");
     $o_acte = new Acte($connexionBD, null, null, null, null, null, null);
     $o_acte->charge($gi_idf_acte);
     $st_description_acte = $o_acte->versChaine();
@@ -216,7 +225,7 @@ if (empty($_POST['mode'])) {
 
     $st_debut_msg_html  = "Bonjour<br /><br />";
     $st_debut_msg_html .= "Demande d'information ";
-    $st_debut_msg_html .= "ci-dessous trouv&eacute;e dans les tables du site<br /><br />";
+    $st_debut_msg_html .= "ci-dessous trouvée dans les tables du site<br /><br />";
 
     $st_fin_msg_html = "<br />\n<div>Commentaire: <br />" . html_entity_decode(stripslashes($st_commentaire), ENT_COMPAT, 'UTF-8') . "</div><br />";
     $st_fin_msg_html .= "<br />\nMerci<br />";
@@ -231,11 +240,11 @@ if (empty($_POST['mode'])) {
     $courriel->setTexte($st_message_html);
     $courriel->setTexteBrut($st_message_texte);
     if ($courriel->envoie())
-        print('<div class="alert alert-success">La demande d\'information a &eacute;t&eacute; envoy&eacute;e</div>');
+        print('<div class="alert alert-success">La demande d\'information a été envoyée</div>');
     else {
         $st_erreur = $courriel->get_erreur();
         print("<div class=\"alert alert-danger\">Le message n'a pu être envoyé. Erreur: $st_erreur</div>");
-        $pf = @fopen("$gst_rep_logs/di_non_envoyees.log", 'a');
+        $pf = @fopen("logs/di_non_envoyees.log", 'a');
         date_default_timezone_set($gst_time_zone);
         list($i_sec, $i_min, $i_heure, $i_jmois, $i_mois, $i_annee, $i_j_sem, $i_j_an, $b_hiver) = localtime();
         $i_mois++;
