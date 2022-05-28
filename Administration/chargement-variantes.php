@@ -331,7 +331,7 @@ print('<div class="container">');
 
 require_once __DIR__ . '/../Commun/menu.php';
 
-$gst_mode = empty($_POST['mode']) ? 'FORMULAIRE' : $_POST['mode'];
+$gst_mode = $_POST['mode'] ?? 'FORMULAIRE';
 
 switch ($gst_mode) {
     case 'FORMULAIRE':
@@ -344,14 +344,14 @@ switch ($gst_mode) {
         break;
 
     case 'EXPORT_NIMV3':
-        $st_export_nimv3 = "$gst_repertoire_telechargement/ExportNimV3.csv";
+        $st_export_nimv3 = "../storage/telechargement/ExportNimV3.csv";
         exporte_variantes_nimV3($connexionBD, $st_export_nimv3);
         print("<div class=\"alert alert-success\">Export cr&eacute;e: <a href=\"./telechargements/ExportNimV3.csv\">Variantes Nim&egrave;gue  V3</a></div>");
         affiche_menu();
         break;
 
     case 'EXPORT_NIMV2':
-        $st_export_nimv2 = "$gst_repertoire_telechargement/ExportNimV2.csv";
+        $st_export_nimv2 = "../storage/telechargement/ExportNimV2.csv";
         exporte_variantes_nimV2($connexionBD, $st_export_nimv2);
         print("<div class=\"alert alert-success\">Export cr&eacute;e: <a href=\"./telechargements/ExportNimV2.csv\">Variantes Nim&egrave;gue  V2</a></div>");
         affiche_menu();
@@ -364,11 +364,11 @@ switch ($gst_mode) {
         break;
 
     case 'COMPLETE_VARIANTES';
-        $st_variantes_nimv3 = "$gst_repertoire_telechargement/VariantesCompleteesNimV3.csv";
+        $st_variantes_nimv3 = "../storage/telechargement/VariantesCompleteesNimV3.csv";
         $i_temps_courant = time();
         complete_variantes_connues($connexionBD, $st_variantes_nimv3);
         $zip = new ZipArchive();
-        $st_chemin_zip = "$gst_repertoire_telechargement/VariantesCompleteesNimV3.zip";
+        $st_chemin_zip = "../storage/telechargement/VariantesCompleteesNimV3.zip";
         if (file_exists($st_chemin_zip)) unlink($st_chemin_zip);
         if ($zip->open($st_chemin_zip, ZIPARCHIVE::CREATE) !== TRUE) {
             exit("<div class=\"alert alert-danger\">Impossible d'ecrire <$st_chemin_zip></div>\n");

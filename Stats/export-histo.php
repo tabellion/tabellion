@@ -9,21 +9,6 @@ require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_STATS);
 require_once __DIR__ . '/../Commun/commun.php';
 
-$ga_mois = array(
-    1 => 'Janvier',
-    2 => 'Fevrier',
-    3 => 'Mars',
-    4 => 'Avril',
-    5 => 'Mai',
-    6 => 'Juin',
-    7 => 'Juillet',
-    8 => 'Aout',
-    9 => 'Septembre',
-    10 => 'Octobre',
-    11 => 'Novembre',
-    12 => 'Decembre'
-);
-
 function ecrit_tableau_stats($pfh, $pst_lib, $pa_valeurs)
 {
     global $ga_mois;
@@ -42,36 +27,36 @@ function ecrit_tableau_stats($pfh, $pst_lib, $pa_valeurs)
     }
     fputcsv($pfh, array('', '', '', '', '', '', '', '', '', '', '', '', ''), SEP_CSV);
 }
-$st_requete_v4_tot = "SELECT year(date_demande),month(date_demande),count(*)as nombre FROM demandes_adherent da  GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) asc";
+$st_requete_v4_tot = "SELECT year(date_demande), month(date_demande), count(*) AS nombre FROM demandes_adherent da GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) ASC";
 $a_v4_tot = $connexionBD->liste_valeur_par_doubles_clefs($st_requete_v4_tot);
 
-$st_requete_v4_cm = "SELECT year(date_demande),month(date_demande),count(*)as nombre FROM demandes_adherent da where da.idf_type_acte=" . IDF_CM . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) asc";
+$st_requete_v4_cm = "SELECT year(date_demande), month(date_demande), count(*) AS nombre FROM demandes_adherent da WHERE da.idf_type_acte=" . IDF_CM . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) ASC";
 $a_v4_cm = $connexionBD->liste_valeur_par_doubles_clefs($st_requete_v4_cm);
 
-$st_requete_v4_mar = "SELECT year(date_demande),month(date_demande),count(*)as nombre FROM demandes_adherent da where da.idf_type_acte=" . IDF_MARIAGE . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) asc";
+$st_requete_v4_mar = "SELECT year(date_demande), month(date_demande), count(*) AS nombre FROM demandes_adherent da WHERE da.idf_type_acte=" . IDF_MARIAGE . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) ASC";
 $a_v4_mar = $connexionBD->liste_valeur_par_doubles_clefs($st_requete_v4_mar);
 
-$st_requete_v4_nai = 'SELECT year(date_demande),month(date_demande), count( * ) AS nombre FROM demandes_adherent where idf_type_acte=' . IDF_NAISSANCE . ' GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) asc';
+$st_requete_v4_nai = 'SELECT year(date_demande), month(date_demande), count( * ) AS nombre FROM demandes_adherent WHERE idf_type_acte=' . IDF_NAISSANCE . ' GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) ASC';
 $a_v4_nai = $connexionBD->liste_valeur_par_doubles_clefs($st_requete_v4_nai);
 
-$st_requete_v4_dec = 'SELECT year(date_demande),month(date_demande), count( * ) AS nombre FROM demandes_adherent where idf_type_acte=' . IDF_DECES . ' GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) asc';
+$st_requete_v4_dec = 'SELECT year(date_demande), month(date_demande), count( * ) AS nombre FROM demandes_adherent WHERE idf_type_acte=' . IDF_DECES . ' GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) ASC';
 $a_v4_dec = $connexionBD->liste_valeur_par_doubles_clefs($st_requete_v4_dec);
 
 if (!empty($gst_administrateur_gbk)) {
 
-    $st_requete_gbk_tot = "SELECT year(date_demande),month(date_demande),count(*)as nombre FROM stats_gbk  GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) asc";
+    $st_requete_gbk_tot = "SELECT year(date_demande), month(date_demande), count(*) AS nombre FROM stats_gbk  GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) ASC";
     $a_gbk_tot = $connexionBD->liste_valeur_par_doubles_clefs($st_requete_gbk_tot);
 
-    $st_requete_gbk_cm = "SELECT year(date_demande),month(date_demande),count(*)as nombre FROM stats_gbk where idf_type_acte=" . IDF_CM . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) asc";
+    $st_requete_gbk_cm = "SELECT year(date_demande), month(date_demande), count(*) AS nombre FROM stats_gbk WHERE idf_type_acte=" . IDF_CM . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) ASC";
     $a_gbk_cm = $connexionBD->liste_valeur_par_doubles_clefs($st_requete_gbk_cm);
 
-    $st_requete_gbk_mar = "SELECT year(date_demande),month(date_demande),count(*)as nombre FROM stats_gbk where idf_type_acte=" . IDF_MARIAGE . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) asc";
+    $st_requete_gbk_mar = "SELECT year(date_demande), month(date_demande), count(*) AS nombre FROM stats_gbk WHERE idf_type_acte=" . IDF_MARIAGE . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) ASC";
     $a_gbk_mar = $connexionBD->liste_valeur_par_doubles_clefs($st_requete_gbk_mar);
 
-    $st_requete_gbk_nai = "SELECT year(date_demande),month(date_demande),count(*)as nombre FROM stats_gbk where idf_type_acte=" . IDF_NAISSANCE . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) asc";
+    $st_requete_gbk_nai = "SELECT year(date_demande), month(date_demande), count(*) AS nombre FROM stats_gbk WHERE idf_type_acte=" . IDF_NAISSANCE . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) ASC";
     $a_gbk_nai = $connexionBD->liste_valeur_par_doubles_clefs($st_requete_gbk_nai);
 
-    $st_requete_gbk_dec = "SELECT year(date_demande),month(date_demande),count(*)as nombre FROM stats_gbk where idf_type_acte=" . IDF_DECES . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) asc";
+    $st_requete_gbk_dec = "SELECT year(date_demande), month(date_demande), count(*) AS nombre FROM stats_gbk WHERE idf_type_acte=" . IDF_DECES . " GROUP BY year(date_demande),month(date_demande) ORDER BY year(date_demande) ASC";
     $a_gbk_dec = $connexionBD->liste_valeur_par_doubles_clefs($st_requete_gbk_dec);
 }
 
@@ -94,15 +79,3 @@ if (!empty($gst_administrateur_gbk)) {
 }
 fclose($fh);
 exit();
-
-print('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"><html>');
-print("<head>");
-print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >');
-print('<meta http-equiv="content-language" content="fr">');
-print("<title>Statistiques</title>");
-print("<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>");
-print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
-print("<script src='../assets/js/menu.js' type='text/javascript'></script>");
-print("</head>");
-print("<body>");
-print('</body></html>');

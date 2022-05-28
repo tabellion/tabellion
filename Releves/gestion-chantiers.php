@@ -648,7 +648,7 @@ switch ($gst_mode) {
         foreach ($a_liste_supprime as $i_idf_chantier) {
             $connexionBD->execute_requete("delete from `chantiers` where idf = $i_idf_chantier");
         }
-        menu_liste($connexionBD, $$gi_idf_statut, $gi_idf_releveur);
+        menu_liste($connexionBD, $gi_idf_statut, $gi_idf_releveur);
         break;
 }
 print('</div></body>');
