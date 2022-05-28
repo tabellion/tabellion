@@ -7,10 +7,10 @@ require_once __DIR__ . '/../Commun/constantes.php';
 require_once __DIR__ . '/../commun/commun.php';
 require_once __DIR__ . '/../Origin/ConnexionBD.php';
 
-/* if (!file_exists(__DIR__ . '/../config.yaml.cfg')) {
-    echo "L'application n'est pas installée.";
+if (!file_exists(__DIR__ . '/../config.yaml.cfg')) {
+    echo "Une mise à jour de l'application est necessaire.";
     exit;
-} */
+}
 
 $session = new Session();
 $config = new Configuration();
