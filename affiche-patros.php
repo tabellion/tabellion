@@ -7,8 +7,8 @@
 
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Commun/commun.php';
-require_once __DIR__ . '/RequeteRecherche.php';
-require_once __DIR__ . '/Commun/PaginationTableau.php';
+require_once __DIR__ . '/Origin/RequeteRecherche.php';
+require_once __DIR__ . '/Origin/PaginationTableau.php';
 
 // ======== Default
 $gst_tri = $_GET['tri_pat'] ?? 'patronyme';

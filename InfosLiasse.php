@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Commun/commun.php';
-require_once __DIR__ . '/RequeteRecherche.php';
+require_once __DIR__ . '/Origin/RequeteRecherche.php';
 require_once __DIR__ . '/Commun/VerificationDroits.php';
 
 $gst_cote_liasse = isset($_REQUEST['cote_liasse']) ? $_REQUEST['cote_liasse'] : '';

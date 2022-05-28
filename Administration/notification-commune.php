@@ -9,7 +9,7 @@ require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_CHARGEMENT);
-require_once __DIR__ . '/../Commun/Courriel.php';
+require_once __DIR__ . '/../Origin/Courriel.php';
 
 print('<!DOCTYPE html>');
 print("<Head>\n");

@@ -6,7 +6,7 @@
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/Courriel.php';
+require_once __DIR__ . '/../Origin/Courriel.php';
 
 $gst_chemin = ($_SERVER['HTTP_HOST'] == 'inscription.genea16.net') ? "https://adherents.genea16.net" : '..';
 $cryptinstall = "$gst_chemin/Commun/crypt/cryptographp.fct.php";

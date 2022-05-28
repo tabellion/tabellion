@@ -6,7 +6,7 @@
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Commun/commun.php';
-require_once __DIR__ . '/Commun/PaginationTableau.php';
+require_once __DIR__ . '/Origin/PaginationTableau.php';
 
 // Redirect to identification
 if (!$session->getAttribute('ident')) {

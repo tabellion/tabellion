@@ -8,11 +8,11 @@ require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_VALIDATION_TD);
 require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/PaginationTableau.php';
-require_once __DIR__ . '/../Administration/chargement/Acte.php';
-require_once __DIR__ . '/../Administration/chargement/Personne.php';
-require_once __DIR__ . '/../Administration/chargement/ModificationPersonne.php';
-require_once __DIR__ . '/../Administration/chargement/ModificationActe.php';
+require_once __DIR__ . '/../Origin/PaginationTableau.php';
+require_once __DIR__ . '/../Origin/Acte.php';
+require_once __DIR__ . '/../Origin/Personne.php';
+require_once __DIR__ . '/../Origin/ModificationPersonne.php';
+require_once __DIR__ . '/../Origin/chargement/ModificationActe.php';
 
 print('<!DOCTYPE html>');
 print("<head>");

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_CONSULT_NOT);
-require_once __DIR__ . '/../Commun/PaginationTableau.php';
+require_once __DIR__ . '/../Origin/PaginationTableau.php';
 require_once __DIR__ . '/../Commun/commun.php';
 
 $gst_mode = empty($_POST['mode']) ? 'LISTE' : $_POST['mode'];

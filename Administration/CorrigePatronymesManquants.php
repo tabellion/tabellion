@@ -3,9 +3,9 @@ require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../libs/phonex.cls.php';
 require_once __DIR__ . '/chargement/chargement.php';
-require_once __DIR__ . '/chargement/Patronyme.php';
-require_once __DIR__ . '/chargement/TypeActe.php';
-require_once __DIR__ . '/chargement/StatsPatronyme.php';
+require_once __DIR__ . '/../Origin/Patronyme.php';
+require_once __DIR__ . '/../Origin/TypeActe.php';
+require_once __DIR__ . '/../Origin/StatsPatronyme.php';
 
 $st_requete = "SELECT p.idf_acte, a.idf_commune, a.idf_source, a.idf_type_acte 
     FROM personne p 
