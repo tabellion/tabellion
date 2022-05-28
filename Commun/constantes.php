@@ -70,6 +70,22 @@ define('ADHESION_GRATUIT', 'G');
 define('ADHESION_PARIS', 'P');
 define('ADHESION_SUSPENDU', 'S');
 
+define('ORIGINE_INTERNET', 1);
+define('ORIGINE_FORUM', 2);
+define('ORIGINE_PRESSE', 3);
+define('ORIGINE_MANIFESTATION', 4);
+define('ORIGINE_AD', 5);
+define('ORIGINE_CONNAISSANCE', 6);
+define('ORIGINE_AUTRE', 7);
+
+define('AIDE_RELEVES', 1);
+define('AIDE_INFORMATIQUE', 2);
+define('AIDE_AD', 4);
+define('AIDE_BULLETIN', 8);
+
+# define('TYPE_READHESION', 'R');
+# define('TYPE_INSCRIPTION', 'I');
+
 $ga_sexe = [
     'M' => 'M', 
     'F' => 'F', 

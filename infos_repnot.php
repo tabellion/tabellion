@@ -28,15 +28,15 @@ print("<div class=\"text-center\"><img src=\"$gst_logo_association\" alt='Logo "
 require_once __DIR__ . '/commun/menu.php';
 
 print("<div align=center>");
-print("Ce CM est issu d'un r&eacute;pertoire de notaire et n'a pas &eacute;t&eacute; encore relev&eacute;<br>");
-print("Merci de nous contacter &agrave l'adresse ");
-print('<a href=mailto:' . EMAIL_DIRASSO . '?subject=Rep_Notaire_non_relev&eacute;>' . EMAIL_DIRASSO . '</a>');
-print(" afin de connaitre la cote de la liasse correspondante d&eacute;pos&eacute;e aux Archives D&eacute;partementales de la Charente<br><br>");
-print("<div class=\"alert alert-warning\">ATTENTION: les liasses d'un notaire sont souvent lacunaires et la mention d'un CM n'implique pas n&eacute;cessairement l'existence du CM dans la liasse.<br>");
-print("Par ailleurs, pensez que l'ordre des &eacute;poux est parfois invers&eacute ou peut correspondre &agrave; un mariage double<br>");
-print("Par exemple, la mention du CM BARRAUD-COUGNET dans le r&eacute;pertoire peut concerner l'&eacute;poux BARRAUD, l'&eacute;pouse COUGNET ou inversement (voire les deux)");
+print("Ce CM est issu d'un répertoire de notaire et n'a pas été encore relevé<br>");
+print("Merci de nous contacter à l'adresse ");
+print('<a href=mailto:' . EMAIL_DIRASSO . '?subject=Rep_Notaire_non_relevé>' . EMAIL_DIRASSO . '</a>');
+print(" afin de connaitre la cote de la liasse correspondante déposée aux Archives Départementales de la Charente<br><br>");
+print("<div class=\"alert alert-warning\">ATTENTION: les liasses d'un notaire sont souvent lacunaires et la mention d'un CM n'implique pas nécessairement l'existence du CM dans la liasse.<br>");
+print("Par ailleurs, pensez que l'ordre des époux est parfois invers&eacute ou peut correspondre à; un mariage double<br>");
+print("Par exemple, la mention du CM BARRAUD-COUGNET dans le répertoire peut concerner l'époux BARRAUD, l'épouse COUGNET ou inversement (voire les deux)");
 print("</div><br><br>");
-print("Si vous avez l'occasion de vous rendre aux AD pour photographier un CM, pensez qu'en photographiant tous les CM de la liasse, vous ferez des heureux et faciliterez aussi le d&eacute;pouillement syst&eacute;matique de celle-ci");
+print("Si vous avez l'occasion de vous rendre aux AD pour photographier un CM, pensez qu'en photographiant tous les CM de la liasse, vous ferez des heureux et faciliterez aussi le dépouillement systématique de celle-ci");
 print("</div>");
 print('<div class="form-row">');
 print('<button type="button" id=ferme class="btn btn-warning col-xs-4 col-xs-offset-4">Fermer la fen&ecirc;tre</button>');

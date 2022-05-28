@@ -34,49 +34,49 @@ function affiche_menu($gi_idf_commune, $gi_rayon, $gi_idf_source, $pst_msg)
 	$a_sources = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM source ORDER BY nom");
 	$a_sources[0] = 'Toutes';
 	$a_toutes_communes = array('' => 'Toutes') + $a_communes_acte;
-	?>
-		<form id="patros" method="post">
-			<input type="hidden" name="mode" value="LISTE">
-			<input type="hidden" name="idf_source" value=0>
-			<?php if (!empty($pst_msg)) { ?>
-				<div class="alert alert-danger"><?= $pst_msg; ?></div>
-			<?php } ?>
-			<div class="form-group row col-md-12">
-				<label for="patronyme" class="col-form-label col-md-2">Patronyme</label>
-				<div class="col-md-3 lib_erreur">
-					<input type="text" name="patronyme" id="patronyme" size="15" maxlength="30" class="form-control">
-				</div>
-				<div class="form-check col-md-4">
-					<input type="checkbox" name="variantes_pat" id="variantes_pat" value="oui" checked class="form-check-input">
-					<label for="variantes_pat" class="form-check-label">Recherche par variantes connues</label>
-				</div>
-				<button type="submit" class="btn btn-primary col-md-3"><span class="glyphicon glyphicon-search"></span> Rechercher le patronyme</button>
+?>
+	<form id="patros" method="post">
+		<input type="hidden" name="mode" value="LISTE">
+		<input type="hidden" name="idf_source" value=0>
+		<?php if (!empty($pst_msg)) { ?>
+			<div class="alert alert-danger"><?= $pst_msg; ?></div>
+		<?php } ?>
+		<div class="form-group row col-md-12">
+			<label for="patronyme" class="col-form-label col-md-2">Patronyme</label>
+			<div class="col-md-3 lib_erreur">
+				<input type="text" name="patronyme" id="patronyme" size="15" maxlength="30" class="form-control">
 			</div>
-			<div class="form-group row col-md-12">
-				<label for="idf_source" class="col-form-label col-md-2">Source</label>
-				<div class="col-md-2">
-					<select name=idf_source id=idf_source class="form-control">
-						<?= chaine_select_options($gi_idf_source, $a_sources); ?>
-					</select>
-				</div>
-				<label for="idf_commune_patro" class="col-form-label col-md-2">Commune/Paroisse</label>
-				<div class="col-md-2">
-					<select name="idf_commune_patro" id="idf_commune_patro" class="js-select-avec-recherche form-control">
-						<?= chaine_select_options($gi_idf_commune, $a_toutes_communes); ?>
-					</select>
-				</div>
-				<div class="form-group col-md-4">
-					<div class="input-group">
-						<span class="input-group-addon">Rayon de recherche:</span>
-						<label for="rayon_patro" class="sr-only">Rayon</label>
-						<div class="lib_erreur">
-							<input type="text" name="rayon_patro" id="rayon_patro" size="2" maxlength="2" value="<?= $gi_rayon; ?>" class="form-control">
-						</div>
-						<span class="input-group-addon">Km</span>
+			<div class="form-check col-md-4">
+				<input type="checkbox" name="variantes_pat" id="variantes_pat" value="oui" checked class="form-check-input">
+				<label for="variantes_pat" class="form-check-label">Recherche par variantes connues</label>
+			</div>
+			<button type="submit" class="btn btn-primary col-md-3"><span class="glyphicon glyphicon-search"></span> Rechercher le patronyme</button>
+		</div>
+		<div class="form-group row col-md-12">
+			<label for="idf_source" class="col-form-label col-md-2">Source</label>
+			<div class="col-md-2">
+				<select name=idf_source id=idf_source class="form-control">
+					<?= chaine_select_options($gi_idf_source, $a_sources); ?>
+				</select>
+			</div>
+			<label for="idf_commune_patro" class="col-form-label col-md-2">Commune/Paroisse</label>
+			<div class="col-md-2">
+				<select name="idf_commune_patro" id="idf_commune_patro" class="js-select-avec-recherche form-control">
+					<?= chaine_select_options($gi_idf_commune, $a_toutes_communes); ?>
+				</select>
+			</div>
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<span class="input-group-addon">Rayon de recherche:</span>
+					<label for="rayon_patro" class="sr-only">Rayon</label>
+					<div class="lib_erreur">
+						<input type="text" name="rayon_patro" id="rayon_patro" size="2" maxlength="2" value="<?= $gi_rayon; ?>" class="form-control">
 					</div>
+					<span class="input-group-addon">Km</span>
 				</div>
-		</form>
-	<?php
+			</div>
+	</form>
+<?php
 }
 
 ?>
@@ -257,8 +257,7 @@ function affiche_menu($gi_idf_commune, $gi_rayon, $gi_idf_source, $pst_msg)
 				break;
 			default:
 				affiche_menu($gi_idf_commune, $gi_rayon, '');
-		}
-		?>
+		} ?>
 	</div>
 </body>
 

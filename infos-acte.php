@@ -16,6 +16,21 @@ require_once __DIR__ . '/Origin/TypeActe.php';
 require_once __DIR__ . '/Origin/CommunePersonne.php';
 require_once __DIR__ . '/Origin/Profession.php';
 
+$gi_idf_acte = $_GET['idf_acte'] ?? null;
+
+if (null == $gi_idf_acte) {
+    die("Erreur: L'identifiant de l'acte est manquant");
+}
+
+$sql = "SELECT idf, max_nai, max_dec, max_mar_div, prenom, nom, email_forum FROM adherent WHERE ident=$session->getAttribute('ident')";
+list($i_idf_adherent, $i_max_nai, $i_max_dec, $i_max_mar_div, $st_prenom_adht, $st_nom_adht, $st_email_adht) = $connexionBD->sql_select_liste();
+$i_idf_commune = $connexionBD->sql_select1("SELECT idf_commune FROM acte WHERE idf=$gi_idf_acte");
+
+$a_profession = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM profession");
+list($i_idf_type_acte, $i_idf_commune) = $connexionBD->sql_select_liste("SELECT idf_type_acte, idf_commune FROM acte WHERE idf=$gi_idf_acte");
+$gst_adresse_ip = $_SERVER['REMOTE_ADDR'];
+
+
 function getRecapitulatifMessage($pst_type, $pi_max, $pi_compteur)
 {
     switch ($pst_type) {
@@ -136,22 +151,8 @@ print('<title>Infos acte</title>');
 print('</head>');
 print('<body>');
 print('<div class="container">');
-
 print("<div class=\"text-center\"><img src=\"$gst_logo_association\" alt='Logo " . SIGLE_ASSO . "'></div>");
 
-if (isset($_REQUEST['idf_acte'])) {
-    $gi_idf_acte = (int) $_REQUEST['idf_acte'];
-} else
-    die("Erreur: L'identifiant de l'acte est manquant");
-
-
-$sql = "SELECT idf, max_nai, max_dec, max_mar_div, prenom, nom, email_forum FROM adherent WHERE ident=$session->getAttribute('ident')";
-list($i_idf_adherent, $i_max_nai, $i_max_dec, $i_max_mar_div, $st_prenom_adht, $st_nom_adht, $st_email_adht) = $connexionBD->sql_select_liste();
-$i_idf_commune = $connexionBD->sql_select1("SELECT idf_commune FROM acte WHERE idf=$gi_idf_acte");
-
-$a_profession = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM profession");
-list($i_idf_type_acte, $i_idf_commune) = $connexionBD->sql_select_liste("SELECT idf_type_acte, idf_commune FROM acte WHERE idf=$gi_idf_acte");
-$gst_adresse_ip = $_SERVER['REMOTE_ADDR'];
 
 if (empty($_POST['mode'])) {
     $result = $connexionBD->sql_select_stats_actes($i_idf_adherent, $gi_idf_acte, $i_idf_type_acte);
@@ -238,13 +239,13 @@ if (empty($_POST['mode'])) {
     $courriel->setSujet("DI: $st_titre");
     $courriel->setTexte($st_message_html);
     $courriel->setTexteBrut($st_message_texte);
-    if ($courriel->envoie())
+    if ($courriel->envoie()) {
         print('<div class="alert alert-success">La demande d\'information a été envoyée</div>');
-    else {
+    } else {
         $st_erreur = $courriel->get_erreur();
         print("<div class=\"alert alert-danger\">Le message n'a pu être envoyé. Erreur: $st_erreur</div>");
-        $pf = @fopen("logs/di_non_envoyees.log", 'a');
-        date_default_timezone_set($gst_time_zone);
+        $pf = @fopen("logs/courriel-errors.log", 'a');
+        // date_default_timezone_set($gst_time_zone); NB: Doit prendre le timezone du serveur!
         list($i_sec, $i_min, $i_heure, $i_jmois, $i_mois, $i_annee, $i_j_sem, $i_j_an, $b_hiver) = localtime();
         $i_mois++;
         $i_annee += 1900;
@@ -253,13 +254,15 @@ if (empty($_POST['mode'])) {
         @fwrite($pf, "$st_chaine_log\n");
         @fclose($pf);
     }
-}
+} ?>
 
-print('<div class="btn-group-vertical btn-group-xs col-xs-8 col-xs-offset-2" role="group" aria-label="Groupe de demandes">');
-if (!empty(EMAIL_FORUM))
-    print('<button type="button" id="bouton_envoi" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span> Envoyer une remarque sur le forum</button>');
-print('<button type=button id="bouton_impression" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span> Imprimer</button>');
-print('<button type=button id="bouton_fermeture" class="btn btn-warning"><span class="glyphicon glyphicon-remove"></span> Fermer la fen&ecirc;tre</button>');
-print('</div>');
-print('</div>');
-print('</body></HTML>');
+<div class="btn-group-vertical btn-group-xs col-xs-8 col-xs-offset-2" role="group" aria-label="Groupe de demandes">
+<?php if (!empty(EMAIL_FORUM)) { ?>
+    <button type="button" id="bouton_envoi" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span> Envoyer une remarque sur le forum</button>
+<?php } ?>
+    
+<button type=button id="bouton_impression" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span> Imprimer</button>
+<button type=button id="bouton_fermeture" class="btn btn-warning"><span class="glyphicon glyphicon-remove"></span> Fermer la fenêtre</button>
+</div>
+</div>
+</body></html>

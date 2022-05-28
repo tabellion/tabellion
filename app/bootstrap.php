@@ -1,23 +1,22 @@
 <?php 
-
+require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/Core/Session.php';
-
+require __DIR__ . '/Core/Configuration.php';
 require_once __DIR__ . '/../Commun/config.php';
 require_once __DIR__ . '/../Commun/constantes.php';
 require_once __DIR__ . '/../commun/commun.php';
-
 require_once __DIR__ . '/../Origin/ConnexionBD.php';
 
+/* if (!file_exists(__DIR__ . '/../config.yaml.cfg')) {
+    echo "L'application n'est pas installée.";
+    exit;
+} */
+
 $session = new Session();
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
+$config = new Configuration();
+$databasecfg = $config->get('database');
 
-
-$databasecfg = [
-    'host' => $gst_serveur_bd,
-    'user' => $gst_utilisateur_bd,
-    'password' => $gst_mdp_utilisateur_bd,
-    'dbname' => $gst_nom_bd
-];
+$connexionBD = ConnexionBD::singleton($databasecfg);
 
 $user = $session->getAttribute('user') ?? [];
 

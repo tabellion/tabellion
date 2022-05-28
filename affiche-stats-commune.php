@@ -60,17 +60,17 @@ function affiche_entete_liens_navigation($pi_num_page_cour, $pi_nb_pages)
     print('<div class="text-center">');
     print('<ul class="pagination">');
     if ($i_deb > 1)
-        print("<li class=\"page-item\"><a href=\"" . basename(__FILE__) . "?num_page_statcom=1\" class=\"page-item\">Début</a></li> ");
+        print("<li class=\"page-item\"><a href=\"/affiche-stats-commune.php?num_page_statcom=1\" class=\"page-item\">Début</a></li> ");
     if ($i_deb < $i_fin) {
         for ($i = $i_deb; $i <= $i_fin; $i++) {
             if ($i == $pi_num_page_cour)
                 print("<li class=\"page-item active\"><span class=\"page-link\">$i<span class=\"sr-only\">(current)</span></span></li>");
             else
-                print("<li class=\"page-item\"><a href=\"" . basename(__FILE__) . "?num_page_statcom=$i\">$i</a></li>");
+                print("<li class=\"page-item\"><a href=\"/affiche-stats-commune.php?num_page_statcom=$i\">$i</a></li>");
         }
     }
     if ($i_fin < $pi_nb_pages)
-        print("<li class=\"page-item\"><a href=\"" . basename(__FILE__) . "?num_page_statcom=$pi_nb_pages\">Fin</a></li>");
+        print("<li class=\"page-item\"><a href=\"/affiche-stats-commune.php?num_page_statcom=$pi_nb_pages\">Fin</a></li>");
     print("</ul>");
     print('</div>');
 }
@@ -185,7 +185,7 @@ function affiche_entete_liens_navigation($pi_num_page_cour, $pi_nb_pages)
                         if ($c_initiale == utf8_vers_cp1252($gc_initiale))
                             print("<li class=\"page-item active\"><span class=\"page-link\">" . cp1252_vers_utf8($c_initiale) . "<span class=\"sr-only\">(current)</span></span></li>");
                         else
-                            print("<li class=\"page-item\"><a class=\"page-link\" href=\"" . basename(__FILE__) . "?initiale_statcom=" . cp1252_vers_utf8($c_initiale) . "&amp;idf_source=$id_source\">" . cp1252_vers_utf8($c_initiale) . "</a></li>");
+                            print("<li class=\"page-item\"><a class=\"page-link\" href=\"/affiche-stats-commune.php?initiale_statcom=" . cp1252_vers_utf8($c_initiale) . "&amp;idf_source=$id_source\">" . cp1252_vers_utf8($c_initiale) . "</a></li>");
                     }
                     print("</ul>");
                     print('</div>');
@@ -259,7 +259,7 @@ function affiche_entete_liens_navigation($pi_num_page_cour, $pi_nb_pages)
                         foreach ($a_liste_communes as $i_idf_commune => $a_info_commune) {
                             list($st_nom_commune, $i_debut_communale, $i_debut_greffe) = $a_info_commune;
                             print("<tr>");
-                            $st_cellule_commune = "<td><a class=\"lien_geoportail\" href=\"OpenStreetMap.php?idf_commune=$i_idf_commune\">" . cp1252_vers_utf8($st_nom_commune) . "</a></td>";
+                            $st_cellule_commune = "<td><a class=\"lien_geoportail\" href=\"/open-street-map.php?idf_commune=$i_idf_commune\">" . cp1252_vers_utf8($st_nom_commune) . "</a></td>";
                             print("$st_cellule_commune");
                             if (empty($i_debut_greffe))
                                 print("<td>&nbsp;</td>");
