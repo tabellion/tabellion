@@ -5,7 +5,6 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
-require_once __DIR__ . '/Commun/commun.php';
 
 $gi_idf_commune_acte = isset($_POST['idf_commune_acte']) ? (int) $_POST['idf_commune_acte'] : '';
 $gc_idf_type_acte = isset($_POST['idf_type_acte']) ? (int) $_POST['idf_type_acte'] : '';
@@ -180,7 +179,7 @@ print("</head>");
 print("<body>");
 print('<div class="container">');
 
-require_once __DIR__ . '/Commun/menu.php';
+require_once __DIR__ . '/commun/menu.php';
 
 print('<div class="panel panel-primary">');
 print('<div class="panel-heading">Statistiques NMD d\'une commune/paroisse</div>');

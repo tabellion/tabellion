@@ -7,10 +7,10 @@
 //http://127.0.0.1:8888/Gestion_Photos.php
 
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_RELEVES);
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
-require_once __DIR__ . '/../Commun/commun.php';
+
+verifie_privilege(DROIT_RELEVES);
+
 
 print('<!DOCTYPE html>');
 print("<head>");
@@ -479,7 +479,7 @@ function charge_photos($pconnexionBD)
 }
 
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 $gst_commune_a_chercher = isset($_POST['commune_a_chercher']) ? trim($_POST['commune_a_chercher']) : '';
 

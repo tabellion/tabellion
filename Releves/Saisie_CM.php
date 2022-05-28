@@ -36,11 +36,9 @@ CREATE TABLE IF NOT EXISTS `cm_notaires`
 
 $gst_chemin = "../";
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-//verifie_privilege(DROIT_UTILITAIRES);
-require_once __DIR__ . '/../Commun/ConnexionBD.php';
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
-require_once __DIR__ . '/../Commun/commun.php';
+
+//verifie_privilege(DROIT_UTILITAIRES);
 
 print("<head>");
 print('<meta http-equiv="Content-Type" content="text/html; charset=cp1252" />');

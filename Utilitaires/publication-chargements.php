@@ -5,13 +5,9 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_UTILITAIRES);
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
-require_once __DIR__ . '/../Commun/commun.php';
 
-
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd,$gst_utilisateur_bd,$gst_mdp_utilisateur_bd,$gst_nom_bd);
+verifie_privilege(DROIT_UTILITAIRES);
 
 $gi_num_page_cour = empty($_POST['num_page']) ? 1 : $_POST['num_page'];
 $gst_mode = empty($_POST['mode']) ? 'LISTE': $_POST['mode'] ;
@@ -70,7 +66,7 @@ function menu_liste($pconnexionBD)
    print("</div></div>");  
 }
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 switch ($gst_mode) {
   case 'LISTE' : menu_liste($connexionBD); 

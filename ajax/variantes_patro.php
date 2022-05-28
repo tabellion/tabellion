@@ -5,7 +5,6 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/commun.php';
 
 $a_resultats = array();
 if (isset($_GET['term'])) {

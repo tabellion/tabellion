@@ -1,9 +1,8 @@
 <?php
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_PUBLICATION);
-require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../libs/fpdf/fpdf.php';
+
+verifie_privilege(DROIT_PUBLICATION);
 
 ob_start(); // Enclenche la temporisation de sortie
 
@@ -35,7 +34,7 @@ function charge_csv()
 {
 	global $gst_repertoire_publication;
 
-	$st_export_nimv3 = "$gst_repertoire_publication/ExportNimV3.csv";
+	$st_export_nimv3 = "../storage/ExportNimV3.csv";
 
 	$sqlcsv = "CREATE TEMPORARY TABLE IF NOT EXISTS tmp_publication (
   data0 text COLLATE latin1_general_ci NOT NULL,

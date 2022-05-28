@@ -430,7 +430,6 @@ define('IDF_SOURCE_RELEVES_AGC',1);
 define('IDF_SOURCE_TD',4);
 define('SEUIL_RETENTION_ADHTS',5);                   
 define('NB_ACTES_BLOC_CHGMT',2000);
-define('PAGE_RECHERCHE','Recherches.php');
 
 define('LIB_ASSO',"Association Généalogique de la Charente");
 define('LIB_ASSO_AVEC',"L'Association Généalogique de la Charente");

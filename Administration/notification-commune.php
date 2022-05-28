@@ -6,10 +6,10 @@
 //-------------------------------------------------------------------
 
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_CHARGEMENT);
 require_once __DIR__ . '/../Origin/Courriel.php';
+
+verifie_privilege(DROIT_CHARGEMENT);
+
 
 print('<!DOCTYPE html>');
 print("<Head>\n");
@@ -219,7 +219,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
         print("<div class=\"alert alert-danger\">Le message n'a pu être envoyé. Erreur: " . $courriel->get_erreur() . "</div>");
 }
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 $i_session_idf_source = isset($_SESSION['idf_source']) ? $_SESSION['idf_source'] : '1';
 $gi_idf_source = empty($_POST['idf_source']) ? $i_session_idf_source : $_POST['idf_source'];

@@ -8,12 +8,11 @@
 $gst_chemin = "../";
 
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_RELEVES);
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
-require_once __DIR__ . '/../Commun/commun.php';
 
-$gst_mode = empty($_POST['mode']) ? 'LISTE' : $_POST['mode'];
+verifie_privilege(DROIT_RELEVES);
+
+$gst_mode = $_POST['mode'] ?? 'LISTE';
 
 switch ($gst_mode) {
     case 'EXPORT':
@@ -566,7 +565,7 @@ function exporte_liste_releves($pconnexionBD, $pi_idf_stat_export)
   Démarrage du programme
   ---------------------------------------------------------------------------*/
 $ga_tbl_statut = array(0 => 'Tous', 1 => 'En cours', 2 => 'Termin&eacute;', 3 => 'Abandonn&eacute;');
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 $ga_documents = $connexionBD->sql_select_multiple_par_idf("select r.idf, ca.nom, r.fourchette, (select case r.support when 1 then 'Acte authentique' when 2 then 'Photo' when 3 then 'Relev&eacute; papier' end) from `documents` r  join `commune_acte` ca  on (r.id_commune = ca.idf ) order by ca.nom");
 $ga_communes  = $connexionBD->liste_valeur_par_clef("select idf,nom from `commune_acte` order by nom");
 $ga_adherent  = $connexionBD->liste_valeur_par_clef("select idf,concat(nom,'  ',prenom,' (',idf,')') from adherent where statut in ('" . ADHESION_INTERNET . "','" . ADHESION_BULLETIN . "','" . ADHESION_SUSPENDU . "') order by nom,prenom");

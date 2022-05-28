@@ -6,9 +6,8 @@
 //-------------------------------------------------------------------
 
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-require_once __DIR__ . '/../Commun/Benchmark.php';
+require_once __DIR__ . '/../commun/benchmark.php';
+
 verifie_privilege(DROIT_CHARGEMENT);
 
 /**
@@ -60,7 +59,7 @@ print('</head>');
 print('<body>');
 print('<div class="container">');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 $ga_tables = array('acte', 'chargement', 'commune_personne', 'demandes_adherent', 'document', 'groupe_prenoms', 'modification_acte', 'modification_personne', 'patronyme', 'personne', 'photos', 'prenom', 'prenom_simple', 'profession', 'releveur', 'rep_not_actes', 'rep_not_desc', 'rep_not_variantes', 'source', 'stats_cnx', 'stats_commune', 'stats_patronyme', 'tableau_kilometrique', 'type_acte', 'type_presence', 'union', 'variantes_patro', 'variantes_prenom');
 $gst_mode = empty($_POST['mode']) ? 'FORMULAIRE' : $_POST['mode'];

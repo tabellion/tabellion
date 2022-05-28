@@ -1,9 +1,8 @@
 <?php
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_PUBLICATION);
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
-require_once __DIR__ . '/../Commun/commun.php';
+
+verifie_privilege(DROIT_PUBLICATION);
 
 $gst_repertoire_publication = __DIR__ . '/../storage/publication';
 
@@ -515,7 +514,7 @@ ORDER BY
 //==========================================================
 
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 $gst_mode = empty($_POST['mode']) ? 'FORMULAIRE' : $_POST['mode'];
 

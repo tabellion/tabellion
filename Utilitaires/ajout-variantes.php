@@ -5,10 +5,10 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_VARIANTES);
 require_once __DIR__ . '/../libs/phonex.cls.php';
+
+verifie_privilege(DROIT_VARIANTES);
+
 
 $gst_get_mode = empty($_GET['mode']) ? 'AFFICHER' : $_GET['mode'];
 $gst_mode = empty($_POST['mode']) ? $gst_get_mode : $_POST['mode'];
@@ -678,7 +678,7 @@ print("</head>");
 print("<body>");
 print('<div class="container">');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 switch ($gst_mode) {
 	case 'AFFICHER':

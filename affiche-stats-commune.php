@@ -5,7 +5,6 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
-require_once __DIR__ . '/Commun/commun.php';
 
 // ======== Default
 $gst_mode = 'LISTE';
@@ -133,7 +132,7 @@ function affiche_entete_liens_navigation($pi_num_page_cour, $pi_nb_pages)
 <body>
     <div class="container">
 
-        <?php require_once __DIR__ . '/Commun/menu.php';
+        <?php require_once __DIR__ . '/commun/menu.php';
 
         print("<form method=\"get\">");
 

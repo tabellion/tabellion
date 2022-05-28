@@ -5,11 +5,10 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
-require_once __DIR__ . '/Commun/commun.php';
+require_once __DIR__ . '/commun/benchmark.php';
 require_once __DIR__ . '/Origin/RequeteRecherche.php';
 require_once __DIR__ . '/Origin/PaginationTableau.php';
-require_once __DIR__ . '/Commun/Benchmark.php';
-require_once __DIR__ . '/Commun/VerificationDroits.php';
+
 
 // ======== Default
 $per_page_options = array(NB_LIGNES_PAR_PAGE => NB_LIGNES_PAR_PAGE, 50 => 50, 100 => 100);
@@ -180,7 +179,7 @@ function getFinDateReleve($mois, $annee)
 <body>
 <div class="container">
 
-<?php require_once __DIR__ . '/Commun/menu.php';
+<?php require_once __DIR__ . '/commun/menu.php';
 
 switch ($gst_type_recherche) {
     case 'couple':
@@ -198,7 +197,7 @@ switch ($gst_type_recherche) {
         $gst_nom_epse  = preg_replace('/\*+/', '*', $gst_nom_epse);
         if ((($gst_nom_epx == '*' && empty($gst_prenom_epx))  || ($gst_nom_epse == '*' && empty($gst_prenom_epse))) && empty($gi_idf_commune)) {
             print(nl2br("La recherche par joker * seul n'est autorisée que si une paroisse est choisie<br>"));
-            print("<a href=" . PAGE_RECHERCHE . " class=\"RetourReponses\">Nouvelle Recherche</a><br>");
+            print("<a href=\"/recherche.php\" class=\"RetourReponses\">Nouvelle Recherche</a><br>");
             exit();
         }
         $st_erreur_nom = '';
@@ -210,7 +209,7 @@ switch ($gst_type_recherche) {
             $st_erreur_nom .= "<div class='alert alert-danger'>Au moins un des noms ne doit pas correspondre au caractère joker \"*\"</div>\n";
         if ($st_erreur_nom != '') {
             print(nl2br($st_erreur_nom));
-            print("<a href=" . PAGE_RECHERCHE . " class=\"btn btn-primary col-md-4 col-md-offset-4\">Nouvelle Recherche</a><br>");
+            print("<a href=\"/recherche.php\" class=\"btn btn-primary col-md-4 col-md-offset-4\">Nouvelle Recherche</a><br>");
             exit();
         }
 
@@ -334,12 +333,12 @@ switch ($gst_type_recherche) {
             $gst_nom  = preg_replace('/\*+/', '*', $gst_nom);
             if ($gst_nom == '*' && empty($gi_idf_commune)) {
                 print(nl2br("La recherche par joker * seul n'est autorisée que si une paroisse est choisie<br>"));
-                print("<a href=" . PAGE_RECHERCHE . " class=\"RetourReponses\">Nouvelle Recherche</a><br>");
+                print("<a href=\"/recherche.php\" class=\"RetourReponses\">Nouvelle Recherche</a><br>");
                 exit();
             }
             if (($gst_nom != '*') && ($gst_nom != '!') && strlen($gst_nom) < 3) {
                 print("<div>Le nom $gst_nom doit comporter au moins trois caractères</div>\n");
-                print("<div><a href=" . PAGE_RECHERCHE . "?recherche=nouvelle class=\"RetourReponses\">Commencer une nouvelle recherche</a><br></div>");
+                print("<div><a href=\"/recherche.php\"?recherche=nouvelle class=\"RetourReponses\">Commencer une nouvelle recherche</a><br></div>");
                 exit();
             }
         }
@@ -559,8 +558,8 @@ if ($i_nb_reponses > 0) {
 
 print('<div class="row">');
 print('<div class="btn-group col-md-offset-3 col-md-6" role="group">');
-print('<a class="btn btn-primary" href="' . PAGE_RECHERCHE . '" role="button"><span class="glyphicon glyphicon-search"></span>  Revenir à la page de recherche</a>');
-print('<a class="btn btn-warning" href="' . PAGE_RECHERCHE . '?recherche=nouvelle" role="button"><span class="glyphicon glyphicon-erase"></span> Commencer une nouvelle recherche</a>');
+print('<a class="btn btn-primary" href="/recherche.php" role="button"><span class="glyphicon glyphicon-search"></span>  Revenir à la page de recherche</a>');
+print('<a class="btn btn-warning" href="/recherche.php?recherche=nouvelle" role="button"><span class="glyphicon glyphicon-erase"></span> Commencer une nouvelle recherche</a>');
 print("</div>");
 print("</div>");
 

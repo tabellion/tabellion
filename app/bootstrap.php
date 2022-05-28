@@ -4,6 +4,8 @@ require __DIR__ . '/Core/Session.php';
 
 require_once __DIR__ . '/../Commun/config.php';
 require_once __DIR__ . '/../Commun/constantes.php';
+require_once __DIR__ . '/../commun/commun.php';
+
 require_once __DIR__ . '/../Origin/ConnexionBD.php';
 
 $session = new Session();
@@ -18,3 +20,5 @@ $databasecfg = [
 ];
 
 $user = $session->getAttribute('user') ?? [];
+
+require_once __DIR__ . '/../commun/verification-droits.php';

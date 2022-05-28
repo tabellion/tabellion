@@ -5,9 +5,9 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
+
 verifie_privilege(DROIT_STATS);
-require_once __DIR__ . '/../Commun/commun.php';
+
 
 function ecrit_tableau_stats($pfh, $pst_lib, $pa_valeurs)
 {

@@ -6,10 +6,10 @@
 //-------------------------------------------------------------------
 
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_CHARGEMENT);
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
+
+verifie_privilege(DROIT_CHARGEMENT);
+
 
 print('<!DOCTYPE html>');
 print("<head>");
@@ -280,7 +280,7 @@ function menu_ajouter()
     print('</form>');
 }
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 switch ($gst_mode) {
     case 'LISTE':

@@ -6,11 +6,8 @@
 //-------------------------------------------------------------------
 
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_UTILITAIRES);
-require_once __DIR__ . '/../Commun/commun.php';
 
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
+verifie_privilege(DROIT_UTILITAIRES);
 
 $gst_get_mode = empty($_GET['mode']) ? 'AFFICHER' : $_GET['mode'];
 $gst_mode = empty($_POST['mode']) ? $gst_get_mode : $_POST['mode'];
@@ -480,7 +477,7 @@ print("</head>");
 print("<body>");
 print('<div class="container">');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 switch ($gst_mode) {
     case 'AFFICHER':

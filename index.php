@@ -5,7 +5,6 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
-require_once __DIR__ . '/Commun/commun.php';
 
 // Combien d'adhérents ?				
 $gi_nb_adherents = $connexionBD->sql_select1("select count(*) from adherent where statut IN ('" . ADHESION_BULLETIN . "','" . ADHESION_INTERNET . "')");
@@ -53,7 +52,7 @@ print("</head>");
 print("<body>");
 print('<div class="container">');
 
-require_once __DIR__ . '/Commun/menu.php';
+require_once __DIR__ . '/commun/menu.php';
 
 print("<div class='row col-md-12'>");
 print("<div class='col-md-4'>");

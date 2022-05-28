@@ -5,11 +5,11 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_CHARGEMENT);
-require_once __DIR__ . '/../Origin/PaginationTableau.php';
-require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../libs/phonex.cls.php';
+require_once __DIR__ . '/../Origin/PaginationTableau.php';
+
+verifie_privilege(DROIT_CHARGEMENT);
+
 
 $gst_post_mode = isset($_POST['mode']) ? $_POST['mode'] : null;
 $gst_mode = empty($_POST['mode']) && empty($_GET['mod']) ? 'LISTE' : $gst_post_mode;
@@ -719,7 +719,7 @@ function importe_rep_not($pconnexionBD, $pi_idf_rep)
     unlink($st_fich_dest);
 }
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 switch ($gst_mode) {
     case 'LISTE':

@@ -96,7 +96,7 @@ if ($session->getAttribute('compteur') != 5) { echo $session->getAttribute('comp
 
     <body>
         <div class="container">
-            <div class="text-center"><img src='$gst_logo_association' class="rounded mx-auto d-block" alt="Logo <?= SIGLE_ASSO; ?>"></div>
+            <div class="text-center"><img src="<?= $gst_logo_association; ?>" class="rounded mx-auto d-block" alt="Logo <?= SIGLE_ASSO; ?>"></div>
             <div class="panel panel-primary col-md-offset-2 col-md-8">
                 <div class="panel-heading">Authentification requise</div>
                 <div class="panel-body">
