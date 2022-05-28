@@ -23,7 +23,7 @@ require_once __DIR__ . '/commun/menu.php';
         <img alt="MenuRecherches" style="width: 698px; height: 282px;" src="images/MenuV4.png">
     </span>
 </p>
-<div>Cet écran comporte 3 pavés&nbsp;:
+<div>Cet écran comporte 3 pavés :
 </div>
 <ul>
     <li>
@@ -32,7 +32,7 @@ require_once __DIR__ . '/commun/menu.php';
                 <span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">
                 </span>
             </span>Le 1<sup>er</sup> pavé est
-            <span>&nbsp;
+            <span> 
             </span>commun aux deux autres pavés qui sont des modules de recherche. Ce pavé <strong>
                 <span style="font-weight: bold;">optionnel
                 </span> </strong>a pour mission d'affiner la recherche et ainsi limiter le nombre de réponses obtenues.
@@ -42,44 +42,44 @@ require_once __DIR__ . '/commun/menu.php';
 <ol style="margin-left: 80px;">
     <li>
         <div>
-            <span>&nbsp;&nbsp;&nbsp;
+            <span>   
                 <span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">
                 </span>
-            </span>Source&nbsp;: liste de l'origine des actes ( AGC, AGL,.. )
+            </span>Source : liste de l'origine des actes ( AGC, AGL,.. )
         </div>
     </li>
     <li>
         <div>
-            <span>&nbsp;&nbsp;&nbsp;
+            <span>   
                 <span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">
                 </span>
-            </span>Type d'acte&nbsp;: rechercher uniquement dans les naissances ou les sépultures ou les mariages
+            </span>Type d'acte : rechercher uniquement dans les naissances ou les sépultures ou les mariages
         </div>
     </li>
     <li>
         <div>
-            <span>&nbsp;&nbsp;&nbsp;
+            <span>   
                 <span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">
                 </span>
-            </span>Commune/paroisse&nbsp;: la recherche se fait sur la commune sélectionnée
+            </span>Commune/paroisse : la recherche se fait sur la commune sélectionnée
         </div>
     </li>
     <li>
         <div>
-            <span>&nbsp;&nbsp;&nbsp;
+            <span>   
                 <span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">
                 </span>
-            </span>Rayon de recherche&nbsp;: cette recherche cible une zone géographique de
-            <span>&nbsp;
+            </span>Rayon de recherche : cette recherche cible une zone géographique de
+            <span> 
             </span>(X) kms autour de la paroisse sélectionnée
         </div>
     </li>
     <li>
         <div>
-            <span>&nbsp;&nbsp;&nbsp;
+            <span>   
                 <span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">
                 </span>
-            </span>Années&nbsp;: limite la recherche sur une fourchette d'années
+            </span>Années : limite la recherche sur une fourchette d'années
         </div>
     </li>
 </ol>
@@ -100,9 +100,9 @@ require_once __DIR__ . '/commun/menu.php';
 </p>
 <ol style="margin-left: 80px;">
     <li>
-        <div>C'est quoi au juste cette recherche&nbsp;? Il s'agit de rechercher le couple dans tous les actes où il peut se trouver c'est-à-dire en tant qu'époux et épouse, père et mère,
+        <div>C'est quoi au juste cette recherche ? Il s'agit de rechercher le couple dans tous les actes où il peut se trouver c'est-à-dire en tant qu'époux et épouse, père et mère,
             <span style="font-size: 12pt; font-family: Times New Roman, Times, serif;">intervenant et ancien conjoint
-            </span>. Imaginez un peu les possibilités&nbsp;! en 2 clics, en ayant renseigné simplement les deux noms du couple, vous obtenez son mariage, la liste de tous ses enfants (naissance, mariage, décès)
+            </span>. Imaginez un peu les possibilités ! en 2 clics, en ayant renseigné simplement les deux noms du couple, vous obtenez son mariage, la liste de tous ses enfants (naissance, mariage, décès)
         </div>
     </li>
     <li>
@@ -118,18 +118,18 @@ require_once __DIR__ . '/commun/menu.php';
             <span>
                 <span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">
                 </span>
-            </span>Recherche par variantes connues&nbsp;: cette option élargit la recherche aux différentes orthographes du patronyme ( exemple&nbsp;:
-            <span>&nbsp;
+            </span>Recherche par variantes connues : cette option élargit la recherche aux différentes orthographes du patronyme ( exemple :
+            <span> 
             </span>
-            <span>AIGRETAUD &nbsp;; AIGRETEAUX &nbsp;;
-                <span>&nbsp;
-                </span>AIGRETTEAU &nbsp;;
-                <span>&nbsp;
-                </span>AIGRETTEAUX &nbsp;;
-                <span>&nbsp;
-                </span>AYGRETEAU &nbsp;; AYGRETTEAU&nbsp;; RGRETAU &nbsp;;
-                <span>&nbsp;
-                </span>HEGRETEAU ....)&nbsp;
+            <span>AIGRETAUD  ; AIGRETEAUX  ;
+                <span> 
+                </span>AIGRETTEAU  ;
+                <span> 
+                </span>AIGRETTEAUX  ;
+                <span> 
+                </span>AYGRETEAU  ; AYGRETTEAU ; RGRETAU  ;
+                <span> 
+                </span>HEGRETEAU ....) 
             </span>
         </div>
     </li>

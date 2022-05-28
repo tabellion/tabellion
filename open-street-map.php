@@ -14,7 +14,7 @@ if (!$id_commune) {
 
 $error = null;
 
-$commune = $connexionBD->findId("SELECT nom, latitude, longitude FROM commune_acte WHERE idf=$id_commune");
+$commune = $connexionBD->find("SELECT nom, latitude, longitude FROM commune_acte WHERE idf=$id_commune");
 if (is_null($commune)) {
     $error ="Cette commune n'existe pas dans la database.";
 }

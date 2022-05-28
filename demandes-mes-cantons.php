@@ -14,6 +14,9 @@ require_once __DIR__ . '/Origin/TypeActe.php';
 require_once __DIR__ . '/Origin/CommunePersonne.php';
 require_once __DIR__ . '/Origin/Profession.php';
 
+$gst_mode = $_POST['mode'] ?? 'LISTE_DEMANDES';
+$id_user = $user['idf'];
+
 /**
  * Affiche la liste des cantons choisis
  * @param object $pconnexionBD
@@ -120,50 +123,45 @@ order by commune, demandeur, date_demande2 desc";
     }
 }
 
-print('<!DOCTYPE html>');
-print("<head>");
-print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
-print('<meta http-equiv="content-language" content="fr" /> ');
-print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-print("<link href='assets/css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='assets/css/bootstrap.min.css' rel='stylesheet'>");
-print("<script src='assets/js/jquery-min.js' type='text/javascript'></script>");
-print("<script src='assets/js/bootstrap.min.js' type='text/javascript'></script>");
-print('<title>Base ' . SIGLE_ASSO . ': Dernières Demandes</title>');
-print("</head>");
-print("<body>");
-print('<div class="container">');
+?>
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-language" content="fr" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="assets/css/styles.css" type="text/css" rel="stylesheet">
+<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+<script src="assets/js/jquery-min.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+<title>Base <?= SIGLE_ASSO; ?> : Dernières Demandes</title>
+</head>
+<body>
+<div class="container">
 
-require_once __DIR__ . '/commun/menu.php';
+<?php require_once __DIR__ . '/commun/menu.php';
 
-$gst_mode = empty($_POST['mode']) ? 'LISTE_DEMANDES' : $_POST['mode'];
-
-$st_ident = $session->getAttribute('ident');
-$st_requete = "select idf from adherent where ident = '$st_ident'";
-//print("Req=$st_requete<br>");
-$gi_idf_adherent = $connexionBD->sql_select1($st_requete);
 switch ($gst_mode) {
     case 'AFFICHAGE_CANTONS':
-        affiche_cantons_choisis($connexionBD, $gi_idf_adherent);
+        affiche_cantons_choisis($connexionBD, $id_user);
         break;
     case 'MODIFICATION_CANTONS':
         $a_cantons_choisis = isset($_POST['cantons_choisis']) ? $_POST['cantons_choisis'] :  array();
-        $st_requete = "delete from cantons_adherent where idf_adherent=$gi_idf_adherent";
+        $st_requete = "delete from cantons_adherent where idf_adherent=$id_user";
         $connexionBD->execute_requete($st_requete);
         $a_cantons = array();
         if (count($a_cantons_choisis) > 0) {
             foreach ($a_cantons_choisis as $i_idf_canton) {
-                $a_cantons[] = "($gi_idf_adherent,$i_idf_canton)";
+                $a_cantons[] = "($id_user,$i_idf_canton)";
             }
             $st_cantons = join(',', $a_cantons);
             $st_requete = "insert cantons_adherent(idf_adherent,idf_canton) values $st_cantons";
             $connexionBD->execute_requete($st_requete);
         }
-        affiche_dernieres_demandes($connexionBD, $gi_idf_adherent, "Liste mise &agrave; jour");
+        affiche_dernieres_demandes($connexionBD, $id_user, "Liste mise &agrave; jour");
         break;
     case 'LISTE_DEMANDES':
-        affiche_dernieres_demandes($connexionBD, $gi_idf_adherent, '');
+        affiche_dernieres_demandes($connexionBD, $id_user, '');
         break;
-}
-print("</div></body>");
-print("</html>");
+} ?>
+</div></body>
+</html>
