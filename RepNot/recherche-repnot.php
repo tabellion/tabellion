@@ -5,8 +5,6 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
 require_once __DIR__ . '/commun_rep_not.php';
 
 /*
@@ -513,7 +511,7 @@ print('</head>');
 print('<body>');
 print('<div class="container">');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 print('<div class="panel panel-primary">');
 print('<div class="panel-heading">Recherche dans les r&eacute;pertoires de notaire</div>');

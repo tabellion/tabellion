@@ -6,10 +6,9 @@
 //-------------------------------------------------------------------
 
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-//verifie_privilege(DROIT_UTILITAIRES);
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
-require_once __DIR__ . '/../Commun/commun.php';
+
+//verifie_privilege(DROIT_UTILITAIRES);
 
 print("<head>");
 print('<meta http-equiv="Content-Type" content="text/html; charset=cp1252" />');
@@ -218,7 +217,7 @@ function menu_ajouter($pa_communes, $pa_collections, $pa_adherents)
     print('</form>');
 }
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 $ga_communes    =    $connexionBD->liste_valeur_par_clef("select idf,nom from `commune_acte` order by nom");
 $ga_collections =    $connexionBD->liste_valeur_par_clef("select idf,libelle from `collection_acte` order by libelle");

@@ -5,7 +5,6 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
-require_once __DIR__ . '/Commun/commun.php';
 
 $gst_type_recherche         = isset($_GET['recherche']) ? $_GET['recherche'] : '';
 
@@ -592,7 +591,7 @@ print("</head>");
 print("<body>");
 print('<div class="container">');
 
-require_once __DIR__ . '/Commun/menu.php';
+require_once __DIR__ . '/commun/menu.php';
 
 print('<div class="panel-group">');
 print('<div class="panel-body">');

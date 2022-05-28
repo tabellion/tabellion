@@ -5,7 +5,6 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
-require_once __DIR__ . '/Commun/commun.php';
 require_once __DIR__ . '/Origin/PaginationTableau.php';
 
 
@@ -116,7 +115,7 @@ if (!in_array($gi_idf_type_acte, $a_types_acte_dispo))
 <body>
 	<div class="container">
 
-		<?php require_once __DIR__ . '/Commun/menu.php'; ?>
+		<?php require_once __DIR__ . '/commun/menu.php'; ?>
 
 		<form name="PatrosCommune" method="post">
 			<div class="form-row col-md-12">
@@ -223,7 +222,7 @@ if (!in_array($gi_idf_type_acte, $a_types_acte_dispo))
 					$a_tableau_affichage = array();
 					foreach ($a_liste_stats as $a_stat_patro) {
 						list($st_patronyme, $i_idf_type_acte, $st_type_acte, $i_annee_min, $i_annee_max, $i_nb_pers) = $a_stat_patro;
-						$a_tableau_affichage[] = array("<a href=\"" . PAGE_RECHERCHE . "?recherche=nouvelle&amp;idf_src=$gi_idf_source&amp;idf_ca=$gi_idf_commune&amp;idf_ta=$i_idf_type_acte&amp;a_min=$i_annee_min&amp;a_max=$i_annee_max&amp;var=N&amp;nom=$st_patronyme\">$st_patronyme</a>", $st_type_acte, $i_annee_min, $i_annee_max, $i_nb_pers);
+						$a_tableau_affichage[] = array("<a href=\"/recherche.php?recherche=nouvelle&amp;idf_src=$gi_idf_source&amp;idf_ca=$gi_idf_commune&amp;idf_ta=$i_idf_type_acte&amp;a_min=$i_annee_min&amp;a_max=$i_annee_max&amp;var=N&amp;nom=$st_patronyme\">$st_patronyme</a>", $st_type_acte, $i_annee_min, $i_annee_max, $i_nb_pers);
 					}
 					$pagination->init_page_cour($gi_num_page);
 					$pagination->affiche_entete_liste_select('PatrosCommune');
@@ -300,7 +299,7 @@ if (!in_array($gi_idf_type_acte, $a_types_acte_dispo))
 					$a_tableau_affichage = array();
 					foreach ($a_liste_stats as $a_stat_patro) {
 						list($st_patronyme, $i_annee_min, $i_annee_max, $i_nb_pers) = $a_stat_patro;
-						$a_tableau_affichage[] = array("<a href=\"" . PAGE_RECHERCHE . "?recherche=nouvelle&idf_src=$gi_idf_source&idf_ca=$gi_idf_commune&idf_ta=	$gi_idf_type_acte&a_min=$i_annee_min&a_max=$i_annee_max&var=N&nom=$st_patronyme\">$st_patronyme</a>", $i_annee_min, $i_annee_max, $i_nb_pers);
+						$a_tableau_affichage[] = array("<a href=\"/recherche.php?recherche=nouvelle&idf_src=$gi_idf_source&idf_ca=$gi_idf_commune&idf_ta=	$gi_idf_type_acte&a_min=$i_annee_min&a_max=$i_annee_max&var=N&nom=$st_patronyme\">$st_patronyme</a>", $i_annee_min, $i_annee_max, $i_nb_pers);
 					}
 					$pagination->init_page_cour($gi_num_page);
 					$pagination->affiche_entete_liste_select('PatrosCommune');

@@ -5,12 +5,10 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_UTILITAIRES);
-require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
 
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
+verifie_privilege(DROIT_UTILITAIRES);
+
 
 print('<!DOCTYPE html>');
 print("<head>");
@@ -82,8 +80,8 @@ $ga_fichiers_logs = array(
 /******************************************************************************/
 print("<body>");
 print('<div class="container">');
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
-require_once __DIR__ . '/../Commun/menu.php';
+
+require_once __DIR__ . '/../commun/menu.php';
 
 $ga_adherents = $connexionBD->liste_valeur_par_clef("select idf,concat(nom,'  ',prenom,' (',idf,')') from adherent order by nom,prenom");
 

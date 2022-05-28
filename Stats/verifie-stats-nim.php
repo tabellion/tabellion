@@ -5,7 +5,7 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
+
 verifie_privilege(DROIT_UTILITAIRES);
 
 $gst_mode = empty($_POST['mode']) ? 'FORMULAIRE' : $_POST['mode'];
@@ -178,7 +178,7 @@ print('</head>');
 print('<body>');
 print('<div class="container">');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 switch ($gst_mode) {
     case 'FORMULAIRE':

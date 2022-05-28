@@ -6,10 +6,10 @@
 //-------------------------------------------------------------------
 
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_CHARGEMENT);
 require_once __DIR__ . '/../libs/phonex.cls.php';
+
+verifie_privilege(DROIT_CHARGEMENT);
+
 
 /*
 * Renvoie la chaine équivalente sans accents
@@ -329,7 +329,7 @@ print('</head>');
 print('<body>');
 print('<div class="container">');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 $gst_mode = $_POST['mode'] ?? 'FORMULAIRE';
 

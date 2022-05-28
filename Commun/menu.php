@@ -49,10 +49,10 @@ $menu = [
         'Optimisation base' => '/administration/optimisation-tables.php',
         'Rep Notaires' => '/repnot/gestion-repnot.php',
     ],
-    'Suivi corrections' => [
+    /* 'Suivi corrections' => [
         'Corrections demandées' => '/suivi-corrections/corrections-demandees.php',
         'Corrections faites' => '/suivi-corrections/corrections-faites.php',
-    ],
+    ], */
     'Utilitaires' => [
         'Variantes Patronyme' => '/utilitaires/ajout-variantes.php',
         'Variantes Prénom' => '/utilitaires/gestion-variantes-prenom.php',
@@ -111,14 +111,6 @@ $menu = [
                     <a href="/administration/gestion-sources.php">Sources</a>
                     <a href="/administration/optimisation-tables.php">Optimisation base</a>
                     <a href="/repnot/gestion-repnot.php">Rep Notaires</a>
-                </li>
-            </ul>
-        </li>
-        <li class="dropdown"><a data-toggle="dropdown" href="#">Suivi corrections <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="/suivi-corrections/corrections-demandees.php">Corrections demandées</a>
-                    <a href="/suivi-corrections/corrections-faites.php">Corrections faites</a>
                 </li>
             </ul>
         </li>

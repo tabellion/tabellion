@@ -5,10 +5,10 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_STATS);
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
+
+verifie_privilege(DROIT_STATS);
+
 
 $gst_tri = empty($_GET['tri']) ? 'TOT' : $_GET['tri'];
 
@@ -65,7 +65,7 @@ print("</head>");
 print("<body>");
 print('<div class="container">');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 print('<div class="panel-group">');
 print('<div class="panel panel-primary">');

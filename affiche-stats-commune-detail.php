@@ -5,7 +5,6 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
-require_once __DIR__ . '/Commun/commun.php';
 
 // ======== Default
 $page = $_GET['page'] ?? 1;
@@ -71,7 +70,7 @@ function chaine_intervalle($pi_deb, $pi_fin)
 <body>
     <div class="container">
 
-        <?php require_once __DIR__ . '/Commun/menu.php'; ?>
+        <?php require_once __DIR__ . '/commun/menu.php'; ?>
         <div class="panel panel-primary">
         <div class="panel-heading">
             Liste des années disponibles de: <?= cp1252_vers_utf8($gst_nom_commune) . " (" . cp1252_vers_utf8($gst_type_acte) . ")"; ?>

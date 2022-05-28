@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_PUBLICATION);
-require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../libs/fpdf/fpdf.php';
+
+verifie_privilege(DROIT_PUBLICATION);
+
 
 ob_start(); // Enclenche la temporisation de sortie
 
@@ -112,7 +112,7 @@ function charge_csv()
 	global $connexionBD;
 	$connexionBD->execute_requete($sqlcsv);
 
-	$st_tmp_file = $_SERVER['DOCUMENT_ROOT'] . '/v4/Publication/tmp/publication.txt';
+	$st_tmp_file = __DIR__ . '/../tmp/publication.txt';
 
 	if (!copy($st_export_nimv3, $st_tmp_file))
 		die("Impossible de copier $st_export_nimv3 en $st_tmp_file\n");

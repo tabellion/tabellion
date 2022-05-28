@@ -5,10 +5,10 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
+require_once __DIR__ . '/../commun/benchmark.php';
+
 verifie_privilege(DROIT_GENEABANK);
-require_once __DIR__ . '/../Commun/Benchmark.php';
+
 
 /**
  * Affiche le menu de sélection
@@ -201,7 +201,7 @@ print('</head>');
 print("<body>");
 print('<div class="container">');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 $gst_mode = empty($_POST['mode']) ? 'MENU' : $_POST['mode'];
 

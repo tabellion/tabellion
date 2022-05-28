@@ -5,10 +5,9 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
+
 verifie_privilege(DROIT_UTILITAIRES);
 
-$connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
 print('<!DOCTYPE html>');
 print("<head>");
@@ -24,7 +23,7 @@ print('</head>');
 print('<body>');
 print('<div class="container">');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 $st_requete = "show table status";
 $a_stats_table_sql = $connexionBD->sql_select_multiple_par_idf($st_requete);

@@ -5,7 +5,6 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
-require_once __DIR__ . '/Commun/commun.php';
 
 // ======= Default
 $sources = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM source ORDER BY nom");
@@ -78,7 +77,7 @@ if (count($communes) != 0) {
 
 <body>
     <div class="container">
-        <?php require_once __DIR__ . '/Commun/menu.php'; ?>
+        <?php require_once __DIR__ . '/commun/menu.php'; ?>
 
         <form method="get">
             <div class="form-row col-md-12"><label for="idf_source" class="col-form-label col-md-2 col-md-offset-3">Source</label>

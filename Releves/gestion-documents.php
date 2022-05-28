@@ -9,10 +9,9 @@
 $gst_chemin = "../";
 
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
-verifie_privilege(DROIT_RELEVES);
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
-require_once __DIR__ . '/../Commun/commun.php';
+
+verifie_privilege(DROIT_RELEVES);
 
 print('<!DOCTYPE html>');
 print("<head>");
@@ -386,7 +385,7 @@ $ga_tbl_support = array(0 => '', 1 => 'Acte authentique', 2 => 'Photo', 3 => 'Re
 $ga_tbl_nature = array(0 => '', 1 => 'RPX catholiques', 2 => 'RPX protestants', 3 => 'Etat civil', 4 => 'Actes Notari&eacute; ');
 $ga_tbl_collection = array(0 => '', 1 => 'AD Depot communes', 2 => 'AD Greffe', 3 => 'AD Notaire', 4 => 'Mairie', 5 => 'AM', 6 => 'Internet', 7 => 'Notaire Etude', 8 => 'Archives Diocesaines', 9 => 'F (documents familiaux)');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 $gst_commune_a_chercher = isset($_POST['commune_a_chercher']) ? trim($_POST['commune_a_chercher']) : '';
 $gi_num_page_cour = empty($_GET['num_page']) ? 1 : $_GET['num_page'];
 

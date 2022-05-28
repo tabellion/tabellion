@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/app/bootstrap.php';
-require_once __DIR__ . '/Commun/commun.php';
 
 print('<!DOCTYPE html>');
 print("<head>");
@@ -17,7 +16,7 @@ print("</head>");
 print('<body>');
 print('<div class="container">');
 
-require_once __DIR__ . '/Commun/menu.php';
+require_once __DIR__ . '/commun/menu.php';
 ?>
 <p style="text-align: center;" class="MsoNormal">
     <span>

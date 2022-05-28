@@ -6,13 +6,9 @@
 //-------------------------------------------------------------------
 
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../Commun/VerificationDroits.php';
 require_once __DIR__ . '/../libs/phonex.cls.php';
-verifie_privilege(DROIT_CHARGEMENT);
-
 require_once __DIR__ . '/chargement/chargement.php';
-require_once __DIR__ . '/chargement/ChargementRecens.php';
+require_once __DIR__ . '/chargement/chargement-recens.php';
 require_once __DIR__ . '/../Origin/CompteurPersonne.php';
 require_once __DIR__ . '/../Origin/Personne.php';
 require_once __DIR__ . '/../Origin/CommunePersonne.php';
@@ -27,9 +23,9 @@ require_once __DIR__ . '/../Origin/StatsCommune.php';
 require_once __DIR__ . '/../Origin/StatsPatronyme.php';
 require_once __DIR__ . '/../Origin/ChargementNimV2.php';
 require_once __DIR__ . '/../Origin/ChargementNimV3.php';
-
 require_once __DIR__ . '/../Origin/Releveur.php';
 
+verifie_privilege(DROIT_CHARGEMENT);
 /**
  * Renvoie la liste des mariages pour la source et la commune données
  * sous la forme d'un table ou chaque ligne est (date,nom époux, prénom époux,nom épouse, prénom épouse) 
@@ -1397,7 +1393,7 @@ print('</head>');
 print('<body>');
 print('<div class="container">');
 
-require_once __DIR__ . '/../Commun/menu.php';
+require_once __DIR__ . '/../commun/menu.php';
 
 switch ($gst_mode) {
     case 'FORMULAIRE':
