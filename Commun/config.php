@@ -8,7 +8,7 @@ $gst_nom_bd = "assoactestest";
 $gst_url_site = 'http://localhost:8080';
 # $gst_url_serveur = 'https://'.$_SERVER["SERVER_NAME"];
 # $gst_rep_site = $_SERVER['DOCUMENT_ROOT']."/v4";
-$gst_rep_site = $_SERVER['DOCUMENT_ROOT'];
+# $gst_rep_site = $_SERVER['DOCUMENT_ROOT'];
 # $gst_url_readhesion = "$gst_url_site/v4/Readhesion/index.php";
 $gst_url_readhesion = "$gst_url_site/Readhesion/index.php";
 $gst_url_inscription = 'https://www.adherents.genea16.net/Inscription/';
@@ -79,23 +79,11 @@ define('EMAIL_DIRASSO', 'agc-dir@genea16.net');
 define('EMAIL_GBKADMIN', 'agc-geneabank@genea16.net');
 define('EMAIL_PRESASSO', 'agc-dir@genea16.net');
 
-$ga_tarifs = [
+/* $ga_tarifs = [
     'internet' => 15,
     'bulletin_metro' => 33,
     'bulletin_etranger' => 43
 ];
+ */
 
-define('AIDE_RELEVES', 1);
-define('AIDE_INFORMATIQUE', 2);
-define('AIDE_AD', 4);
-define('AIDE_BULLETIN', 8);
-define('TYPE_READHESION', 'R');
-define('TYPE_INSCRIPTION', 'I');
 
-define('ORIGINE_INTERNET', 1);
-define('ORIGINE_FORUM', 2);
-define('ORIGINE_PRESSE', 3);
-define('ORIGINE_MANIFESTATION', 4);
-define('ORIGINE_AD', 5);
-define('ORIGINE_CONNAISSANCE', 6);
-define('ORIGINE_AUTRE', 7);
