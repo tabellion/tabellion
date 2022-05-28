@@ -18,8 +18,8 @@ class Configuration
         'database' => [
             'host' => 'localhost', 
             'port' => 3306,
-            'user' => 'root', 
-            'pass' => 'secret', 
+            'user' => '', 
+            'pass' => '', 
             'dbname' => 'tabellion'
         ],
         'local_storage' => '/storage',
@@ -46,6 +46,12 @@ class Configuration
     public function getAll(): array
     {
         return $this->config;
+    }
+
+    public function setAll(array $config)
+    {
+        $this->config = $config;
+        $this->_checkRequirements();
     }
 
 /*     public function add(string $field, string $value)

@@ -8,7 +8,7 @@ if (!file_exists(__DIR__ . '/../config.yaml.php')) {
 }
 
 if (isset($_POST)) {
-
+    $config->setAll($_POST);
 }
 ?>
 <!DOCTYPE html>
@@ -92,11 +92,11 @@ if (isset($_POST)) {
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Utilisateur</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control form-control-sm" name="database[user]" value="<?= $params['database']['user']; ?>" required>
+                <input type="text" class="form-control form-control-sm" name="database[user]" value="<?= $params['database']['user']; ?>">
             </div>
             <label class="col-sm-2 col-form-label">Mot de passe</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control form-control-sm" name="database[pass]" value="<?= $params['database']['pass']; ?>" required>
+                <input type="text" class="form-control form-control-sm" name="database[pass]" value="<?= $params['database']['pass']; ?>">
             </div>
         </div>
         <div class="row mb-3">

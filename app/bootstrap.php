@@ -16,7 +16,7 @@ $session = new Session();
 $config = new Configuration();
 $databasecfg = $config->get('database');
 
-$connexionBD = ConnexionBD::singleton($databasecfg);
+$connexionBD = ConnexionBD::singleton($config->get('database'));
 
 $user = $session->getAttribute('user') ?? [];
 
