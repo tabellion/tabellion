@@ -59,3 +59,43 @@ $gst_url_interrogation_geneabank = "https://geneabank.genea16.net/index.php";
 # $gst_rep_logs = "$gst_rep_site/logs";
 # $gst_time_zone ='Europe/Paris';
 # $gi_precision_prenom=7;
+
+// define('PAGE_RECHERCHE', 'Recherches.php');
+
+define('IDF_SOURCE_RELEVES_AGC', 1);
+define('IDF_SOURCE_TD', 4);
+define('SEUIL_RETENTION_ADHTS', 5);
+define('NB_ACTES_BLOC_CHGMT', 2000);
+
+define('LIB_ASSO', "Association Généalogique de la Charente");
+define('LIB_ASSO_AVEC', "L'Association Généalogique de la Charente");
+define('SIGLE_ASSO', 'AGC');
+
+define('EMAIL_INFOASSO', 'info@assoactes.fr');
+define('EMAIL_INSCRIPTION_FORUM', '');
+
+define('EMAIL_FORUM', 'agc16-forum@googlegroups.com');
+define('EMAIL_DIRASSO', 'agc-dir@genea16.net');
+define('EMAIL_GBKADMIN', 'agc-geneabank@genea16.net');
+define('EMAIL_PRESASSO', 'agc-dir@genea16.net');
+
+$ga_tarifs = [
+    'internet' => 15,
+    'bulletin_metro' => 33,
+    'bulletin_etranger' => 43
+];
+
+define('AIDE_RELEVES', 1);
+define('AIDE_INFORMATIQUE', 2);
+define('AIDE_AD', 4);
+define('AIDE_BULLETIN', 8);
+define('TYPE_READHESION', 'R');
+define('TYPE_INSCRIPTION', 'I');
+
+define('ORIGINE_INTERNET', 1);
+define('ORIGINE_FORUM', 2);
+define('ORIGINE_PRESSE', 3);
+define('ORIGINE_MANIFESTATION', 4);
+define('ORIGINE_AD', 5);
+define('ORIGINE_CONNAISSANCE', 6);
+define('ORIGINE_AUTRE', 7);

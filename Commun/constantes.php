@@ -32,9 +32,6 @@ define('LIB_RECENSEMENT', 'Recensement');
 define('SEP_CSV', ';');
 define('FDL_CSV', '\n');
 
-$ga_sexe = array('M' => 'M', 'F' => 'F', '?' => '?');
-$ga_types_nimegue = array(IDF_NAISSANCE => LIB_NAISSANCE, IDF_MARIAGE => LIB_MARIAGE, IDF_DECES => LIB_DECES, IDF_DIVERS => 'Divers(CM,...)', IDF_RECENS => LIB_RECENSEMENT);
-
 define('LIB_MANQUANT', '!');
 
 define('DROIT_CHARGEMENT', 'CHGMT_EXPT');
@@ -53,22 +50,6 @@ define('DROIT_VALIDATION_PERMALIEN', 'PERMALIEN');
 define('DROIT_GENEABANK', 'GENEABANK');
 define('DROIT_CONSULT_NOT', 'LNOTCONSUL');
 
-
-$ga_droits =  array(
-    DROIT_CHARGEMENT => 'Chargement/Export',
-    DROIT_GESTION_ADHERENT => 'Gestion Adherent',
-    DROIT_MODIFICATION_DROITS => 'Modification Droits Adherent',
-    DROIT_UTILITAIRES => 'Acces aux utilitaires',
-    DROIT_VARIANTES => 'Gestion des variantes',
-    DROIT_PUBLICATION => 'Gestion des publications',
-    DROIT_RELEVES => 'Suivi des relevés',
-    DROIT_NOTAIRES => 'Edition des liasses notariales',
-    DROIT_VALIDATION_TD => 'Validation des modifications de TD',
-    DROIT_STATS => 'Acces aux statistiques',
-    DROIT_VALIDATION_PERMALIEN => 'Validation des modifications de permalien',
-    DROIT_GENEABANK => 'Gestion des points GeneaBank',
-    DROIT_CONSULT_NOT => 'Consultation des notaires'
-);
 define('NB_LIGNES_PAR_PAGE', 25);
 define('DELTA_NAVIGATION', 5);
 
@@ -88,6 +69,36 @@ define('ADHESION_HONNEUR', 'H');
 define('ADHESION_GRATUIT', 'G');
 define('ADHESION_PARIS', 'P');
 define('ADHESION_SUSPENDU', 'S');
+
+$ga_sexe = [
+    'M' => 'M', 
+    'F' => 'F', 
+    '?' => '?'
+];
+
+$ga_types_nimegue = [
+    IDF_NAISSANCE => LIB_NAISSANCE, 
+    IDF_MARIAGE => LIB_MARIAGE, 
+    IDF_DECES => LIB_DECES, 
+    IDF_DIVERS => 'Divers(CM,...)', 
+    IDF_RECENS => LIB_RECENSEMENT
+];
+
+$ga_droits =  array(
+    DROIT_CHARGEMENT => 'Chargement/Export',
+    DROIT_GESTION_ADHERENT => 'Gestion Adherent',
+    DROIT_MODIFICATION_DROITS => 'Modification Droits Adherent',
+    DROIT_UTILITAIRES => 'Acces aux utilitaires',
+    DROIT_VARIANTES => 'Gestion des variantes',
+    DROIT_PUBLICATION => 'Gestion des publications',
+    DROIT_RELEVES => 'Suivi des relevés',
+    DROIT_NOTAIRES => 'Edition des liasses notariales',
+    DROIT_VALIDATION_TD => 'Validation des modifications de TD',
+    DROIT_STATS => 'Acces aux statistiques',
+    DROIT_VALIDATION_PERMALIEN => 'Validation des modifications de permalien',
+    DROIT_GENEABANK => 'Gestion des points GeneaBank',
+    DROIT_CONSULT_NOT => 'Consultation des notaires'
+);
 
 $ga_pays = array(
     "Afghanistan",
@@ -344,32 +355,36 @@ $ga_pays = array(
     "Zimbabwe",
 );
 
-$ga_scripts_demande = array('InfosActe.php', 'InfosAGL.php', 'InfosChabatz.php', 'InfosCGSS.php', 'InfosRepNot.php', 'InfosTD.php');
-$ga_icones_source = array('infos.png', 'ninfos.png', 'td.png', 'tdv.png', 'agl.png', 'nagl.png', 'rnot.png', 'RGD.png', 'chabatz.png', 'nchabatz.png', 'tdi.png', 'idx.png', 'nidx.png', 'cgss.png', 'ncgss.png');
-$ga_booleen_oui_non = array(true => 'oui', false => 'non');
-
-define('AIDE_RELEVES', 1);
-define('AIDE_INFORMATIQUE', 2);
-define('AIDE_AD', 4);
-define('AIDE_BULLETIN', 8);
-define('TYPE_READHESION', 'R');
-define('TYPE_INSCRIPTION', 'I');
-
-define('ORIGINE_INTERNET', 1);
-define('ORIGINE_FORUM', 2);
-define('ORIGINE_PRESSE', 3);
-define('ORIGINE_MANIFESTATION', 4);
-define('ORIGINE_AD', 5);
-define('ORIGINE_CONNAISSANCE', 6);
-define('ORIGINE_AUTRE', 7);
-
-$ga_tarifs = array(
-    'internet' => 15,
-    'bulletin_metro' => 33,
-    'bulletin_etranger' => 43
+$ga_scripts_demande = array(
+    'InfosActe.php', 
+    'InfosAGL.php', 
+    'InfosChabatz.php', 
+    'InfosCGSS.php', 
+    'InfosRepNot.php', 
+    'InfosTD.php'
 );
 
-$ga_mois = array(
+$ga_icones_source = array(
+    'infos.png', 
+    'ninfos.png', 
+    'td.png', 
+    'tdv.png', 
+    'agl.png', 
+    'nagl.png', 
+    'rnot.png', 
+    'RGD.png', 
+    'chabatz.png', 
+    'nchabatz.png', 
+    'tdi.png', 
+    'idx.png', 
+    'nidx.png', 
+    'cgss.png', 
+    'ncgss.png'
+);
+
+$ga_booleen_oui_non = array(true => 'oui', false => 'non');
+
+$ga_mois = [
     1 => 'Janvier',
     2 => 'Février',
     3 => 'Mars',
@@ -382,9 +397,9 @@ $ga_mois = array(
     10 => 'Octobre',
     11 => 'Novembre',
     12 => 'Décembre'
-);
+];
 
-$ga_mois_revolutionnaires       = array(
+$ga_mois_revolutionnaires = [
     1 => 'Vendémiaire',
     2 => 'Brumaire',
     3 => 'Frimaire',
@@ -398,9 +413,9 @@ $ga_mois_revolutionnaires       = array(
     11 => 'Thermidor',
     12 => 'Fructidor',
     13 => 'Complémentaires'
-);
+];
 
-$ga_mois_revolutionnaires_nimegue       = array(
+$ga_mois_revolutionnaires_nimegue = [
     1 => 'Vend',
     2 => 'Brum',
     3 => 'Frim',
@@ -414,9 +429,9 @@ $ga_mois_revolutionnaires_nimegue       = array(
     11 => 'Ther',
     12 => 'Fruc',
     13 => 'Comp',
-);
+];
 
-$ga_annees_revolutionnaires      = array(
+$ga_annees_revolutionnaires = [
     2 => 'An II',
     3 => 'An III',
     4 => 'An IV',
@@ -430,21 +445,4 @@ $ga_annees_revolutionnaires      = array(
     12 => 'An XII',
     13 => 'An XIII',
     14 => 'An XIV'
-);
-define('IDF_SOURCE_RELEVES_AGC', 1);
-define('IDF_SOURCE_TD', 4);
-define('SEUIL_RETENTION_ADHTS', 5);
-define('NB_ACTES_BLOC_CHGMT', 2000);
-define('PAGE_RECHERCHE', 'Recherches.php');
-
-define('LIB_ASSO', "Association Généalogique de la Charente");
-define('LIB_ASSO_AVEC', "L'Association Généalogique de la Charente");
-define('SIGLE_ASSO', 'AGC');
-
-define('EMAIL_INFOASSO', 'info@assoactes.fr');
-define('EMAIL_INSCRIPTION_FORUM', '');
-
-define('EMAIL_FORUM', 'agc16-forum@googlegroups.com');
-define('EMAIL_DIRASSO', 'agc-dir@genea16.net');
-define('EMAIL_GBKADMIN', 'agc-geneabank@genea16.net');
-define('EMAIL_PRESASSO', 'agc-dir@genea16.net');
+];
