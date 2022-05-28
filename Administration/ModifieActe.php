@@ -11,20 +11,20 @@ require_once __DIR__ . '/../Commun/VerificationDroits.php';
 require_once __DIR__ . '/../libs/phonex.cls.php';
 require_once __DIR__ . '/../Commun/Benchmark.php';
 verifie_privilege(DROIT_CHARGEMENT);
-require_once __DIR__ . '/../Commun/finediff.php';
+require_once __DIR__ . '/../libs/finediff.php';
 require_once __DIR__ . '/chargement/chargement.php';
-require_once __DIR__ . '/chargement/CompteurActe.php';
-require_once __DIR__ . '/chargement/Acte.php';
-require_once __DIR__ . '/chargement/CompteurPersonne.php';
-require_once __DIR__ . '/chargement/Personne.php';
-require_once __DIR__ . '/chargement/CommunePersonne.php';
-require_once __DIR__ . '/chargement/Patronyme.php';
-require_once __DIR__ . '/chargement/Prenom.php';
-require_once __DIR__ . '/chargement/Profession.php';
-require_once __DIR__ . '/chargement/TypeActe.php';
-require_once __DIR__ . '/chargement/Union.php';
-require_once __DIR__ . '/chargement/StatsPatronyme.php';
-require_once __DIR__ . '/chargement/StatsCommune.php';
+require_once __DIR__ . '/../Origin/CompteurActe.php';
+require_once __DIR__ . '/../Origin/Acte.php';
+require_once __DIR__ . '/../Origin/CompteurPersonne.php';
+require_once __DIR__ . '/../Origin/Personne.php';
+require_once __DIR__ . '/../Origin/CommunePersonne.php';
+require_once __DIR__ . '/../Origin/Patronyme.php';
+require_once __DIR__ . '/../Origin/Prenom.php';
+require_once __DIR__ . '/../Origin/Profession.php';
+require_once __DIR__ . '/../Origin//TypeActe.php';
+require_once __DIR__ . '/../Origin/Union.php';
+require_once __DIR__ . '/../Origin/StatsPatronyme.php';
+require_once __DIR__ . '/../Origin/StatsCommune.php';
 
 /*
 * Construit la chaine permettant la validation des paramètres d'un formulaire

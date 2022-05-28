@@ -8,9 +8,9 @@
 
 require_once __DIR__ . '/../../Commun/config.php';
 require_once __DIR__ . '/../../Commun/constantes.php';
-require_once __DIR__ . '/../../Commun/ConnexionBD.php';
-require_once __DIR__ . '/../../Commun/Adherent.php';
-require_once __DIR__ . '/../../Commun/Courriel.php';
+require_once __DIR__ . '/../../Origin/ConnexionBD.php';
+require_once __DIR__ . '/../../Origin/Adherent.php';
+require_once __DIR__ . '/../../Origin/Courriel.php';
 
 $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 $st_requete = "select idf , annee_cotisation, statut from adherent where statut in ('" . ADHESION_BULLETIN . "','" . ADHESION_INTERNET . "')   and annee_cotisation >=  YEAR( NOW( )) order by idf ";

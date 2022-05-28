@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
-require_once __DIR__ . '/../RequeteRecherche.php';
+require_once __DIR__ . '/../Origin/RequeteRecherche.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 
 $requeteRecherche = new RequeteRecherche($connexionBD);

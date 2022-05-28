@@ -6,14 +6,14 @@
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Commun/commun.php';
-require_once __DIR__ . '/Administration/chargement/Acte.php';
-require_once __DIR__ . '/Administration/chargement/CompteurActe.php';
-require_once __DIR__ . '/Administration/chargement/Personne.php';
-require_once __DIR__ . '/Administration/chargement/Prenom.php';
-require_once __DIR__ . '/Administration/chargement/CompteurPersonne.php';
-require_once __DIR__ . '/Administration/chargement/TypeActe.php';
-require_once __DIR__ . '/Administration/chargement/CommunePersonne.php';
-require_once __DIR__ . '/Administration/chargement/Profession.php';
+require_once __DIR__ . '/Origin/Acte.php';
+require_once __DIR__ . '/Origin/CompteurActe.php';
+require_once __DIR__ . '/Origin/Personne.php';
+require_once __DIR__ . '/Origin/Prenom.php';
+require_once __DIR__ . '/Origin/CompteurPersonne.php';
+require_once __DIR__ . '/Origin/TypeActe.php';
+require_once __DIR__ . '/Origin/CommunePersonne.php';
+require_once __DIR__ . '/Origin/Profession.php';
 
 /*
 * Enregistre des informations de statistiques naissances et décès dans un fichier journal

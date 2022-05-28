@@ -5,7 +5,7 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 require_once __DIR__ . '/../app/bootstrap.php';
-require_once __DIR__ . '/../RequeteRecherche.php';
+require_once __DIR__ . '/../Origin/RequeteRecherche.php';
 
 $gi_idf_commune_acte = isset($_GET['idf_commune_acte']) ? (int) $_GET['idf_commune_acte'] : '';
 $gc_idf_type_acte = isset($_GET['idf_type_acte']) ? (int) $_GET['idf_type_acte'] : '';

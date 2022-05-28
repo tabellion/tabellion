@@ -8,7 +8,7 @@ require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_STATS);
-require_once __DIR__ . '/../Commun/PaginationTableau.php';
+require_once __DIR__ . '/../Origin/PaginationTableau.php';
 
 $gst_tri = empty($_GET['tri']) ? 'TOT' : $_GET['tri'];
 

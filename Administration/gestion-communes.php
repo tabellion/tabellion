@@ -9,7 +9,7 @@ require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Commun/commun.php';
 require_once __DIR__ . '/../Commun/VerificationDroits.php';
 verifie_privilege(DROIT_CHARGEMENT);
-require_once __DIR__ . '/../Commun/PaginationTableau.php';
+require_once __DIR__ . '/../Origin/PaginationTableau.php';
 
 $gst_post_mode = isset($_POST['mode']) ? $_POST['mode'] : null;
 $gst_mode = empty($_POST['mode']) && empty($_GET['mod']) ? 'LISTE' : $gst_post_mode;
