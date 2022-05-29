@@ -56,6 +56,7 @@ if (!in_array($gi_idf_type_acte, $a_types_acte_dispo))
 
 ?>
 <!DOCTYPE html>
+<html lang="fr">
 
 <head>
 	<link rel="shortcut icon" href="assets/img/favicon.ico">
@@ -256,7 +257,7 @@ if (!in_array($gi_idf_type_acte, $a_types_acte_dispo))
 					print('<div class="text-center"><ul class="pagination">');
 
 					$gc_initiale = $_GET['initiale_patcom'] ?? $a_initiales_patronymes[0];
-					
+
 					if (!in_array(utf8_vers_cp1252($gc_initiale), $a_initiales_patronymes)) {
 						$gc_initiale = $a_initiales_patronymes[0];
 						$gi_num_page = 1;

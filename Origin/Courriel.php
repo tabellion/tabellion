@@ -145,7 +145,6 @@ class Courriel
 	* Sélecteur du message d'erreur
 	* @return string message d'erreur
 	*/
-
 	public function get_erreur()
 	{
 		return $this->courriel->st_erreur;

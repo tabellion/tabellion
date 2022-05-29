@@ -40,7 +40,7 @@ function chaine_intervalle($pi_deb, $pi_fin)
     if ($pi_deb == $pi_fin) {
         return "$pi_deb";
     }
-    
+
     return "$pi_deb-$pi_fin";
 }
 
@@ -77,6 +77,7 @@ function affiche_entete_liens_navigation($pi_num_page_cour, $pi_nb_pages)
 
 ?>
 <!DOCTYPE html>
+<html lang="fr">
 
 <head>
     <link rel="shortcut icon" href="assets/img/favicon.ico">

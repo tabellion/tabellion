@@ -73,9 +73,11 @@ function verifie_utilisateur($ident, $mdp)
         return false;
 }
 
-if ($session->getAttribute('compteur') != 5) { echo $session->getAttribute('compteur');?>
+if ($session->getAttribute('compteur') != 5) {
+    echo $session->getAttribute('compteur'); ?>
 
     <!DOCTYPE html>
+    <html lang="fr">
 
     <head>
         <link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>

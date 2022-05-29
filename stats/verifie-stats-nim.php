@@ -16,19 +16,21 @@ $gst_mode = empty($_POST['mode']) ? 'FORMULAIRE' : $_POST['mode'];
  */
 function affiche_menu()
 {
-    global $gi_max_taille_upload;
-    print('<div class="panel panel-primary">');
-    print('<div class="panel-heading">Vérification des statistiques Nimègue</div>');
-    print('<div class="panel-body">');
-    print("<form enctype=\"multipart/form-data\" class=\"form-inline\"  method=\"post\" >");
-    print("<input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"$gi_max_taille_upload\">");
-    print('<input type="hidden" name="mode" value="VERIFICATION" >');
-    print('<div class="form-row col-md-12">');
-    print('<label class="custom-file-label col-md-4" for="StatsNim">Fichier <span class="alert alert-danger">CSV</span> des statistiques Nimègue:</label><input name="StatsNim" id="StatsNim" class="custom-file-input col-md-8" type="file" /></div>');
-    print('</div>');
-    print('<button type="submit" class="btn btn-primary col-md-4 col-md-offset-4">Compare les statistiques entre la base Nimegue et la base V4</button>');
-    print('</form>');
-    print('</div></div>');
+    global $gi_max_taille_upload; ?>
+    <div class="panel panel-primary">
+    <div class="panel-heading">Vérification des statistiques Nimègue</div>
+    <div class="panel-body">
+    <form enctype="multipart/form-data" class="form-inline" method="post" >
+    <input type="hidden" name="MAX_FILE_SIZE" value="<?= $gi_max_taille_upload; ?>">
+    <input type="hidden" name="mode" value="VERIFICATION" >
+    <div class="form-row col-md-12">
+    <label class="custom-file-label col-md-4" for="StatsNim">Fichier <span class="alert alert-danger">CSV</span> des statistiques Nimègue:</label>
+    <input name="StatsNim" id="StatsNim" class="custom-file-input col-md-8" type="file" /></div>
+    </div>
+    <button type="submit" class="btn btn-primary col-md-4 col-md-offset-4">Compare les statistiques entre la base Nimegue et la base V4</button>
+    </form>
+    </div></div>
+    <?php
 }
 
 /**
@@ -164,30 +166,37 @@ function Verifie_StatsNim($pconnexionBD, $pst_rep_tmp)
     print('</div></div>');
 }
 
-print('<!DOCTYPE html>');
-print("<head>");
-print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >');
-print('<meta http-equiv="content-language" content="fr">');
-print("<title>Verification des statistiques Nimegue</title>");
-print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-print("<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='../assets/css/bootstrap.min.css' rel='stylesheet'>");
-print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
-print("<script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>");
-print('</head>');
-print('<body>');
-print('<div class="container">');
+?>
+<!DOCTYPE html>
+<html lang="fr">
 
-require_once __DIR__ . '/../commun/menu.php';
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-language" content="fr">
+    <title>Verification des statistiques Nimegue</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>
+    <link href='../assets/css/bootstrap.min.css' rel='stylesheet'>
+    <script src='../assets/js/jquery-min.js' type='text/javascript'></script>
+    <script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>
+</head>
 
-switch ($gst_mode) {
-    case 'FORMULAIRE':
-        affiche_menu();
-        break;
+<body>
+    <div class="container">
 
-    case 'VERIFICATION':
-        Verifie_StatsNim($connexionBD, $gst_repertoire_telechargement);
-        break;
-}
+        <?php require_once __DIR__ . '/../commun/menu.php';
 
-print('</div></body></html>');
+        switch ($gst_mode) {
+            case 'FORMULAIRE':
+                affiche_menu();
+                break;
+
+            case 'VERIFICATION':
+                Verifie_StatsNim($connexionBD, $gst_repertoire_telechargement);
+                break;
+        } ?>
+
+    </div>
+</body>
+
+</html>

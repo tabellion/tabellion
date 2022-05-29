@@ -553,9 +553,6 @@ class ModificationActe extends Acte
      * Renvoie les informations concernant le demandeur
      */
     public function infos_demandeur()
-
-
-
     {
         $st_chaine = '';
         if (!empty($this->st_email_demandeur)) {
