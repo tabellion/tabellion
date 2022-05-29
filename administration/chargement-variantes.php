@@ -13,26 +13,25 @@ verifie_privilege(DROIT_CHARGEMENT);
 
 /*
 * Renvoie la chaine équivalente sans accents
-* @param string $st_chaine chaine à convertir
+* @param string $chaine chaine à convertir
 */
-function sans_accents($pst_chaine)
+function sans_accents(string $chaine): string
 {
-    $st_chaine = htmlentities($pst_chaine, ENT_NOQUOTES, 'UTF-8');
+    $chaine = htmlentities($chaine, ENT_NOQUOTES, 'UTF-8');
 
-    $st_chaine = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $st_chaine);
-    $st_chaine = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $st_chaine); // pour les ligatures e.g. '&oelig;'
-    $st_chaine = preg_replace('#&[^;]+;#', '', $st_chaine); // supprime les autres caractères    
-    return $st_chaine;
+    $chaine = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $chaine);
+    $chaine = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $chaine); // pour les ligatures e.g. '&oelig;'
+    $chaine = preg_replace('#&[^;]+;#', '', $chaine); // supprime les autres caractères    
+    return $chaine;
 }
 
 /**
  * Renvoie la chaine entre quotes
- * @param string $pst_nom Chaine à convertir
- * @return string Chaine entre quotes
+ * @param string $chaine Chaine à convertir
  */
-function entre_quotes($pst_nom)
+function entre_quotes(string $chaine): string
 {
-    return "'" . addslashes($pst_nom) . "'";
+    return "'" . addslashes($chaine) . "'";
 }
 
 /**

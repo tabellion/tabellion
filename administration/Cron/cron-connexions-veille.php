@@ -6,9 +6,9 @@ require_once __DIR__ . '/../../Origin/ConnexionBD.php';
 
 $connexionBD = ConnexionBD::singleton($gst_serveur_bd, $gst_utilisateur_bd, $gst_mdp_utilisateur_bd, $gst_nom_bd);
 
-$i_nb_cnx = $connexionBD->sql_select1("select count(*) from adherent where date(derniere_connexion)=date(DATE_SUB(now(), INTERVAL 1 DAY))");
+$i_nb_cnx = $connexionBD->sql_select1("SELECT count(*) FROM adherent WHERE date(derniere_connexion)=date(DATE_SUB(now(), INTERVAL 1 DAY))");
 
-$connexionBD->execute_requete("insert into stats_cnx(date,nbre) values(DATE_SUB(now(),INTERVAL 1 DAY),'$i_nb_cnx')");
+$connexionBD->execute_requete("INSERT INTO stats_cnx(date, nbre) VALUES (DATE_SUB(now(),INTERVAL 1 DAY),'$i_nb_cnx')");
 
 $connexionBD->ferme();
 

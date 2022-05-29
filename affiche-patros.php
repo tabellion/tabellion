@@ -26,14 +26,12 @@ if (isset($_POST)) {
 /**
  *  Affiche le menu de demande
  */
-function affiche_menu($gi_idf_commune, $gi_rayon, $gi_idf_source, $pst_msg)
+function affiche_menu($id_commune, $rayon, $id_source, $pst_msg)
 {
 	global $connexionBD;
 
-	$a_communes_acte = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM commune_acte ORDER BY nom");
-	$a_sources = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM source ORDER BY nom");
-	$a_sources[0] = 'Toutes';
-	$a_toutes_communes = array('' => 'Toutes') + $a_communes_acte;
+	$communes = array('' => 'Toutes') + $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM commune_acte ORDER BY nom");
+	$sources = array('' => 'Toutes') + $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM source ORDER BY nom");
 ?>
 	<form id="patros" method="post">
 		<input type="hidden" name="mode" value="LISTE">
@@ -56,13 +54,13 @@ function affiche_menu($gi_idf_commune, $gi_rayon, $gi_idf_source, $pst_msg)
 			<label for="idf_source" class="col-form-label col-md-2">Source</label>
 			<div class="col-md-2">
 				<select name=idf_source id=idf_source class="form-control">
-					<?= chaine_select_options($gi_idf_source, $a_sources); ?>
+					<?= chaine_select_options($id_source, $sources); ?>
 				</select>
 			</div>
 			<label for="idf_commune_patro" class="col-form-label col-md-2">Commune/Paroisse</label>
 			<div class="col-md-2">
 				<select name="idf_commune_patro" id="idf_commune_patro" class="js-select-avec-recherche form-control">
-					<?= chaine_select_options($gi_idf_commune, $a_toutes_communes); ?>
+					<?= chaine_select_options($id_commune, $communes); ?>
 				</select>
 			</div>
 			<div class="form-group col-md-4">
@@ -70,7 +68,7 @@ function affiche_menu($gi_idf_commune, $gi_rayon, $gi_idf_source, $pst_msg)
 					<span class="input-group-addon">Rayon de recherche:</span>
 					<label for="rayon_patro" class="sr-only">Rayon</label>
 					<div class="lib_erreur">
-						<input type="text" name="rayon_patro" id="rayon_patro" size="2" maxlength="2" value="<?= $gi_rayon; ?>" class="form-control">
+						<input type="text" name="rayon_patro" id="rayon_patro" size="2" maxlength="2" value="<?= $rayon; ?>" class="form-control">
 					</div>
 					<span class="input-group-addon">Km</span>
 				</div>
