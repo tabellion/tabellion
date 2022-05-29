@@ -33,10 +33,16 @@ $n_deces = number_format($gi_nb_dec, 0, ',', ' ');
 $n_contrats_mariage = number_format($gi_nb_cm, 0, ',', ' ');
 $n_actes = number_format($gi_nb_actes_total, 0, ',', ' ');
 
-$a_chargements = $connexionBD->sql_select_multiple("select date_format(c.date_chgt,'%d/%m/%Y'),ca.nom,c.type_acte_nim,c.nb_actes from `chargement` c join commune_acte ca on (c.idf_commune=ca.idf) where datediff(now(),c.date_chgt)<$gi_nbjours and c.publication=1 order by c.date_chgt desc");
+$a_chargements = $connexionBD->sql_select_multiple("SELECT date_format(c.date_chgt,'%d/%m/%Y'), ca.nom, c.type_acte_nim, c.nb_actes 
+    FROM `chargement` c 
+    JOIN commune_acte ca ON (c.idf_commune=ca.idf) 
+    WHERE datediff(now(),c.date_chgt)<$gi_nbjours 
+    AND c.publication=1 
+    ORDER BY c.date_chgt DESC");
 
 ?>
 <!DOCTYPE html>
+<html lang="fr">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

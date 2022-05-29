@@ -11,7 +11,8 @@ $sources = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM source ORDE
 $stats = [];
 // ===============
 
-$id_source = isset($_GET['idf_source']) ? $_GET['idf_source'] : 1;
+$id_source = $_GET['idf_source'] ?? 1;
+
 
 $sql1 = "SELECT ca.idf, ca.nom 
     FROM commune_acte ca 
@@ -21,7 +22,7 @@ $sql1 = "SELECT ca.idf, ca.nom
 $communes = $connexionBD->liste_valeur_par_clef($sql1);
 
 $a_idf_communes = array_keys($communes);
-$id_commune = isset($_GET['idf_commune']) ? $_GET['idf_commune'] : $a_idf_communes[0];
+$id_commune = $_GET['idf_commune'] ?? $a_idf_communes[0];
 
 if (count($communes) != 0) {
     if (!in_array($id_commune, $a_idf_communes)) $id_commune = $a_idf_communes[0];
@@ -36,6 +37,7 @@ if (count($communes) != 0) {
 
 ?>
 <!DOCTYPE html>
+<html lang="fr">
 
 <head>
     <link rel="shortcut icon" href="assets/img/favicon.ico">
@@ -109,12 +111,12 @@ if (count($communes) != 0) {
                 <?php if (count($stats) > 0) {
                     foreach ($stats as $a_ligne) { ?>
                         <tr>
-                        <td><?= cp1252_vers_utf8($a_ligne[0]); ?></td>
-                        <td><?= $a_ligne[1]; ?></td>
-                        <td><?= $a_ligne[2]; ?></td>
-                        <td><?= $a_ligne[3]; ?></td>
+                            <td><?= cp1252_vers_utf8($a_ligne[0]); ?></td>
+                            <td><?= $a_ligne[1]; ?></td>
+                            <td><?= $a_ligne[2]; ?></td>
+                            <td><?= $a_ligne[3]; ?></td>
                         </tr>
-                    <?php }
+                <?php }
                 } ?>
 
             </tbody>

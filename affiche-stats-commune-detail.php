@@ -48,12 +48,13 @@ function chaine_intervalle($pi_deb, $pi_fin)
     if ($pi_deb == $pi_fin) {
         return "$pi_deb";
     }
-    
+
     return "$pi_deb-$pi_fin";
 }
 
 ?>
 <!DOCTYPE html>
+<html lang="fr">
 
 <head>
     <link rel="shortcut icon" href="assets/img/favicon.ico">
@@ -72,70 +73,74 @@ function chaine_intervalle($pi_deb, $pi_fin)
 
         <?php require_once __DIR__ . '/commun/menu.php'; ?>
         <div class="panel panel-primary">
-        <div class="panel-heading">
-            Liste des années disponibles de: <?= cp1252_vers_utf8($gst_nom_commune) . " (" . cp1252_vers_utf8($gst_type_acte) . ")"; ?>
-            <?php if ($gst_canton != '') print("<br> Canton de " . cp1252_vers_utf8($gst_canton)); ?> 
-            <br>Source: <?= $sources[$id_source]; ?>
-        </div>
+            <div class="panel-heading">
+                Liste des années disponibles de: <?= cp1252_vers_utf8($gst_nom_commune) . " (" . cp1252_vers_utf8($gst_type_acte) . ")"; ?>
+                <?php if ($gst_canton != '') print("<br> Canton de " . cp1252_vers_utf8($gst_canton)); ?>
+                <br>Source: <?= $sources[$id_source]; ?>
+            </div>
 
-        <div class="panel-body">
-        <blockquote class="blockquote">
-        <?php 
-        if ($gi_debut_communale != 0) print("Début de la collection communale: $gi_debut_communale<br>");
-        if ($gi_debut_greffe != 0) print("Début de la collection du greffe: $gi_debut_greffe");
-        print('</blockquote>'); ?>
-        <table class="table table-bordered table-striped table-condensed">
-            <thead><tr><th>Années</th><th>Nombre d'actes</th></tr></thead>
-        <?php if ($id_source) {
-            $st_requete = "SELECT DISTINCT annee, count(idf) FROM acte 
+            <div class="panel-body">
+                <blockquote class="blockquote">
+                    <?php
+                    if ($gi_debut_communale != 0) print("Début de la collection communale: $gi_debut_communale<br>");
+                    if ($gi_debut_greffe != 0) print("Début de la collection du greffe: $gi_debut_greffe");
+                    print('</blockquote>'); ?>
+                    <table class="table table-bordered table-striped table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Années</th>
+                                <th>Nombre d'actes</th>
+                            </tr>
+                        </thead>
+                        <?php if ($id_source) {
+                            $st_requete = "SELECT DISTINCT annee, count(idf) FROM acte 
                 WHERE idf_commune=$id_commune 
                 AND idf_type_acte=$id_type_acte 
                 AND idf_source=$id_source 
                 GROUP BY annee 
                 ORDER BY annee";
-        } else {
-            $st_requete = "SELECT DISTINCT annee, count(idf) FROM acte 
+                        } else {
+                            $st_requete = "SELECT DISTINCT annee, count(idf) FROM acte 
                 WHERE idf_commune=$id_commune 
                 AND idf_type_acte=$id_type_acte 
                 GROUP BY annee 
                 ORDER BY annee";
-        }
+                        }
 
-        $a_liste_annnees = $connexionBD->liste_valeur_par_clef($st_requete);
-        $i_annee_binf = -1;
-        $i_annee_cour = -1;
-        $i_cpt = 0;
-        if (count($a_liste_annnees) > 0) {
-            $i_nb_actes = 0;
-            
-            foreach ($a_liste_annnees as $i_annee => $i_nb_actes_annee) {
-                if ($i_annee == 9999) continue;
-                if ($i_annee == 0) continue;
-                if ($i_annee_binf == -1) {
-                    $i_annee_binf = $i_annee;
-                    $i_annee_cour = $i_annee;
-                    $i_nb_actes = $i_nb_actes_annee;
-                    continue;
-                }
-                if ($i_annee == $i_annee_cour + 1) {
-                    $i_annee_cour++;
-                    $i_nb_actes += $i_nb_actes_annee;
-                } else {
-                    print("<tr>");
-                    print("<td>" . chaine_intervalle($i_annee_binf, $i_annee_cour) . "</td><td >$i_nb_actes</td></tr>\n");
-                    $i_annee_binf = $i_annee;
-                    $i_annee_cour = $i_annee;
-                    $i_nb_actes   = $i_nb_actes_annee;
-                    $i_cpt++;
-                }
-            }
-            print("<tr>");
-            print("<td >" . chaine_intervalle($i_annee_binf, $i_annee_cour) . "</td><td>$i_nb_actes</td></tr>\n");
-            
-        } ?>
-        </table>
+                        $a_liste_annnees = $connexionBD->liste_valeur_par_clef($st_requete);
+                        $i_annee_binf = -1;
+                        $i_annee_cour = -1;
+                        $i_cpt = 0;
+                        if (count($a_liste_annnees) > 0) {
+                            $i_nb_actes = 0;
+
+                            foreach ($a_liste_annnees as $i_annee => $i_nb_actes_annee) {
+                                if ($i_annee == 9999) continue;
+                                if ($i_annee == 0) continue;
+                                if ($i_annee_binf == -1) {
+                                    $i_annee_binf = $i_annee;
+                                    $i_annee_cour = $i_annee;
+                                    $i_nb_actes = $i_nb_actes_annee;
+                                    continue;
+                                }
+                                if ($i_annee == $i_annee_cour + 1) {
+                                    $i_annee_cour++;
+                                    $i_nb_actes += $i_nb_actes_annee;
+                                } else {
+                                    print("<tr>");
+                                    print("<td>" . chaine_intervalle($i_annee_binf, $i_annee_cour) . "</td><td >$i_nb_actes</td></tr>\n");
+                                    $i_annee_binf = $i_annee;
+                                    $i_annee_cour = $i_annee;
+                                    $i_nb_actes   = $i_nb_actes_annee;
+                                    $i_cpt++;
+                                }
+                            }
+                            print("<tr>");
+                            print("<td >" . chaine_intervalle($i_annee_binf, $i_annee_cour) . "</td><td>$i_nb_actes</td></tr>\n");
+                        } ?>
+                    </table>
+            </div>
         </div>
-    </div>
     </div>
 </body>
 

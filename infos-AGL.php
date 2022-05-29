@@ -6,40 +6,45 @@
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
 
-print('<!DOCTYPE html>');
-print("<head>\n");
-print('<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">');
-print('<meta http-equiv="content-language" content="fr">');
-print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-print("<link href='assets/css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='assets/css/bootstrap.min.css' rel='stylesheet'>");
-print("<script src='assets/js/jquery-min.js' type='text/javascript'></script>\n");
-print("<script src='assets/js/bootstrap.min.js' type='text/javascript'></script>");
 ?>
-<script type='text/javascript'>
-	$(document).ready(function() {
-		$("#ferme").click(function() {
-			window.close();
-		});
-	});
-</script>
-<?php
-print('</head>');
+<!DOCTYPE html>
+<html lang="fr">
 
-print("<body>");
-print('<div class="container">');
-print("<div class=\"text-center\"><img src=\"$gst_logo_association\" alt='Logo " . SIGLE_ASSO . "'></div>");
-print("<div>Ce mariage filiatif a &eacute;t&eacute; depos&eacute; par une autre association :</div><br>");
-print("<div>Les Amiti&eacute;s G&eacute;n&eacute;alogiques Limousines, avec laquelle l'AGC a un accord direct de partenariat.
-</div><br>");
-print("<div>Pour obtenir cette filiation, merci d'en faire la demande &agrave; l'adresse <a href=\"mailto:agc-dir@genea16.net\">agc-dir@genea16.net</a>, en pr&eacute;cisant</div>");
-print("<div>1) les nom des &eacute;poux, date et lieux du mariage demand&eacute; (copier/coller &agrave; partir de la base)</div>");
-print("<div>2) vos NOM, pr&eacute;nom et Num&eacute;ro d'adh&eacute;rent AGC</div>");
-print("<div>Nous transmettrons cette demande et sa r&eacute;ponse d&egrave;s que possible.</div><br>");
-print("<div>G&eacute;n&eacute;@micalement</div><br>");
-print("<div>Les gestionnaires de la base AGC</div>");
-print('<div class="form-row">');
-print('<button type="button" id=ferme class="btn btn-warning col-xs-4 col-xs-offset-4">Fermer la fen&ecirc;tre</button>');
-print('</div>');
-print("</body>");
-print("</div></html>");
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-language" content="fr" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="assets/css/styles.css" type="text/css" rel="stylesheet">
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<script src="assets/js/jquery-min.js" type="text/javascript"></script>
+	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+	<script type='text/javascript'>
+		$(document).ready(function() {
+			$("#ferme").click(function() {
+				window.close();
+			});
+		});
+	</script>
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="text-center"><img src="<?= $gst_logo_association; ?>" alt="Logo <?= SIGLE_ASSO; ?>"></div>
+		<div>Ce mariage filiatif a été deposé par une autre association :</div><br>
+		<div>Les Amitiés Généalogiques Limousines, avec laquelle l'AGC a un accord direct de partenariat.
+		</div><br>
+		<div>Pour obtenir cette filiation, merci d'en faire la demande à l'adresse
+			<a href="mailto:<?= EMAIL_DIRASSO; ?>?subject=Rep_Notaire_non_relevé"><?= EMAIL_DIRASSO; ?></a>, en précisant
+		</div>
+		<div>1) les nom des époux, date et lieux du mariage demandé (copier/coller à partir de la base)</div>
+		<div>2) vos NOM, prénom et Numéro d'adhérent AGC</div>
+		<div>Nous transmettrons cette demande et sa réponse dès que possible.</div><br>
+		<div>Géné@micalement</div><br>
+		<div>Les gestionnaires de la base AGC</div>
+		<div class="form-row">
+			<button type="button" id=ferme class="btn btn-warning col-xs-4 col-xs-offset-4">Fermer la fenêtre</button>
+		</div>
+</body>
+
+</html>

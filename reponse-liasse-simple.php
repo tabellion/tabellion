@@ -95,7 +95,7 @@ function prenomNotaire($pst_prenom, $pst_variantes)
 	return $st_clause;
 }
 
-print('<!DOCTYPE html>');
+print('<!DOCTYPE html><html lang="fr">');
 print("<Head>\n");
 print('<meta http-equiv="content-language" content="fr">');
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >');

@@ -39,9 +39,4 @@ class CompteurActe
     {
         return $this->i_compteur;
     }
-
-    public function __clone()
-    {
-        trigger_error('Le clônage n\'est pas autorisé.', E_USER_ERROR);
-    }
 }

@@ -79,6 +79,7 @@ function affiche_menu($id_commune, $rayon, $id_source, $pst_msg)
 
 ?>
 <!DOCTYPE html>
+<html lang="fr">
 
 <head>
 	<link rel="shortcut icon" href="assets/img/favicon.ico">

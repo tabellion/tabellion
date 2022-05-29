@@ -4,7 +4,7 @@ require_once __DIR__ . '/../Origin/PaginationTableau.php';
 
 verifie_privilege(DROIT_CONSULT_NOT);
 
-$gst_mode = empty($_POST['mode']) ? 'LISTE' : $_POST['mode'];
+$gst_mode = $_POST['mode'] ?? 'LISTE';
 
 if (isset($_GET['mod'])) {
 	$gst_mode = 'MENU_GERER';

@@ -66,17 +66,17 @@ order by commune, demandeur, date_demande2 desc";
         //print("Req=$st_requete<br>");
         $a_liste_demandes = $pconnexionBD->sql_select_multiple_par_idf($st_requete);
         print('<div class="panel panel-primary">');
-        print("<div class=\"panel-heading\">Demandes des sept derniers jours selon vos cantons de pr&eacute;f&eacute;rence</div>");
+        print("<div class=\"panel-heading\">Demandes des sept derniers jours selon vos cantons de préférence</div>");
         print('<div class="panel-body">');
         if (!empty($pst_info)) {
             print("<div class=\"alert alert-info\">$pst_info</div>");
         }
         print("<form   method=\"post\">");
         print("<input type=hidden name='mode' value='AFFICHAGE_CANTONS'>");
-        print('<div class="form-group col-md-4 col-md-offset-4"><button type="submit" class="btn btn-primary">Modifier les cantons de pr&eacute;f&eacute;rence</button></div>');
+        print('<div class="form-group col-md-4 col-md-offset-4"><button type="submit" class="btn btn-primary">Modifier les cantons de préférence</button></div>');
         print('</form>');
         print('<div class="panel panel-default">');
-        print('<div class="panel-heading">Liste des demandes de mariage/actes divers des autres adh&eacute;rents</div>');
+        print('<div class="panel-heading">Liste des demandes de mariage/actes divers des autres adhérents</div>');
         print('<div class="panel-body">');
         if (count($a_liste_demandes) > 0) {
             print("<table class=\"table table-bordered table-striped table-sm\">\n");
@@ -85,7 +85,7 @@ order by commune, demandeur, date_demande2 desc";
             print("<th>Type de l'acte</th>");
             print("<th>Commune de l'acte</th>");
             print("<th>Parties</th>");
-            print("<th>Relev&eacute; sans t&eacute;moins ni commentaires</th>");
+            print("<th>Relevé sans témoins ni commentaires</th>");
             print("<th>Demandeur</th>");
             print("<th>Contacter</th>");
             print("<th>Date de la demande</th>");
@@ -115,53 +115,58 @@ order by commune, demandeur, date_demande2 desc";
         print("</div></div>");
         print("</div></div>");
     } else {
-        print("<div class=\"alert alert-danger\">Aucun canton de pr&eacute;f&eacute;rence d&eacute;fini. Merci de les pr&eacute;ciser</div>");
-        print("<form   method=\"post\">");
+        print("<div class=\"alert alert-danger\">Aucun canton de préférence défini. Merci de les préciser</div>");
+        print("<form method=\"post\">");
         print("<input type=hidden name='mode' value='AFFICHAGE_CANTONS'>");
-        print('<div class="form-group col-md-4 col-md-offset-4"><button type="submit" class="btn btn-primary">Modifier les cantons de pr&eacute;f&eacute;rences</button></div>');
+        print('<div class="form-group col-md-4 col-md-offset-4"><button type="submit" class="btn btn-primary">Modifier les cantons de préférences</button></div>');
         print('</form>');
     }
 }
 
 ?>
 <!DOCTYPE html>
+<html lang="fr">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="content-language" content="fr" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="assets/css/styles.css" type="text/css" rel="stylesheet">
-<link href="assets/css/bootstrap.min.css" rel="stylesheet">
-<script src="assets/js/jquery-min.js" type="text/javascript"></script>
-<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-<title>Base <?= SIGLE_ASSO; ?> : Dernières Demandes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-language" content="fr" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/css/styles.css" type="text/css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <script src="assets/js/jquery-min.js" type="text/javascript"></script>
+    <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <title>Base <?= SIGLE_ASSO; ?> : Dernières Demandes</title>
 </head>
+
 <body>
-<div class="container">
+    <div class="container">
 
-<?php require_once __DIR__ . '/commun/menu.php';
+        <?php require_once __DIR__ . '/commun/menu.php';
 
-switch ($gst_mode) {
-    case 'AFFICHAGE_CANTONS':
-        affiche_cantons_choisis($connexionBD, $id_user);
-        break;
-    case 'MODIFICATION_CANTONS':
-        $a_cantons_choisis = isset($_POST['cantons_choisis']) ? $_POST['cantons_choisis'] :  array();
-        $st_requete = "delete from cantons_adherent where idf_adherent=$id_user";
-        $connexionBD->execute_requete($st_requete);
-        $a_cantons = array();
-        if (count($a_cantons_choisis) > 0) {
-            foreach ($a_cantons_choisis as $i_idf_canton) {
-                $a_cantons[] = "($id_user,$i_idf_canton)";
-            }
-            $st_cantons = join(',', $a_cantons);
-            $st_requete = "insert cantons_adherent(idf_adherent,idf_canton) values $st_cantons";
-            $connexionBD->execute_requete($st_requete);
-        }
-        affiche_dernieres_demandes($connexionBD, $id_user, "Liste mise &agrave; jour");
-        break;
-    case 'LISTE_DEMANDES':
-        affiche_dernieres_demandes($connexionBD, $id_user, '');
-        break;
-} ?>
-</div></body>
+        switch ($gst_mode) {
+            case 'AFFICHAGE_CANTONS':
+                affiche_cantons_choisis($connexionBD, $id_user);
+                break;
+            case 'MODIFICATION_CANTONS':
+                $a_cantons_choisis = isset($_POST['cantons_choisis']) ? $_POST['cantons_choisis'] :  array();
+                $st_requete = "delete from cantons_adherent where idf_adherent=$id_user";
+                $connexionBD->execute_requete($st_requete);
+                $a_cantons = array();
+                if (count($a_cantons_choisis) > 0) {
+                    foreach ($a_cantons_choisis as $i_idf_canton) {
+                        $a_cantons[] = "($id_user,$i_idf_canton)";
+                    }
+                    $st_cantons = join(',', $a_cantons);
+                    $st_requete = "insert cantons_adherent(idf_adherent,idf_canton) values $st_cantons";
+                    $connexionBD->execute_requete($st_requete);
+                }
+                affiche_dernieres_demandes($connexionBD, $id_user, "Liste mise &agrave; jour");
+                break;
+            case 'LISTE_DEMANDES':
+                affiche_dernieres_demandes($connexionBD, $id_user, '');
+                break;
+        } ?>
+    </div>
+</body>
+
 </html>

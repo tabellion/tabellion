@@ -44,7 +44,7 @@ $a_types_presence = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM ty
 $a_types_presence[0] = 'Toutes';
 $a_sources = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM source ORDER BY nom");
 
-print('<!DOCTYPE html>');
+print('<!DOCTYPE html><html lang="fr">');
 print("<head>");
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >');
 print('<meta http-equiv="content-language" content="fr"> ');

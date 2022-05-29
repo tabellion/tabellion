@@ -155,119 +155,122 @@ function affiche_formulaire($pconnexionBD)
     print('<canvas id="MonGraphe" width="600" height="500"></canvas>');
     print("</div></div>");
 }
-
-print('<!DOCTYPE html>');
-print("<head>");
-print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
-print('<meta http-equiv="content-language" content="fr" /> ');
-print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-print("<link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>");
-print("<link href='../assets/css/bootstrap.min.css' rel='stylesheet'>");
-print("<link href='../assets/css/jquery-ui.css' type='text/css' rel='stylesheet'>");
-print("<link href='../assets/css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>");
-print("<link href='../assets/css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'>");
-print("<link href='../assets/css/select2.min.css' type='text/css' rel='stylesheet'>");
-print("<link href='../assets/css/select2-bootstrap.min.css' type='text/css' rel='stylesheet'>");
-print("<script src='../assets/js/jquery-min.js' type='text/javascript'></script>");
-print("<script src='../assets/js/jquery-ui.min.js' type='text/javascript'></script>");
-print("<script src='../assets/js/select2.min.js' type='text/javascript'></script>");
-print("<script src='../assets/js/Chart.min.js' type='text/javascript'></script>");
-print("<script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>");
 ?>
-<script type='text/javascript'>
-    $(document).ready(function() {
-        $.fn.select2.defaults.set("theme", "bootstrap");
+<!DOCTYPE html>
+<html lang="fr">
 
-        $(".js-select-avec-recherche").select2();
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-language" content="fr" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../assets/css/styles.css' type='text/css' rel='stylesheet'>
+    <link href='../assets/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='../assets/css/jquery-ui.css' type='text/css' rel='stylesheet'>
+    <link href='../assets/css/jquery-ui.structure.min.css' type='text/css' rel='stylesheet'>
+    <link href='../assets/css/jquery-ui.theme.min.css' type='text/css' rel='stylesheet'>
+    <link href='../assets/css/select2.min.css' type='text/css' rel='stylesheet'>
+    <link href='../assets/css/select2-bootstrap.min.css' type='text/css' rel='stylesheet'>
+    <script src='../assets/js/jquery-min.js' type='text/javascript'></script>
+    <script src='../assets/js/jquery-ui.min.js' type='text/javascript'></script>
+    <script src='../assets/js/select2.min.js' type='text/javascript'></script>
+    <script src='../assets/js/Chart.min.js' type='text/javascript'></script>
+    <script src='../assets/js/bootstrap.min.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+        $(document).ready(function() {
+            $.fn.select2.defaults.set("theme", "bootstrap");
 
-        $('#stats_canton').submit(function(event) {
-            $.ajax({
-                    type: 'GET',
-                    url: '../ajax/stats_gbk.php',
-                    data: 'annee=' + $('#annee').val() + '&idf_canton=' + $('#idf_canton').val(),
-                    dataType: 'json'
-                })
-                .done(function(donnees) {
-                    var labels = donnees["labels"];
-                    var ensemble_donnees = donnees["donnees"];
-                    // affichage du tableau
-                    var tableau = "<table class=\"table table-bordered table-striped\"><tr><th><Commune></th>";
-                    jQuery.each(labels, function(i, val) {
-                        tableau += "<th>" + val + "</th>";
-                    });
-                    tableau += "</tr>";
-                    var cumul = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                    jQuery.each(ensemble_donnees, function(i, obj) {
-                        tableau += "<tr><td>" + obj["label"] + "</td>";
-                        consultations = obj["data"];
-                        jQuery.each(consultations, function(i, val) {
-                            if (val != 0) {
-                                tableau += "<td>" + val + "</td>";
-                            } else {
-                                tableau += "<td>&nbsp;</td>";
-                            }
-                            cumul[i] += val;
+            $(".js-select-avec-recherche").select2();
+
+            $('#stats_canton').submit(function(event) {
+                $.ajax({
+                        type: 'GET',
+                        url: '../ajax/stats_gbk.php',
+                        data: 'annee=' + $('#annee').val() + '&idf_canton=' + $('#idf_canton').val(),
+                        dataType: 'json'
+                    })
+                    .done(function(donnees) {
+                        var labels = donnees["labels"];
+                        var ensemble_donnees = donnees["donnees"];
+                        // affichage du tableau
+                        var tableau = "<table class=\"table table-bordered table-striped\"><tr><th><Commune></th>";
+                        jQuery.each(labels, function(i, val) {
+                            tableau += "<th>" + val + "</th>";
                         });
                         tableau += "</tr>";
-                    });
-                    tableau += "<tr><th>Total</th>";
-                    jQuery.each(cumul, function(i, val) {
-                        if (val != 0) {
-                            tableau += "<th>" + val + "</th>";
-                        } else {
-                            tableau += "<th>&nbsp;</th>";
-                        }
-                    });
-                    tableau += "</tr></table>";
-                    //console.log(tableau);
-                    $('#tableau_stats_canton').html('');
-                    $('#tableau_stats_canton').append(tableau);
-                    // affichage du graphe
-                    var ctx = document.getElementById('MonGraphe').getContext('2d');
-                    var myChart = new Chart(ctx, {
-                        title: 'stats_gbk',
-                        type: 'line',
-                        data: {
-                            labels: labels,
-                            datasets: ensemble_donnees
-                        },
-                        options: {
-                            scales: {
-                                xAxes: [{
-                                    display: true,
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: 'Mois'
-                                    }
-                                }],
-                                yAxes: [{
-                                    display: true,
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: 'Nombre'
-                                    }
-                                }]
+                        var cumul = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                        jQuery.each(ensemble_donnees, function(i, obj) {
+                            tableau += "<tr><td>" + obj["label"] + "</td>";
+                            consultations = obj["data"];
+                            jQuery.each(consultations, function(i, val) {
+                                if (val != 0) {
+                                    tableau += "<td>" + val + "</td>";
+                                } else {
+                                    tableau += "<td>&nbsp;</td>";
+                                }
+                                cumul[i] += val;
+                            });
+                            tableau += "</tr>";
+                        });
+                        tableau += "<tr><th>Total</th>";
+                        jQuery.each(cumul, function(i, val) {
+                            if (val != 0) {
+                                tableau += "<th>" + val + "</th>";
+                            } else {
+                                tableau += "<th>&nbsp;</th>";
                             }
-                        }
+                        });
+                        tableau += "</tr></table>";
+                        //console.log(tableau);
+                        $('#tableau_stats_canton').html('');
+                        $('#tableau_stats_canton').append(tableau);
+                        // affichage du graphe
+                        var ctx = document.getElementById('MonGraphe').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            title: 'stats_gbk',
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: ensemble_donnees
+                            },
+                            options: {
+                                scales: {
+                                    xAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Mois'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: true,
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Nombre'
+                                        }
+                                    }]
+                                }
+                            }
+                        });
                     });
-                });
-            event.preventDefault();
+                event.preventDefault();
+            });
         });
-    });
-</script>
-<?php
-print("</script>");
-print('</head>');
-print("<body>");
-print('<div class="container">');
-require_once __DIR__ . '/../commun/menu.php';
+    </script>
+</head>
 
-switch ($gst_mode) {
-    case 'FORMULAIRE':
-        affiche_formulaire($connexionBD);
-        break;
-    case 'STATS_CUMULEES':
-        affiche_stats_cumulees($connexionBD);
-        break;
-}
-print("</div></body></html>");
+<body>
+    <div class="container">
+        <?php require_once __DIR__ . '/../commun/menu.php';
+
+        switch ($gst_mode) {
+            case 'FORMULAIRE':
+                affiche_formulaire($connexionBD);
+                break;
+            case 'STATS_CUMULEES':
+                affiche_stats_cumulees($connexionBD);
+                break;
+        } ?>
+    </div>
+</body>
+
+</html>

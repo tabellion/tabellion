@@ -16,10 +16,10 @@ $error = null;
 
 $commune = $connexionBD->find("SELECT nom, latitude, longitude FROM commune_acte WHERE idf=$id_commune");
 if (is_null($commune)) {
-    $error ="Cette commune n'existe pas dans la database.";
+    $error = "Cette commune n'existe pas dans la database.";
 }
 if (null == $commune['latitude'] || null == $commune['longitude']) {
-    $error ="Les coordonnées de cette commune ne sont pas dans la database.";
+    $error = "Les coordonnées de cette commune ne sont pas dans la database.";
     $f_lat_deg = 45.72;
     $f_lon_deg = -26.90;
 } else {
@@ -30,7 +30,7 @@ if (null == $commune['latitude'] || null == $commune['longitude']) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
     <meta http-equiv="content-language" content="fr">
@@ -65,7 +65,7 @@ if (null == $commune['latitude'] || null == $commune['longitude']) {
     <div class="container">
         <div class="text-center"><img src="<?php $gst_logo_association; ?>"></div>
         <?php print("<div class=\"text-center\">" . htmlentities($commune['nom'], ENT_COMPAT, 'cp1252') . "</div><br>\n"); ?>
-        <?php  if ($error) { ?>
+        <?php if ($error) { ?>
             <div class="bg-danger text-center">
                 <?= $error; ?>
             </div>
