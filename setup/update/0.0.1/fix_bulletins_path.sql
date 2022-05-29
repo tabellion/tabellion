@@ -1,2 +1,0 @@
-UPDATE `element_menu` SET `script` = 'Bulletins/RechercheSommaire.php' WHERE `element_menu`.`rang` = 8 AND `element_menu`.`categorie` = 'Les Recherches';
-UPDATE `element_menu` SET `script` = 'Bulletins/SaisieSommaire.php' WHERE `element_menu`.`rang` = 24 AND `element_menu`.`categorie` = 'Utilitaires';
