@@ -8,17 +8,33 @@
 require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../commun/benchmark.php';
 
-// Redirect to identification
+// ========== check auth
 if (!$session->isAuthenticated()) {
     $session->setAttribute('url_retour', '/administration/gestion-communes.php');
     header('HTTP/1.0 401 Unauthorized');
     header('Location: /se-connecter.php');
     exit;
 }
+
+// ========== Check permissions
 if (!in_array('CHGMT_EXPT', $user['privileges'])) {
     header('HTTP/1.0 401 Unauthorized');
     exit;
 }
+
+// ========== Default
+$ga_tables = [
+    'acte', 'chargement', 'commune_personne', 'demandes_adherent', 'document', 
+    'groupe_prenoms', 'modification_acte', 'modification_personne', 'patronyme', 
+    'personne', 'photos', 'prenom', 'prenom_simple', 'profession', 'releveur', 
+    'rep_not_actes', 'rep_not_desc', 'rep_not_variantes', 'source', 'stats_cnx', 
+    'stats_commune', 'stats_patronyme', 'tableau_kilometrique', 'type_acte', 
+    'type_presence', 'union', 'variantes_patro', 'variantes_prenom'
+];
+
+// ========== Request
+$gst_mode = $_POST['mode'] ?? 'FORMULAIRE';
+
 
 /**
  * Affiche le menu de lancement
@@ -32,7 +48,7 @@ function affiche_menu($pa_tables)
     print('<div class="align-center">');
     print(implode('<br>', $pa_tables));
     print('</div>');
-    print('<input type=hidden name=mode value="OPTIMISATION">');
+    print('<input type="hidden" name="mode" value="OPTIMISATION">');
     print('<button type="submit" class="btn btn-primary col-md-4 col-md-offset-4">Lancer l\'optimisation</button>');
     print('</div></div>');
 }
@@ -55,7 +71,7 @@ function optimise_tables($pconnexionBD, $pa_tables)
     print('<button type="submit" class="btn btn-primary col-md-4 col-md-offset-4">Menu Optimisation</button>');
 }
 
-print('<!DOCTYPE html>');
+print('<!DOCTYPE html><html lang="fr">');
 print("<head>");
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >');
 print('<meta http-equiv="content-language" content="fr">');
@@ -71,8 +87,7 @@ print('<div class="container">');
 
 require_once __DIR__ . '/../commun/menu.php';
 
-$ga_tables = array('acte', 'chargement', 'commune_personne', 'demandes_adherent', 'document', 'groupe_prenoms', 'modification_acte', 'modification_personne', 'patronyme', 'personne', 'photos', 'prenom', 'prenom_simple', 'profession', 'releveur', 'rep_not_actes', 'rep_not_desc', 'rep_not_variantes', 'source', 'stats_cnx', 'stats_commune', 'stats_patronyme', 'tableau_kilometrique', 'type_acte', 'type_presence', 'union', 'variantes_patro', 'variantes_prenom');
-$gst_mode = empty($_POST['mode']) ? 'FORMULAIRE' : $_POST['mode'];
+
 print("<form   method=\"post\">");
 switch ($gst_mode) {
     case 'FORMULAIRE':
@@ -81,11 +96,7 @@ switch ($gst_mode) {
 
     case 'OPTIMISATION':
         optimise_tables($connexionBD, $ga_tables);
-
         break;
-
-    default:
-        print("mode inconnu : $gst_mode");
 }
 
 print('</form>');

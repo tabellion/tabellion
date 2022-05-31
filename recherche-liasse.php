@@ -2,36 +2,34 @@
 
 require_once __DIR__ . '/app/bootstrap.php';
 
+// ========= Request
 $gst_type_recherche = $_GET['recherche'] ?? '';
 
 if ($gst_type_recherche == 'nouvelle') {
-	$gi_idf_dept				= $_GET['idf_dept'] ?? '0';
-	$gi_idf_commune				= $_GET['idf_ca'] ?? '0';
-	$gi_rayon					= '';
-	$gi_annee_min				= $_GET['a_min'] ?? '';
-	$gi_annee_max				= $_GET['a_max'] ?? '';
+	$id_departement				= $_GET['idf_dept'] ?? 0;
+	$id_commune					= $_GET['idf_ca'] ?? 0;
+	$rayon						= null;
+	$annee_min					= $_GET['a_min'] ?? null;
+	$annee_max					= $_GET['a_max'] ?? null;
 	$gst_paroisses_rattachees	= 'oui';
-	$gst_nom_notaire			= '';
-	$gst_prenom_notaire			= '';
+	$gst_nom_notaire			= null;
+	$gst_prenom_notaire			= null;
 	$gst_variantes				= 'oui';
 	$gst_idf_serie_liasse     	= '2E';
-	$gst_cote_debut				= '';
-	$gst_cote_fin				= '';
+	$gst_cote_debut				= null;
+	$gst_cote_fin				= null;
 	$gst_repertoire				= 'non';
 	$gst_sans_notaire			= 'non';
 	$gst_sans_periode			= 'non';
 	$gst_liasse_releve			= 'non';
 }
 
-$a_dept = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM departement order by idf");
-$a_dept = array(0 => 'Tous') + $a_dept;
+$departements = array(0 => 'Tous') + $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM departement ORDER BY idf");
+$communes = array(0 => 'Toutes') + $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM commune_acte ORDER BY nom") + array(-9 => 'Commune inconnue');
 
-$a_communes_acte = $connexionBD->liste_valeur_par_clef("SELECT idf,nom FROM commune_acte order by nom");
-$a_toutes_communes = array(0 => 'Toutes') + $a_communes_acte + array(-9 => 'Commune inconnue');
+$a_serie_liasse = $connexionBD->liste_valeur_par_clef("SELECT serie_liasse, nom FROM serie_liasse ORDER BY ordre");
 
-$a_serie_liasse = $connexionBD->liste_valeur_par_clef("SELECT serie_liasse, nom FROM serie_liasse order by ordre");
-
-print('<!DOCTYPE html>');
+print('<!DOCTYPE html><html lang="fr">');
 print("<head>");
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >');
 print('<meta http-equiv="content-language" content="fr"> ');
@@ -242,7 +240,7 @@ print('<div class="form-group col-md-6">' .
 	chaine_select_options($gst_idf_serie_liasse, $a_serie_liasse) .
 	'</select></div>');
 print('<div class="form-group col-md-4"><label for="idf_dept">Département&nbsp</label>' .
-	'<select name="idf_dept" id="idf_dept" class="form-control">' . chaine_select_options($gi_idf_dept, $a_dept) . '</select></div>');
+	'<select name="idf_dept" id="idf_dept" class="form-control">' . chaine_select_options($id_departement, $departements) . '</select></div>');
 print('<br></div>');
 print('<div class="form-row col-md-12">&nbsp</div>');
 
@@ -250,11 +248,11 @@ print('<div class="form-row col-md-12">&nbsp</div>');
 print('<div class="form-row col-md-12">');
 print('<div class="form-group col-md-6"><label for="idf_commune_recherche">Commune/Paroisse&nbsp</label>' .
 	'<select name="idf_commune_recherche" id="idf_commune_recherche" class="js-select-avec-recherche form-control">' .
-	chaine_select_options($gi_idf_commune, $a_toutes_communes) . '</select></div>');
+	chaine_select_options($id_commune, $communes) . '</select></div>');
 print('<div class="form-group col-md-4">' .
 	'<div class="input-group"><span class="input-group-addon">Rayon de recherche:</span>' .
 	'<label for="rayon_recherches_communes" class="sr-only">Rayon</label>' .
-	'<div class="lib_erreur"><input type=text name=rayon id="rayon_recherches_communes" size=2 maxlength=2 value="' . $gi_rayon . '" class="form-control"></div>' .
+	'<div class="lib_erreur"><input type=text name=rayon id="rayon_recherches_communes" size=2 maxlength=2 value="' . $rayon . '" class="form-control"></div>' .
 	'<span class="input-group-addon">Km</span></div></div>');
 print('<div class="form-check"><label for="paroisses_rattachees_recherches_communes" class="form-check-label">Paroisses rattachées&nbsp');
 if ($gst_paroisses_rattachees == '')
@@ -270,11 +268,11 @@ print('<div class="form-row col-md-12">&nbsp</div>');
 print('<div class="form-row col-md-12">');
 print('<div class="form-group col-md-4 col-md-offset-2 lib_erreur">');
 print('<label for="annee_min" class="col-form-label">Années de&nbsp</label>');
-print("<input type=text name=annee_min id=annee_min size=4 value=\"$gi_annee_min\" class=\"form-control\">");
+print("<input type=text name=annee_min id=annee_min size=4 value=\"$annee_min\" class=\"form-control\">");
 print('</div>');
 print('<div class="form-group col-md-4 lib_erreur">');
 print('<label for="annee_max" class="col-form-label">&agrave;&nbsp</label>');
-print("<input type=text name=annee_max id=annee_max size =4 value=\"$gi_annee_max\" class=\"form-control\">");
+print("<input type=text name=annee_max id=annee_max size =4 value=\"$annee_max\" class=\"form-control\">");
 print('</div></div>');
 print('<div class="form-row col-md-12">&nbsp</div>');
 

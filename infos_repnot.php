@@ -54,7 +54,7 @@ require_once __DIR__ . '/app/bootstrap.php';
 			</p>
 		</div>
 		<div class="form-row">
-			<button type="button" id=ferme class="btn btn-warning col-xs-4 col-xs-offset-4">Fermer la fen&ecirc;tre</button>
+			<button type="button" id=ferme class="btn btn-warning col-xs-4 col-xs-offset-4">Fermer la fenêtre</button>
 		</div>
 </body>
 

@@ -23,19 +23,41 @@ require_once __DIR__ . '/../Origin/Union.php';
 require_once __DIR__ . '/../Origin/StatsPatronyme.php';
 require_once __DIR__ . '/../Origin/StatsCommune.php';
 
-// Redirect to identification
+// ========== check auth
 if (!$session->isAuthenticated()) {
     $session->setAttribute('url_retour', '/administration/gestion-communes.php');
     header('HTTP/1.0 401 Unauthorized');
     header('Location: /se-connecter.php');
     exit;
 }
+
+// ========== Check permissions
 if (!in_array('CHGMT_EXPT', $user['privileges'])) {
     header('HTTP/1.0 401 Unauthorized');
     exit;
 }
 
-/*
+// ========== Default
+
+// ========== Request
+$gst_mode = isset($_REQUEST['MODE']) ? $_REQUEST['MODE'] : '';
+
+if (isset($_REQUEST['idf_acte'])) {
+	//+ vérification que l'acte a bien été demandé par l'adhérent connecté
+	$gi_idf_acte = (int) $_REQUEST['idf_acte'];
+	$go_acte = new Acte($connexionBD, null, null, null, null, null, null);
+	$a_filtres_acte = array();
+	$go_acte->setFiltresParametres($a_filtres_acte);
+	$go_acte->charge($gi_idf_acte);
+	if (empty($gst_mode)) {
+		$gst_formulaire = $go_acte->affichage_image_permalien(800, 800);
+		$gst_formulaire .= $go_acte->formulaire_haut_acte();
+		$gst_formulaire .= $go_acte->formulaire_liste_personnes();
+		$gst_formulaire .= $go_acte->formulaire_bas_acte();
+	}
+}
+
+/**
 * Construit la chaine permettant la validation des paramètres d'un formulaire
 * @return string règles de validation
 */
@@ -73,25 +95,10 @@ function regles_validation()
 	return  $st_chaine;
 }
 
-$gst_mode = isset($_REQUEST['MODE']) ? $_REQUEST['MODE'] : '';
 
-if (isset($_REQUEST['idf_acte'])) {
-	//+ vérification que l'acte a bien été demandé par l'adhérent connecté
-	$gi_idf_acte = (int) $_REQUEST['idf_acte'];
-	$go_acte = new Acte($connexionBD, null, null, null, null, null, null);
-	$a_filtres_acte = array();
-	$go_acte->setFiltresParametres($a_filtres_acte);
-	$go_acte->charge($gi_idf_acte);
-	if (empty($gst_mode)) {
-		$gst_formulaire = $go_acte->affichage_image_permalien(800, 800);
-		$gst_formulaire .= $go_acte->formulaire_haut_acte();
-		$gst_formulaire .= $go_acte->formulaire_liste_personnes();
-		$gst_formulaire .= $go_acte->formulaire_bas_acte();
-	}
-}
 ?>
 <!DOCTYPE html>
-
+<html lang="fr">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -171,9 +178,6 @@ if (isset($_REQUEST['idf_acte'])) {
 	<?php
 	print("<title>Modification d'un acte</title>");
 	print("</head>\n");
-	/******************************************************************************/
-	/*                     CORPS DE LA PAGE                                   	  */
-	/******************************************************************************/
 	print("<body>\n");
 	print('<div class="container">');
 
@@ -248,4 +252,4 @@ if (isset($_REQUEST['idf_acte'])) {
 	}
 	print("</div></div>");
 	print("<a href=\"/recherche.php\" class=\"btn btn-primary col-md-4 col-md-offset-4\"><span class=\"glyphicon glyphicon-search\"></span> Retour au menu recherche</a>");
-	print("</div></body></HTML>\n");
+	print("</div></body></html>\n");

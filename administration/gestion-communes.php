@@ -255,9 +255,7 @@ function menu_liste($pconnexionBD)
     print('<div class="form-row col-md-12">');
     print('<div class="text-center">');
     print('<ul class="pagination">');
-    $i_session_initiale = isset($_SESSION['initiale']) ? $_SESSION['initiale'] : $a_initiales_communes[0];
-    $gc_initiale = empty($_GET['initiale']) ? $i_session_initiale : $_GET['initiale'];
-    $_SESSION['initiale'] = $gc_initiale;
+    $gc_initiale = $_GET['initiale'] ?? null;
     foreach ($a_initiales_communes as $c_initiale) {
         if ($c_initiale == utf8_vers_cp1252($gc_initiale))
             print("<li class=\"page-item active\"><span class=\"page-link\">" . cp1252_vers_utf8($c_initiale) . "<span class=\"sr-only\">(current)</span></span></li>");
@@ -593,7 +591,10 @@ switch ($gst_mode) {
         $st_bureau_controle   = isset($_POST['bureau_controle']) ? 'O' : 'N';
         $a_coord_communes = $connexionBD->sql_select_multiple_par_idf("select idf,nom,latitude,longitude from commune_acte");
         $connexionBD->initialise_params(array(':nom_commune' => $st_nom_commune, ':code_insee' => $st_code_insee, ':numero_paroisse' => $i_num_paroisse, ':latitude' => $f_latitude, ':longitude' => $f_longitude, ':idf_canton' => $i_idf_canton, ':debut_communale' => $i_debut_communale, ':debut_greffe' => $i_debut_greffe, ':points_svg' => $st_points_svg, ':protestants' => $st_protestants, ':sans_rp' => $st_sans_rp, ':bureau_controle' => $st_bureau_controle, ':date_min_controle' => $st_date_min_controle, ':date_max_controle' => $st_date_max_controle));
-        $st_requete = "insert into commune_acte(nom,code_insee,numero_paroisse,longitude,latitude,idf_canton,debut_communale,debut_greffe,protestants,sans_rp,points_svg,bureau_controle,date_min_controle,date_max_controle) values(:nom_commune,:code_insee,:numero_paroisse,:latitude,:longitude,:idf_canton,:debut_communale,:debut_greffe,:protestants,:sans_rp,:points_svg,:bureau_controle,:date_min_controle,:date_max_controle)";
+        $st_requete = "INSERT INTO commune_acte(nom, code_insee, numero_paroisse, latitude, longitude, idf_canton, 
+            debut_communale, debut_greffe, protestants, sans_rp, points_svg, bureau_controle, date_min_controle, date_max_controle) 
+            VALUES (:nom_commune, :code_insee, :numero_paroisse, :latitude, :longitude, :idf_canton, 
+            :debut_communale, :debut_greffe, :protestants, :sans_rp, :points_svg, :bureau_controle, :date_min_controle, :date_max_controle)";
         $connexionBD->execute_requete($st_requete);
         menu_liste($connexionBD);
         if (!empty($f_latitude) && !empty($f_longitude)) {

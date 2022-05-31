@@ -121,8 +121,17 @@ function menu_liste($pconnexionBD)
     print('<div class="panel-body">');
     print("<form   method=\"post\">");
 
-    $st_requete = "SELECT TA.idf, CONCAT('[NULL]-',TA.idf), TA.nom, TA.sigle_nimegue, 0 FROM type_acte TA LEFT OUTER JOIN acte A ON A.idf_type_acte = TA.idf WHERE A.idf_type_acte IS NULL UNION SELECT A.idf_type_acte, CONCAT('[',A.idf_type_acte,']-',CASE WHEN TA.idf IS NULL THEN 'NULL' ELSE TA.idf END), TA.nom, TA.sigle_nimegue, count(A.idf_type_acte) FROM acte A LEFT OUTER JOIN type_acte TA ON A.idf_type_acte = TA.idf GROUP BY 3 , 1, 4 ORDER BY 3";
+    $st_requete = "SELECT TA.idf, CONCAT('[NULL]-',TA.idf), TA.nom, TA.sigle_nimegue, 0 
+        FROM type_acte TA 
+        LEFT OUTER JOIN acte A ON A.idf_type_acte = TA.idf 
+        WHERE A.idf_type_acte IS NULL 
+        UNION SELECT A.idf_type_acte, CONCAT('[',A.idf_type_acte,']-', CASE WHEN TA.idf IS NULL THEN 'NULL' ELSE TA.idf END), TA.nom, TA.sigle_nimegue, count(A.idf_type_acte) 
+        FROM acte A 
+        LEFT OUTER JOIN type_acte TA ON A.idf_type_acte = TA.idf 
+        GROUP BY 3 , 1, 4 
+        ORDER BY 3";
     $a_liste_type_acte = $pconnexionBD->sql_select_liste($st_requete);
+    print_r($a_liste_type_acte);exit;
     $i_nb_types_acte = count($a_liste_type_acte);
     if ($i_nb_types_acte != 0) {
         $i_nb_lignes_par_page = 200;

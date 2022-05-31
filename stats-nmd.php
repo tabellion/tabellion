@@ -188,7 +188,7 @@ $a_types_acte = $connexionBD->liste_valeur_par_clef("select idf,nom from type_ac
 					<input type="hidden" name="mode" value="STATS">
 					<div class="form-group row">
 						<label for="idf_commune_acte" class="col-form-label col-md-4">Commune:</label>
-						<div class="col-md-4">');
+						<div class="col-md-4">
 							<select name="idf_commune_acte" id="idf_commune_acte" class="js-select-avec-recherche form-control">
 								<?= chaine_select_options($gi_idf_commune_acte, $a_communes_acte); ?>
 							</select>

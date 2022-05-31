@@ -23,13 +23,14 @@ require_once __DIR__ . '/../Origin/StatsCommune.php';
 require_once __DIR__ . '/../Origin/ModificationActe.php';
 require_once __DIR__ . '/../Origin/ModificationPersonne.php';
 
-// Redirect to identification
+// Redirect to authentification
 if (!$session->isAuthenticated()) {
     $session->setAttribute('url_retour', '/administration/gestion-communes.php');
     header('HTTP/1.0 401 Unauthorized');
     header('Location: /se-connecter.php');
     exit;
 }
+
 if (!in_array('CHGMT_EXPT', $user['privileges'])) {
     header('HTTP/1.0 401 Unauthorized');
     exit;
@@ -39,7 +40,7 @@ $gi_idf_demandeur = null;
 $gst_email_demandeur = '';
 $gst_formulaire = '';
 if (!empty($_SESSION['ident'])) {
-    $st_requete = "select idf,email_perso from adherent where ident='" . $_SESSION['ident'] . "'";
+    $st_requete = "SELECT idf, email_perso from adherent where ident='" . $_SESSION['ident'] . "'";
     list($gi_idf_demandeur, $gst_email_demandeur) = $connexionBD->sql_select_liste($st_requete);
 }
 
@@ -105,7 +106,7 @@ if (isset($_REQUEST['idf_modification'])) {
 }
 ?>
 <!DOCTYPE html>
-
+<html lang="fr">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -225,19 +226,20 @@ if (isset($_REQUEST['idf_modification'])) {
             })
         });
     </script>
-    <?php
-    print("<title>Validation de modification d'un acte</title>");
-    print("</head>\n");
-    print("<body>\n");
-    print('<div class="container">');
+   
+    <title>Validation de modification d'un acte</title>
+    </head>
+    <body>
+    <div class="container">
 
-    require_once __DIR__ . '/../commun/menu.php';
+    <?php require_once __DIR__ . '/../commun/menu.php'; ?>
 
-    print('<div class="panel panel-primary">');
-    print("<div class=\"panel-heading\">Validation de modification d'un acte</div>");
-    print('<div class="panel-body">');
+    <div class="panel panel-primary">
+    <div class="panel-heading">Validation de modification d'un acte</div>
+    <div class="panel-body">
 
-    if (empty($gst_mode)) {
+    
+    <?php if (empty($gst_mode)) {
         print("<form id=\"modification_acceptee\" method=\"POST\" enctype=\"multipart/form-data\" >");
         print("<input type=\"hidden\" name=\"MODE\" value=\"VALIDATION\">");
         print("<input type=\"hidden\" name=\"idf_modification\" value=\"$gi_idf_modification\">");

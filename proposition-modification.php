@@ -19,7 +19,7 @@ require_once __DIR__ . '/Origin/ModificationPersonne.php';
 include_once  __DIR__ . '/libs/crypt/cryptographp.fct.php';
 
 $gi_idf_demandeur = $user['idf'];
-$gst_email_demandeur = $user['email_perso'];
+$email_demandeur = $user['email_perso'];
 
 /*
 * Construit la chaine permettant la validation des paramètres d'un formulaire
@@ -27,12 +27,12 @@ $gst_email_demandeur = $user['email_perso'];
 */
 function regles_validation()
 {
-    global $go_acte, $gst_email_demandeur;
+    global $go_acte, $email_demandeur;
     $a_filtres = $go_acte->getFiltresParametres();
     for ($i = 1; $i <= ModificationActe::getNbPhotos(); $i++) {
         $a_filtres["photo$i"] = array(array("extension", '"gif|png|jpg|jpeg"', "seulement, les extensions gif, png, jpg ou jpeg sont acceptées"));
     }
-    if (empty($gst_email_demandeur))
+    if (empty($email_demandeur))
         $a_filtres["code"] = array(array("required", 'true', "Le code est requis"));
     $ga_liste_personnes = $go_acte->getListePersonnes();
     $a_messages = array();
@@ -73,7 +73,7 @@ if (isset($_REQUEST['idf_acte'])) {
     // Vérification des droits d'accès
     if ($gi_idf_source != IDF_SOURCE_TD) {
         if (empty($gi_idf_demandeur)) {
-            die("<div class=\"alert alert-danger\">Cet acte n'est pas issu d'une table décennale</div>");
+            die("<div class=\"alert alert-danger\">Cet acte n'est pas issu d'une table décennale</div>");// TODO: what the f*** is that ???!!!
         } else {
             $gi_nb_demandes = $connexionBD->sql_select1("select count(*) from demandes_adherent where idf_adherent=$gi_idf_demandeur and idf_acte=$gi_idf_acte");
             if ($gi_nb_demandes == 0)
@@ -202,7 +202,7 @@ if (isset($_REQUEST['idf_acte'])) {
                     print("<label for=\"cmt_modif\">Commentaires</label><textarea name=cmt_modif id=cmt_modif rows=4 cols=80 class=\"form-control\"></textarea>");
 
                     if (empty($gi_idf_demandeur)) {
-                        print("<label for=\"email_demandeur\">Votre email:</label><input type=\"text\" name=\"email_demandeur\" id=\"email_demandeur\" value=\"$gst_email_demandeur\" size=\"30\" aria-describedby=\"cmt_email_demandeur\"><small id=cmt_email_demandeur class=\"form-text text-muted\">Non publié. Il sert uniquement au valideur &agrave; vous contacter en cas de probl&egrave;me</small>>");
+                        print("<label for=\"email_demandeur\">Votre email:</label><input type=\"text\" name=\"email_demandeur\" id=\"email_demandeur\" value=\"$email_demandeur\" size=\"30\" aria-describedby=\"cmt_email_demandeur\"><small id=cmt_email_demandeur class=\"form-text text-muted\">Non publié. Il sert uniquement au valideur &agrave; vous contacter en cas de probl&egrave;me</small>>");
                         print("<div class=\"text-center\"");
                         dsp_crypt(0, 1);
                         print('Recopier tous les chiffres du code ci-dessus:<br><input type="text" name="code"></div>');
@@ -239,7 +239,7 @@ if (isset($_REQUEST['idf_acte'])) {
                             // La modification vient d'un adhérent => pas de captcha
                             $go_acte = new ModificationActe($connexionBD, $gi_idf_acte, null, $gst_rep_site, $gst_serveur_smtp, $gst_utilisateur_smtp, $gst_mdp_smtp, $gi_port_smtp);
                             $go_acte->initialise_depuis_formulaire($gi_idf_acte);
-                            $go_acte->setEmailDemandeur($gst_email_demandeur);
+                            $go_acte->setEmailDemandeur($email_demandeur);
                             $go_acte->cree();
                             print("<div class=\"alert alert-success\">Modification demandée</div>\n");
                             print('<button type="button" class="btn btn-primary col-md-4 col-md-offset-4 fermeture_fenetre">Retour</button>');

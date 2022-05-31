@@ -3,15 +3,18 @@
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Origin/RequeteRecherche.php';
 
+$gst_cote_liasse = $_REQUEST['cote_liasse'] ?? null; 
 
-$gst_cote_liasse = isset($_REQUEST['cote_liasse']) ? $_REQUEST['cote_liasse'] : '';
+if (!$gst_cote_liasse) {
+    die("Erreur: L'identifiant de l'acte est manquant");
+}
 
-list($st_cote, $i_depose_ad, $st_idf_dept_depose_ad, $i_liasse_consult, $st_info_compl)
-	= $connexionBD->sql_select_listeUtf8("select cote_liasse, in_liasse_depose_ad, idf_dept_depose_ad, " .
-		"       in_liasse_consultable, info_complementaires " .
-		"from liasse " .
-		"where cote_liasse='" . $gst_cote_liasse . "'");
-$a_depts_depose_ad = $connexionBD->liste_valeur_par_clefUtf8("SELECT idf,nom FROM departement order by nom");
+$sql1 = "SELECT cote_liasse, in_liasse_depose_ad, idf_dept_depose_ad, in_liasse_consultable, info_complementaires 
+		FROM liasse 
+		WHERE cote_liasse=$gst_cote_liasse";
+list($st_cote, $i_depose_ad, $st_idf_dept_depose_ad, $i_liasse_consult, $st_info_compl) = $connexionBD->sql_select_listeUtf8($sql1);
+
+$a_depts_depose_ad = $connexionBD->liste_valeur_par_clefUtf8("SELECT idf, nom FROM departement ORDER BY nom");
 if ($i_depose_ad == 1) {
 	$st_depose_ad = "Oui";
 	$st_dept_depose_ad = $a_depts_depose_ad[$st_idf_dept_depose_ad];

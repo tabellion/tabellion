@@ -7,13 +7,14 @@
 require_once __DIR__ . '/app/bootstrap.php';
 
 // ======== Default
+
+$sources = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM source ORDER BY nom");
+
+// ========= Request
 $page = $_GET['page'] ?? 1;
 $id_source = $_GET['idf_source'] ?? 1;
 $id_commune = $_GET['idf_commune'] ?? null;
 $id_type_acte = $_GET['idf_type_acte'] ?? null;
-$sources = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM source ORDER BY nom");
-// ================
-
 if ($id_commune && $id_type_acte) {
     $sql1 = "SELECT ca.nom, c.nom, ca.debut_communale, ca.debut_greffe 
         FROM commune_acte ca 
