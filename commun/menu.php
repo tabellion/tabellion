@@ -10,7 +10,9 @@
                     <a href="/affiche-patros-commune.php">Patronymes/Commune</a>
                     <a href="/affiche-patros.php">Patronymes</a>
                     <a href="/stats-nmd.php">Statistiques NMD</a>
-                    <a href="/repnot/recherche-repnot.php">Répertoires Notaire</a>
+                    <?php if ($session->isAuthenticated() && in_array('CHGMT_EXPT', $user['privileges'])) { ?>
+                        <a href="/repnot/recherche-repnot.php">Répertoires Notaire</a>
+                    <?php } ?>
                 </li>
             </ul>
         </li>
