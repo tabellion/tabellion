@@ -1,12 +1,13 @@
 <?php 
+namespace App\Manager;
 
-require_once __DIR__ . '/../Core/Connection.php';
+use App\Core\Manager;
 
-class PrivilegeManager extends Connection
+class PrivilegeManager extends Manager
 {
     public function findAllWhithAdherentId(int $id)
     {
-        $sql = "SELECT * FROM privilege WHERE idf_adherent=:id";
+        $sql = "SELECT droit FROM privilege WHERE idf_adherent=:id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             ':id' => $id

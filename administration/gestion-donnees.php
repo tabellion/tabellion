@@ -25,7 +25,18 @@ require_once __DIR__ . '/../Origin/ChargementNimV2.php';
 require_once __DIR__ . '/../Origin/ChargementNimV3.php';
 require_once __DIR__ . '/../Origin/Releveur.php';
 
-verifie_privilege(DROIT_CHARGEMENT);
+// Redirect to identification
+if (!$session->isAuthenticated()) {
+    $session->setAttribute('url_retour', '/administration/gestion-communes.php');
+    header('HTTP/1.0 401 Unauthorized');
+    header('Location: /se-connecter.php');
+    exit;
+}
+if (!in_array('CHGMT_EXPT', $user['privileges'])) {
+    header('HTTP/1.0 401 Unauthorized');
+    exit;
+}
+
 /**
  * Renvoie la liste des mariages pour la source et la commune données
  * sous la forme d'un table ou chaque ligne est (date,nom époux, prénom époux,nom épouse, prénom épouse) 

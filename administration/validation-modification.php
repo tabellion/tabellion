@@ -23,7 +23,17 @@ require_once __DIR__ . '/../Origin/StatsCommune.php';
 require_once __DIR__ . '/../Origin/ModificationActe.php';
 require_once __DIR__ . '/../Origin/ModificationPersonne.php';
 
-verifie_privilege(DROIT_VALIDATION_TD);
+// Redirect to identification
+if (!$session->isAuthenticated()) {
+    $session->setAttribute('url_retour', '/administration/gestion-communes.php');
+    header('HTTP/1.0 401 Unauthorized');
+    header('Location: /se-connecter.php');
+    exit;
+}
+if (!in_array('CHGMT_EXPT', $user['privileges'])) {
+    header('HTTP/1.0 401 Unauthorized');
+    exit;
+}
 
 $gi_idf_demandeur = null;
 $gst_email_demandeur = '';

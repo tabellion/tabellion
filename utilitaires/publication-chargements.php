@@ -7,7 +7,17 @@
 require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
 
-verifie_privilege(DROIT_UTILITAIRES);
+// Redirect to identification
+if (!$session->isAuthenticated()) {
+   $session->setAttribute('url_retour', '/administration/gestion-communes.php');
+   header('HTTP/1.0 401 Unauthorized');
+   header('Location: /se-connecter.php');
+   exit;
+}
+if (!in_array('UTILITAIRE', $user['privileges'])) {
+   header('HTTP/1.0 401 Unauthorized');
+   exit;
+}
 
 $gi_num_page_cour = empty($_POST['num_page']) ? 1 : $_POST['num_page'];
 $gst_mode = empty($_POST['mode']) ? 'LISTE': $_POST['mode'] ;

@@ -1,9 +1,19 @@
-<?php 
+<?php
+namespace App\Manager;
 
-require_once __DIR__ . '/../Core/Connection.php';
+use App\Core\Manager;
 
-class UtilisateurManager extends Connection
+class UtilisateurManager extends Manager
 {
+    private PrivilegeManager $privilegeManager;
+
+    public function __construct($dbconfig)
+    {
+        parent::__construct($dbconfig);
+        $this->privilegeManager = new PrivilegeManager($dbconfig);
+
+    }
+
     public function findAll()
     {
         $sql = "SELECT * FROM adherent";
@@ -14,13 +24,13 @@ class UtilisateurManager extends Connection
 
     public function findOneById(int $id)
     {
-        $sql = "SELECT * FROM adherent WHERE id=:id";
+        $sql = "SELECT * FROM adherent WHERE idf=:id";
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
             ':id' => $id
         ]);
         if (!$result) {
-            throw new Exception("Cet utilisateur n'existe pas.", 1);
+            throw new \Exception("Cet utilisateur n'existe pas.", 1);
         }
         return $stmt->fetch();
     }
@@ -41,8 +51,37 @@ class UtilisateurManager extends Connection
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute($criteria);
         if (!$result) {
-            throw new Exception("Cet utilisateur n'existe pas.", 1);
+            throw new \Exception("Cet utilisateur n'existe pas.", 1);
         }
         return $stmt->fetch();
+    }
+
+    public function findOneForAuthentification(string $identifier)
+    {
+        $sql = "SELECT * FROM adherent WHERE ident=:identifier OR email_perso=:identifier";
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute([
+            ':identifier' => $identifier
+        ]);
+        if (!$result) {
+            return null;
+        }
+        
+        $user = $stmt->fetch();
+        
+        $sql2 = "UPDATE adherent SET derniere_connexion=now() WHERE idf=:idf";
+        $stmt = $this->db->prepare($sql2);
+        $result = $stmt->execute([
+            ':idf' => $user['idf']
+        ]);
+
+        $privileges = $this->privilegeManager->findAllWhithAdherentId($user['idf']);
+        $user['privileges'] = [];
+
+        foreach ($privileges as $row) {
+            $user['privileges'][] = $row['droit'];
+        }
+
+        return $user;
     }
 }

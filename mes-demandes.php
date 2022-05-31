@@ -8,7 +8,7 @@ require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Origin/PaginationTableau.php';
 
 // Redirect to identification
-if (!$session->getAttribute('ident')) {
+if (!$session->isAuthenticated()) {
     $session->setAttribute('url_retour', '/mes-demandes.php');
     header('HTTP/1.0 401 Unauthorized');
     header('Location: /se-connecter.php');
