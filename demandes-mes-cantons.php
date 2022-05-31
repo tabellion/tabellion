@@ -14,6 +14,7 @@ require_once __DIR__ . '/Origin/TypeActe.php';
 require_once __DIR__ . '/Origin/CommunePersonne.php';
 require_once __DIR__ . '/Origin/Profession.php';
 
+// ========== Request
 $gst_mode = $_POST['mode'] ?? 'LISTE_DEMANDES';
 $id_user = $user['idf'];
 

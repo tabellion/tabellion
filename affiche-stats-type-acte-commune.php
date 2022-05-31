@@ -22,7 +22,7 @@ $sql1 = "SELECT ca.idf, ca.nom
 $communes = $connexionBD->liste_valeur_par_clef($sql1);
 
 $a_idf_communes = array_keys($communes);
-$id_commune = $_GET['idf_commune'] ?? $a_idf_communes[0];
+$id_commune = $_GET['idf_commune'] ?? null;
 
 if (count($communes) != 0) {
     if (!in_array($id_commune, $a_idf_communes)) $id_commune = $a_idf_communes[0];

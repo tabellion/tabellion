@@ -11,9 +11,8 @@ $gst_mode = 'LISTE';
 $sources = $connexionBD->liste_valeur_par_clef("SELECT idf, nom FROM source ORDER BY nom");
 $sources[0] = 'Toutes';
 $commune_a_chercher = '';
-// ================
 
-
+// ======== Request
 $id_source = $_GET['idf_source'] ?? 1;
 $gi_num_page_cour = $_GET['num_page_statcom'] ?? 1;
 $id_commune = $_GET['idf_commune'] ?? null;
@@ -126,7 +125,6 @@ function affiche_entete_liens_navigation($pi_num_page_cour, $pi_nb_pages)
 
         });
     </script>
-
     <title>Base <?= SIGLE_ASSO; ?> : Etat des relevés</title>
 </head>
 

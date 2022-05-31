@@ -7,7 +7,7 @@
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/Origin/PaginationTableau.php';
 
-// Redirect to identification
+// ========= Auth
 if (!$session->isAuthenticated()) {
     $session->setAttribute('url_retour', '/mes-demandes.php');
     header('HTTP/1.0 401 Unauthorized');
@@ -17,17 +17,18 @@ if (!$session->isAuthenticated()) {
 
 // ========= Default
 $modes = ['VUE_STAT', 'VUE_DEMANDES_COMMUNE', 'VUE_DEMANDES_MOIS_ANNNEE'];
+
+// ========= Request
 $mode = $_GET['mode'] ?? 'VUE_STAT';
-// =================
 
 
-/*
-  Renvoie le lien pour afficher les demandes d'une commune de l'adhérent courant
-  @param integer $pi_nb_ddes nombre de demandes
-  @param integer $pi_idf_commune identifiant de la commune
-  @param integer $pi_idf_type_acte identifiant type de l'acte 
-*/
-function ddes_communes($pi_nb_ddes, $pi_idf_commune, $pi_idf_type_acte)
+/**
+ * Renvoie le lien pour afficher les demandes d'une commune de l'adhérent courant
+ * @param integer $pi_nb_ddes nombre de demandes
+ * @param integer $pi_idf_commune identifiant de la commune
+ * @param integer $pi_idf_type_acte identifiant type de l'acte 
+ */
+function ddes_communes(int $pi_nb_ddes, int $pi_idf_commune, int $pi_idf_type_acte)
 {
     if ($pi_nb_ddes != 0) {
         return "<a href=\"/mes-demandes.php?mode=VUE_DEMANDES_COMMUNE&idf_commune=$pi_idf_commune&idf_type_acte=$pi_idf_type_acte\">$pi_nb_ddes</a>";
@@ -36,14 +37,14 @@ function ddes_communes($pi_nb_ddes, $pi_idf_commune, $pi_idf_type_acte)
     }
 }
 
-/*
-  Renvoie le lien pour afficher les demandes d'une commune de l'adhérent courant
-  @param integer $pi_nb_ddes nombre de demandes
-  @param integer $pi_mois identifiant du mois
-  @param integer  $pi_annee identifiant de l'année
-  @param integer $pi_idf_type_acte identifiant type de l'acte 
-*/
-function ddes_mois_annee($pi_nb_ddes, $pi_mois, $pi_annee, $pi_idf_type_acte)
+/**
+ * Renvoie le lien pour afficher les demandes d'une commune de l'adhérent courant
+ * @param integer $pi_nb_ddes nombre de demandes
+ * @param integer $pi_mois identifiant du mois
+ * @param integer  $pi_annee identifiant de l'année
+ * @param integer $pi_idf_type_acte identifiant type de l'acte 
+ */
+function ddes_mois_annee(int $pi_nb_ddes, int $pi_mois, int $pi_annee, int $pi_idf_type_acte)
 {
     if ($pi_nb_ddes != 0) {
         return "<a href=\"/mes-demandes.php?mode=VUE_DEMANDES_MOIS_ANNNEE&mois=$pi_mois&annee=$pi_annee&idf_type_acte=$pi_idf_type_acte\">$pi_nb_ddes</a>";
@@ -245,8 +246,13 @@ function ddes_mois_annee($pi_nb_ddes, $pi_mois, $pi_annee, $pi_idf_type_acte)
                     $a_liste_actes = array();
                     if (count($a_actes) > 0) {
                         $st_liste_actes = join(',', $a_actes);
-                        $st_requete = "select a.idf,a.date, GROUP_CONCAT(DISTINCT concat(ifnull(prenom.libelle,''),' ',p.patronyme) order by p.idf separator ' X ') from acte a join personne p on (a.idf=p.idf_acte and p.idf_type_presence=" . IDF_PRESENCE_INTV . ") join prenom on (p.idf_prenom=prenom.idf)  where a.idf in ($st_liste_actes) group by a.idf";
-                        //print("Req=$st_requete<br>");
+                        $st_requete = "SELECT a.idf, a.date, 
+                            GROUP_CONCAT(DISTINCT concat(ifnull(prenom.libelle,''),' ',p.patronyme) ORDER BY p.idf separator ' X ') 
+                            FROM acte a 
+                            JOIN personne p ON (a.idf=p.idf_acte AND p.idf_type_presence=" . IDF_PRESENCE_INTV . ") 
+                            JOIN prenom on (p.idf_prenom=prenom.idf) 
+                            WHERE a.idf in ($st_liste_actes) 
+                            GROUP BY a.idf";
                         $a_liste_actes = $connexionBD->sql_select_multiple_par_idf($st_requete);
                     }
                     print("<form name=\"DemandesAdherents\"  method=\"post\">");

@@ -7,35 +7,48 @@
 
 require_once __DIR__ . '/../app/bootstrap.php';
 
-// Redirect to identification
+// ========== check auth
 if (!$session->isAuthenticated()) {
     $session->setAttribute('url_retour', '/administration/gestion-communes.php');
     header('HTTP/1.0 401 Unauthorized');
     header('Location: /se-connecter.php');
     exit;
 }
+
+// ========== Check permissions
 if (!in_array('CHGMT_EXPT', $user['privileges'])) {
     header('HTTP/1.0 401 Unauthorized');
     exit;
 }
 
+// ========= Default
+$gst_types_acte = '(' . IDF_MARIAGE . ',' . IDF_NAISSANCE . ',' . IDF_DECES . ',' . IDF_RECENS . ')';
+
+// ========== Request
+$gst_mode = $_POST['mode'] ?? 'FORMULAIRE';
+$gi_idf_source = $_POST['idf_source'] ?? 1;
+$gi_idf_commune_acte = $_POST['idf_commune_acte'] ?? 0;
+$gc_idf_type_acte = $_POST['idf_type_acte'] ?? 0;
+$gi_annee_min = $_POST['annee_min'] ?? null;
+$gi_annee_max = $_POST['annee_max'] ?? null;
+
 
 /** Renvoie le nombre d'actes comportant des permaliens non remplis
  * param integer $pi_idf_commune_acte identifiant de la commune 
  * param integer $pc_idf_type_acte identifiant du type d'acte
- **/
-function nombre_permaliens($pi_idf_commune_acte, $pc_idf_type_acte)
+ */
+function nombre_permaliens(int $pi_idf_commune_acte, int $pc_idf_type_acte)
 {
     global $connexionBD, $gst_types_acte;
     if ($pc_idf_type_acte == 'DIV')
-        $st_requete = "select count(idf) from acte where idf_commune=$pi_idf_commune_acte and idf_type_acte not in $gst_types_acte and url !=''";
+        $st_requete = "SELECT count(idf) FROM acte WHERE idf_commune=$pi_idf_commune_acte AND idf_type_acte not IN $gst_types_acte AND url !=''";
 
     else
-        $st_requete = "select count(idf) from acte where idf_commune=$pi_idf_commune_acte and idf_type_acte=$pc_idf_type_acte and url !=''";
+        $st_requete = "SELECT count(idf) FROM acte WHERE idf_commune=$pi_idf_commune_acte AND idf_type_acte=$pc_idf_type_acte AND url !=''";
     return $connexionBD->sql_select1($st_requete);
 }
 
-print('<!DOCTYPE html>');
+print('<!DOCTYPE html><html lang="fr">');
 print("<head>");
 print('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >');
 print('<meta http-equiv="content-language" content="fr">');
@@ -194,18 +207,6 @@ print("<body>");
 print('<div class="container">');
 
 require_once __DIR__ . '/../commun/menu.php';
-
-$gst_mode = empty($_POST['mode']) ? 'FORMULAIRE' : $_POST['mode'];
-$gi_idf_source = empty($_POST['idf_source']) ? 1 : $_POST['idf_source'];
-$i_session_idf_commune_acte = isset($_SESSION['idf_commune_acte']) ? $_SESSION['idf_commune_acte'] : 0;
-$gi_idf_commune_acte = empty($_POST['idf_commune_acte']) ? $i_session_idf_commune_acte : $_POST['idf_commune_acte'];
-$gc_idf_type_acte = empty($_POST['idf_type_acte']) ? 0 : $_POST['idf_type_acte'];
-
-$gst_types_acte = '(' . IDF_MARIAGE . ',' . IDF_NAISSANCE . ',' . IDF_DECES . ',' . IDF_RECENS . ')';
-
-$gi_annee_min = empty($_POST['annee_min']) ? '' : (int) $_POST['annee_min'];
-$gi_annee_max = empty($_POST['annee_max']) ? '' : (int) $_POST['annee_max'];
-
 
 switch ($gst_mode) {
     case 'FORMULAIRE':

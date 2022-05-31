@@ -101,11 +101,8 @@ function affiche_menu($id_commune, $rayon, $id_source, $pst_msg)
 	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-
 			$.fn.select2.defaults.set("theme", "bootstrap");
-
 			$(".js-select-avec-recherche").select2();
-
 			$('#patronyme').autocomplete({
 				source: function(request, response) {
 					$.getJSON("./ajax/patronyme_commune.php", {
@@ -115,7 +112,6 @@ function affiche_menu($id_commune, $rayon, $id_source, $pst_msg)
 				},
 				minLength: 3
 			});
-
 			$("#patros").validate({
 				rules: {
 					patronyme: {

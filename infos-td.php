@@ -14,7 +14,7 @@ require_once __DIR__ . '/Origin/TypeActe.php';
 require_once __DIR__ . '/Origin/CommunePersonne.php';
 require_once __DIR__ . '/Origin/Profession.php';
 
-
+// ============= Request
 $gi_idf_acte = $_GET['idf_acte'] ?? null;
 
 if (!$gi_idf_acte) {

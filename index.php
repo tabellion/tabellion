@@ -39,8 +39,8 @@ $a_chargements = $connexionBD->sql_select_multiple("SELECT date_format(c.date_ch
     WHERE datediff(now(),c.date_chgt)<$gi_nbjours 
     AND c.publication=1 
     ORDER BY c.date_chgt DESC");
-
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 

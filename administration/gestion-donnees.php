@@ -1432,7 +1432,7 @@ switch ($gst_mode) {
             default:
                 $st_type_nimegue = 'I';
         }
-        list($st_nom_commune, $st_code_insee, $i_numero_paroisse) = $connexionBD->sql_select_liste("select nom,code_insee,numero_paroisse from commune_acte where idf=$gi_idf_commune_acte");
+        list($st_nom_commune, $st_code_insee, $i_numero_paroisse) = $connexionBD->sql_select_liste("SELECT nom, code_insee, numero_paroisse FROM commune_acte WHERE idf=$gi_idf_commune_acte");
         // Suppression des quotes éventuelles
         $st_nom_commune = str_replace("'", '', $st_nom_commune);
         if (preg_match("/^([\w\-]+)\s*/", $st_nom_commune, $a_correspondances)) {
@@ -1441,7 +1441,7 @@ switch ($gst_mode) {
             $st_nom_fich_dest = sprintf("%s_%s%.2d-%s.txt", $st_nom, $st_code_insee, $i_numero_paroisse, $st_type_nimegue);
         } else
             $st_nom_fich_dest = sprintf("INCONNU_%s%.2d-$st_type_nimegue.txt", $st_code_insee, $i_numero_paroisse);
-        $st_fich_dest = "$gst_repertoire_telechargement/$st_nom_fich_dest";
+        $st_fich_dest =  __DIR__ . '/../storage/telechargement/'.$st_nom_fich_dest;
         if (!move_uploaded_file($_FILES['FichNim']['tmp_name'], $st_fich_dest)) {
             print("Erreur de telechargement : impossible de copier en $st_fich_dest:<br>");
             switch ($_FILES['FichNim']['error']) {
@@ -1452,7 +1452,6 @@ switch ($gst_mode) {
                     print("Erreur inconnue");
                     print_r($_FILES);
             }
-
             exit;
         }
 
@@ -1464,24 +1463,25 @@ switch ($gst_mode) {
                     case IDF_NAISSANCE:
                         $b_ret = $chargementNimV2->charge_naissances($st_fich_dest, $gi_idf_commune_acte, $gi_idf_source, $gi_idf_releveur, liste_naissances_existant($connexionBD, $gi_idf_source, $gi_idf_commune_acte));
                         $i_nb_actes_charges = $chargementNimV2->nb_actes_charges();
-                        $connexionBD->execute_requete("insert into chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_NAISSANCE . ",$i_nb_actes_charges)");
+                        $connexionBD->execute_requete("INSERT INTO chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) 
+                            VALUES(now(), $gi_idf_commune_acte, " . IDF_NAISSANCE . ", $i_nb_actes_charges)");
                         break;
                     case IDF_MARIAGE:
 
                         $b_ret = $chargementNimV2->charge_mariages($st_fich_dest, $gi_idf_commune_acte, $gi_idf_source, $gi_idf_releveur, liste_mariages_existant($connexionBD, $gi_idf_source, $gi_idf_commune_acte));
                         $i_nb_actes_charges = $chargementNimV2->nb_actes_charges();
-                        $connexionBD->execute_requete("insert into chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_MARIAGE . ",$i_nb_actes_charges)");
+                        $connexionBD->execute_requete("INSERT INTO chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_MARIAGE . ",$i_nb_actes_charges)");
                         break;
                     case IDF_DECES:
                         $b_ret = $chargementNimV2->charge_deces($st_fich_dest, $gi_idf_commune_acte, $gi_idf_source, $gi_idf_releveur, liste_deces_existant($connexionBD, $gi_idf_source, $gi_idf_commune_acte));
                         $i_nb_actes_charges = $chargementNimV2->nb_actes_charges();
-                        $connexionBD->execute_requete("insert into chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_DECES . ",$i_nb_actes_charges)");
+                        $connexionBD->execute_requete("INSERT INTO chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_DECES . ",$i_nb_actes_charges)");
                         break;
                     case IDF_DIVERS:
                         $b_ret = $chargementNimV2->charge_divers($st_fich_dest, $gi_idf_commune_acte, $gi_idf_source, $gi_idf_releveur, liste_divers_existant($connexionBD, $gi_idf_source, $gi_idf_commune_acte));
 
                         $i_nb_actes_charges = $chargementNimV2->nb_actes_charges();
-                        $connexionBD->execute_requete("insert into chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_DIVERS . ",$i_nb_actes_charges)");
+                        $connexionBD->execute_requete("INSERT INTO chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_DIVERS . ",$i_nb_actes_charges)");
                         break;
                 }
                 $a_liste_deja_existants = $chargementNimV2->liste_deja_existants();
@@ -1493,22 +1493,22 @@ switch ($gst_mode) {
                     case IDF_NAISSANCE:
                         $b_ret = $chargementNimV3->charge_naissances($st_fich_dest, $gi_idf_commune_acte, $gi_idf_source, $gi_idf_releveur, liste_naissances_existant($connexionBD, $gi_idf_source, $gi_idf_commune_acte));
                         $i_nb_actes_charges = $chargementNimV3->nb_actes_charges();
-                        $connexionBD->execute_requete("insert into chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_NAISSANCE . ",$i_nb_actes_charges)");
+                        $connexionBD->execute_requete("INSERT INTO chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_NAISSANCE . ",$i_nb_actes_charges)");
                         break;
                     case IDF_MARIAGE:
                         $b_ret = $chargementNimV3->charge_mariages($st_fich_dest, $gi_idf_commune_acte, $gi_idf_source, $gi_idf_releveur, liste_mariages_existant($connexionBD, $gi_idf_source, $gi_idf_commune_acte));
                         $i_nb_actes_charges = $chargementNimV3->nb_actes_charges();
-                        $connexionBD->execute_requete("insert into chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_MARIAGE . ",$i_nb_actes_charges)");
+                        $connexionBD->execute_requete("INSERT INTO chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_MARIAGE . ",$i_nb_actes_charges)");
                         break;
                     case IDF_DECES:
                         $b_ret = $chargementNimV3->charge_deces($st_fich_dest, $gi_idf_commune_acte, $gi_idf_source, $gi_idf_releveur, liste_deces_existant($connexionBD, $gi_idf_source, $gi_idf_commune_acte));
                         $i_nb_actes_charges = $chargementNimV3->nb_actes_charges();
-                        $connexionBD->execute_requete("insert into chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_DECES . ",$i_nb_actes_charges)");
+                        $connexionBD->execute_requete("INSERT INTO chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_DECES . ",$i_nb_actes_charges)");
                         break;
                     case IDF_DIVERS:
                         $b_ret = $chargementNimV3->charge_divers($st_fich_dest, $gi_idf_commune_acte, $gi_idf_source, $gi_idf_releveur, liste_divers_existant($connexionBD, $gi_idf_source, $gi_idf_commune_acte));
                         $i_nb_actes_charges = $chargementNimV3->nb_actes_charges();
-                        $connexionBD->execute_requete("insert into chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_DIVERS . ",$i_nb_actes_charges)");
+                        $connexionBD->execute_requete("INSERT INTO chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_DIVERS . ",$i_nb_actes_charges)");
                         break;
                 }
                 $a_liste_deja_existants = $chargementNimV3->liste_deja_existants();
@@ -1599,7 +1599,7 @@ switch ($gst_mode) {
             exit;
         }
         $i_nb_actes_charges = charge_recensement($st_fich_dest, $gi_idf_commune_acte, $gi_annee_recens, $gi_idf_source, null);
-        $connexionBD->execute_requete("insert into chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_RECENS . ",$i_nb_actes_charges)");
+        $connexionBD->execute_requete("INSERT INTO chargement(date_chgt,idf_commune,type_acte_nim,nb_actes) values(now(),$gi_idf_commune_acte," . IDF_RECENS . ",$i_nb_actes_charges)");
         unlink($st_fich_dest);
         print("<div class=\"alert alert-success\">$i_nb_actes_charges actes charg&eacute;s</div>");
         print("<form  method=\"post\">");

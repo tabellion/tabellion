@@ -60,18 +60,18 @@ class UtilisateurManager extends Manager
     {
         $sql = "SELECT * FROM adherent WHERE ident=:identifier OR email_perso=:identifier";
         $stmt = $this->db->prepare($sql);
-        $result = $stmt->execute([
+        $stmt->execute([
             ':identifier' => $identifier
         ]);
-        if (!$result) {
+
+        $user = $stmt->fetch();
+        if (!$user) {
             return null;
         }
         
-        $user = $stmt->fetch();
-        
         $sql2 = "UPDATE adherent SET derniere_connexion=now() WHERE idf=:idf";
         $stmt = $this->db->prepare($sql2);
-        $result = $stmt->execute([
+        $stmt->execute([
             ':idf' => $user['idf']
         ]);
 

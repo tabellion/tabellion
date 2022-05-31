@@ -6,21 +6,22 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 
-/*
-* Renvoie une chaine encodée en cp1252 en UTF8
-* @param string $st_valeur chaine cp1252 à convertir
-* @return string chaine encodée en UTF8
-*/
+/**
+ * Chaine encodée en cp1252 vers UTF8
+ * @param string $st_valeur chaine cp1252 à convertir
+ * @return string chaine encodée en UTF8
+ */
 function cp1252_vers_utf8($st_valeur)
 {
     return mb_convert_encoding($st_valeur, 'UTF8', 'cp1252');
 }
 
-/*
-* Renvoie une chaine encodée en UTF8 en cp1252
-* @param string $st_valeur chaine UTF8 à convertir
-* @return string chaine encodée en UTF8
-*/
+/**
+ * Chaine encodée en UTF8 vers cp1252
+ * @Deprecated Une chaine doit rester en utf8
+ * @param string $st_valeur chaine UTF8 à convertir
+ * @return string chaine encodée en UTF8
+ */
 function utf8_vers_cp1252($st_valeur)
 {
     return mb_convert_encoding($st_valeur, 'cp1252', 'UTF8');
@@ -60,7 +61,7 @@ function chaine_select_options_simple($pst_valeur, $pa_tableau, $pb_conversion_e
 
 /**
  * Renvoie la chaine d'options dans un select multiple HTML 
-* @param array $pa_selection liste des valeurs déjà sélectionnés
+ * @param array $pa_selection liste des valeurs déjà sélectionnés
  *  @param array $pa_tableau tableau des valeurs a afficher
  *  @param boolean convertit l'encodage de cp 1252 en utf8 
  */
@@ -80,11 +81,11 @@ function chaine_select_options_multiple($pa_selection, $pa_tableau, $pb_conversi
     return $st_chaine_options;
 }
 
-/*
-* Vérifie que la chaine commence par une voyelle ou non
-* @param string $pst_chaine chaine à tester
-* @return boolean (vrai si la chaine commence par une voyelle, faux sinon)
-*/
+/**
+ * Vérifie que la chaine commence par une voyelle ou non
+ * @param string $pst_chaine chaine à tester
+ * @return boolean (vrai si la chaine commence par une voyelle, faux sinon)
+ */
 function commence_par_une_voyelle($pst_chaine)
 {
     switch (mb_strtoupper($pst_chaine[0])) {

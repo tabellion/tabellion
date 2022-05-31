@@ -8,15 +8,13 @@
 class TypeActe
 {
     private static $typeActe;
-    private $a_type_acte;
+    private array $a_type_acte = [];
     protected $connexionBD;
-    private $a_idf_par_type_acte;
+    private array $a_idf_par_type_acte = [];
 
     private function __construct($pconnexionBD)
     {
         $this->connexionBD = $pconnexionBD;
-        $this->a_type_acte = array();
-        $this->a_idf_par_type_acte = [];
     }
 
     public static function singleton($pconnexionBD)
@@ -69,7 +67,7 @@ class TypeActe
     public function vers_idf($pst_nom)
     {
         if (is_null($pst_nom)) return null;
-        if (is_null($this->a_idf_par_type_acte)) $this->charge_liste_idf_par_nom();
+        if (!$this->a_idf_par_type_acte) $this->charge_liste_idf_par_nom();
         if (array_key_exists(strval($pst_nom), $this->a_idf_par_type_acte))
             return $this->a_idf_par_type_acte[strval($pst_nom)];
         else
