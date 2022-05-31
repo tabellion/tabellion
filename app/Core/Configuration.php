@@ -1,8 +1,7 @@
 <?php 
+namespace App\Core;
 
 use Symfony\Component\Yaml\Yaml;
-
-
 class Configuration
 {
     private $config = [];
@@ -40,7 +39,7 @@ class Configuration
         if ($this->config[$field]) {
             return $this->config[$field];
         }
-        throw new Exception("Configuration of $field not found.", 1);
+        throw new \Exception("Configuration of $field not found.", 1);
     }
 
     public function getAll(): array
@@ -70,7 +69,7 @@ class Configuration
     private function _loadConfig()
     {
         if (!file_exists(__DIR__ . '/../../config.yaml.cfg')) {
-            throw new Exception("Configuration file not found. Please check your install", 1);
+            throw new \Exception("Configuration file not found. Please check your install", 1);
         }
         $this->config = Yaml::parseFile(__DIR__ . '/../../config.yaml.cfg');
     }

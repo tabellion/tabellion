@@ -1,7 +1,9 @@
 <?php 
-require_once __DIR__ . '/../Core/Connection.php';
+namespace App\Manager;
 
-class LocaliteManager extends Connection
+use App\Core\Manager;
+
+class LocaliteManager extends Manager
 {
 
 }

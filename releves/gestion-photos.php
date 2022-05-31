@@ -9,7 +9,17 @@
 require_once __DIR__ . '/../app/bootstrap.php';
 require_once __DIR__ . '/../Origin/PaginationTableau.php';
 
-verifie_privilege(DROIT_RELEVES);
+// Redirect to identification
+if (!$session->isAuthenticated()) {
+    $session->setAttribute('url_retour', '/administration/gestion-communes.php');
+    header('HTTP/1.0 401 Unauthorized');
+    header('Location: /se-connecter.php');
+    exit;
+}
+if (!in_array('RELEVES', $user['privileges'])) {
+    header('HTTP/1.0 401 Unauthorized');
+    exit;
+}
 
 
 print('<!DOCTYPE html>');

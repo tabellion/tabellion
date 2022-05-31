@@ -40,7 +40,7 @@ class Patronyme
         $a_params_precs = $this->connexionBD->params();
         $a_patronymes_a_creer = array();
         if (count($this->a_patronyme) > 0) {
-            $st_requete = "insert ignore INTO `patronyme` (libelle,phonex) values ";
+            $st_requete = "INSERT INTO `patronyme` (libelle,phonex) values ";
             $a_colonnes = array();
             $i = 0;
             $oPhonex = new phonex;
@@ -69,7 +69,7 @@ class Patronyme
     public function charge_liste_idf_par_nom()
     {
         if (is_null($this->a_idf_par_patronyme))
-            $this->a_idf_par_patronyme = $this->connexionBD->liste_clef_par_valeur("select idf, libelle from `patronyme`");
+            $this->a_idf_par_patronyme = $this->connexionBD->liste_clef_par_valeur("SELECT idf, libelle FROM `patronyme`");
     }
 
     public function vers_idf($pst_nom)

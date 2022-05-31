@@ -1,14 +1,14 @@
 <?php 
+namespace App\Core;
 
+use App\Core\Connection;
 
-class Manager
+class Manager extends Connection
 {
     protected $db;
 
-    public function __construct($host, $user, $password, $dbname)
+    public function __construct($dbconfig)
     {
-        $this->db = new PDO("mysql:host=$host;dbname=$dbname;charset=latin1", $user, $password);
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        parent::__construct($dbconfig);
     }
 }

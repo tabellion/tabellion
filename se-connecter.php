@@ -6,38 +6,34 @@
 // Texte de la licence : http://www.gnu.org/copyleft/gpl.html
 //-------------------------------------------------------------------
 
+use App\Manager\PrivilegeManager;
+use App\Manager\UtilisateurManager;
+use App\Service\AuthentificationService;
+
 require_once __DIR__ . '/app/bootstrap.php';
+require_once __DIR__ . '/app/Service/AuthentificationService.php';
 require __DIR__ . '/app/Manager/UtilisateurManager.php';
 require __DIR__ . '/app/Manager/PrivilegeManager.php';
 
 $url_retour = $session->getAttribute('url_retour') ?? '/';
-$errors = [];
 
-if (isset($_POST['ident']) && isset($_POST['mdp'])) {
-    if (verifie_utilisateur($_POST['ident'], $_POST['mdp']) == true) {
-        $session->setAttribute('ident', $_POST['ident']);
-        $connexionBD->ajoute_params(array(':ident' => $st_ident));
-        $st_requete = "UPDATE adherent SET derniere_connexion=now() WHERE ident=:ident";
-        $connexionBD->execute_requete($st_requete);
-        // date_default_timezone_set($gst_time_zone); // NB: doit etre le timezone du serveur!
+if (isset($_POST['identifier']) && isset($_POST['password'])) {
+    $authentificationService = new AuthentificationService($dbconfig);
+    $user = $authentificationService->login(['identifier' => $_POST['identifier'], 'password' => $_POST['password']]);
+    if ($user && $session->isAuthenticated() === true) {
+        // Log de connexion
+        //$logger = new LocalLogger();
+        //$logger->addLog();
         list($i_sec, $i_min, $i_heure, $i_jmois, $i_mois, $i_annee, $i_j_sem, $i_j_an, $b_hiver) = localtime();
         $i_mois++;
         $i_annee += 1900;
         $st_date_log = sprintf("%02d/%02d/%04d %02d:%02d:%02d", $i_jmois, $i_mois, $i_annee, $i_heure, $i_min, $i_sec);
-        $st_chaine_log = join(';', array($st_date_log, $session->getAttribute('ident'), $gst_adresse_ip));
+        $st_chaine_log = join(';', array($st_date_log, $session->getAttribute('ident'), $adresse_ip));
         $pf = @fopen("../logs/connexions.log", 'a');
         @fwrite($pf, "$st_chaine_log\n");
         @fclose($pf);
-        $utilisateurManager = new UtilisateurManager($databasecfg);
-        $privilegeManager = new PrivilegeManager($databasecfg);
         // TODO: Statut adherent
-        $user = [];
-        $user['privileges'] = [];
-
-        if ($session->getAttribute('ident')) {
-            $user = $utilisateurManager->findOneByCriteria(['ident' => $session->getAttribute('ident')]);
-            $user['privileges'] = $privilegeManager->findAllWhithAdherentId($user['idf']);
-        }
+        // $user = [];
         $session->setAttribute('user', $user);
         $session->setAttribute('url_retour', null);
         $session->setAttribute('compteur', 0);
@@ -45,36 +41,14 @@ if (isset($_POST['ident']) && isset($_POST['mdp'])) {
     } else {
         $session->setAttribute('compteur', $session->getAttribute('compteur') + 1);
         $session->setAttribute('url_retour', null);
-        $errors[] = 'Identification érronée.';
+        $errors[] = ['type' => 'warning', 'message' => 'Identification érronée.'];
         if ($session->getAttribute('compteur') && $session->getAttribute('compteur') == 4) {
-            $errors[] = "Vous ne disposer plus que d'un seul essai avant d'etre bloqué!";
+            $errors[] = ['type' => 'danger', 'message' => "Vous ne disposer plus que d'un seul essai avant d'etre bloqué!"];
         }
     }
 }
 
-
-
-/**
- * Vérifie que si l'utilisateur est autorisé à se connecter (statut B,I,H)
- * @param string $pst_ident identifiant de l'utilisateur
- * @param string $pst_mdp mot de passe de l'utilisateur
- * @return boolean l'utilisateur est authentifie ou non ?
- * @global $connexionBD identifiant de connexion BD
- */
-function verifie_utilisateur($ident, $mdp)
-{
-    global $connexionBD, $gst_ip_restreinte;
-    $connexionBD->ajoute_params(array(':ident' => $ident));
-    $st_requete = "SELECT mdp FROM adherent WHERE ident=:ident AND statut in ('B','I','H')";
-    $st_mdp_hash = $connexionBD->sql_select1($st_requete);
-    if (password_verify($mdp, $st_mdp_hash)) {
-        return true;
-    } else
-        return false;
-}
-
-if ($session->getAttribute('compteur') != 5) {
-    echo $session->getAttribute('compteur'); ?>
+?>
 
     <!DOCTYPE html>
     <html lang="fr">
@@ -103,32 +77,32 @@ if ($session->getAttribute('compteur') != 5) {
                 <div class="panel-heading">Authentification requise</div>
                 <div class="panel-body">
                     <form method="post" id="identification" class="form-horizontal">
-                        <?php if ($errors) { ?>
-                            <div class="alert alert-danger">
-                                <?php foreach ($errors as $error) {
-                                    echo $error . '<br>';
-                                } ?>
-                            </div>
-                        <?php } ?>
+                        <?php if ($errors) {  
+                            foreach ($errors as $error) { ?>
+                                    <div class="alert alert-<?= $error['type']; ?>">
+                                    <?= $error['message']; ?>
+                                </div>
+                            <?php } 
+                        } ?>
                         <div class="form-group">
-                            <label for="ident" class="col-md-4 col-form-label"> Identifiant:</label>
+                            <label for="identifier" class="col-md-4 col-form-label"> Identifiant:</label>
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-user"></span>
                                     </span>
-                                    <input type="text" name="ident" id="ident" size="30" maxlength="30" class="js-select-avec-recherche form-control">
+                                    <input type="text" name="identifier" id="identifier" size="30" maxlength="30" class="js-select-avec-recherche form-control">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="mdp" class="col-md-4 col-form-label">Mot de passe:</label>
+                            <label for="password" class="col-md-4 col-form-label">Mot de passe:</label>
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-lock"></span>
                                     </span>
-                                    <input type="password" name="mdp" id="mdp" size="30" maxlength="30" class="js-select-avec-recherche form-control">
+                                    <input type="password" name="password" id="password" size="30" maxlength="30" class="js-select-avec-recherche form-control">
                                 </div>
                             </div>
                         </div>
@@ -144,5 +118,3 @@ if ($session->getAttribute('compteur') != 5) {
     </body>
 
     </html>
-
-<?php }
