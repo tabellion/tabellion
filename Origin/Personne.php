@@ -203,7 +203,6 @@ class Personne
 
 	public function setCommentaires($pst_commentaire)
 	{
-
 		$this->st_commentaire = $this->commentaire_propre($pst_commentaire);
 	}
 
@@ -212,16 +211,12 @@ class Personne
 		return $this->i_nb_lignes;
 	}
 
-
 	public function setProfession($pst_profession)
 	{
-
 		$pst_profession = trim($pst_profession);
 		$this->st_profession = $pst_profession;
 		$this->profession->ajoute($pst_profession);
 	}
-
-
 
 	public function setIdf($pi_idf)
 	{
@@ -925,7 +920,7 @@ class Personne
 	/**
 	 * Initialise l'objet à partir des variables de sessions
 	 */
-	public function intialise_variables_sessions()
+	/* public function intialise_variables_sessions()
 	{
 		$i_num_parametre = $this->i_num_param;
 		if (isset($this->c_sexe)) $_SESSION["sexe$i_num_parametre"] = $this->c_sexe;
@@ -939,11 +934,11 @@ class Personne
 		if (isset($this->st_profession)) $_SESSION["prof$i_num_parametre"] = $this->st_profession;
 		if (isset($this->st_commentaire)) $_SESSION["cmt$i_num_parametre"] = $this->st_commentaire;
 	}
-
+ */
 	/**
 	 * Charge l'objet à partir des variables de session
 	 */
-	public function charge_variables_sessions()
+/* 	public function charge_variables_sessions()
 	{
 		$i_num_parametre = $this->i_num_param;
 		$this->c_sexe = isset($_SESSION["sexe$i_num_parametre"]) ? $_SESSION["sexe$i_num_parametre"] : $this->c_sexe;
@@ -956,12 +951,12 @@ class Personne
 		$this->st_age = isset($_SESSION["age$i_num_parametre"]) ? $_SESSION["age$i_num_parametre"] : $this->st_age;
 		$this->st_profession = isset($_SESSION["prof$i_num_parametre"]) ? $_SESSION["prof$i_num_parametre"] : $this->st_profession;
 		$this->st_commentaire = isset($_SESSION["cmt$i_num_parametre"]) ? $_SESSION["cmt$i_num_parametre"] : $this->st_commentaire;
-	}
+	} */
 
 	/**
 	 * Supprime les variables de session
 	 */
-	public function detruit_variables_sessions()
+	/* public function detruit_variables_sessions()
 	{
 		$i_num_parametre = $this->i_num_param;
 		if (isset($_SESSION["sexe$i_num_parametre"])) unset($_SESSION["sexe$i_num_parametre"]);
@@ -974,5 +969,5 @@ class Personne
 		if (isset($_SESSION["age$i_num_parametre"])) unset($_SESSION["age$i_num_parametre"]);
 		if (isset($_SESSION["prof$i_num_parametre"])) unset($_SESSION["prof$i_num_parametre"]);
 		if (isset($_SESSION["cmt$i_num_parametre"])) unset($_SESSION["cmt$i_num_parametre"]);
-	}
+	} */
 }

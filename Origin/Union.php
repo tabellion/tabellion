@@ -47,7 +47,7 @@ class Union
      */
     public function sauve()
     {
-        $st_requete = "insert ignore INTO `union` (idf_source,idf_commune,idf_acte,idf_type_acte,idf_epoux,patronyme_epoux,idf_epouse,patronyme_epouse) values ";
+        $st_requete = "INSERT INTO `union` (idf_source, idf_commune, idf_acte,idf_type_acte, idf_epoux,patronyme_epoux, idf_epouse, patronyme_epouse) VALUES ";
         $a_params_precs = $this->connexionBD->params();
         $a_unions_a_creer = array();
         $a_colonnes = array();
@@ -93,7 +93,8 @@ class Union
     public function cree($pi_idf_source, $pi_idf_commune, $pi_idf_acte, $pi_idf_type_acte, $pi_idf_epoux, $pst_nom_epoux, $pi_idf_epouse, $pst_nom_epouse)
     {
         $this->connexionBD->initialise_params(array(':idf_source' => $pi_idf_source, ':idf_commune' => $pi_idf_commune, ':idf_acte' => $pi_idf_acte, ':idf_type_acte' => $pi_idf_type_acte, ':idf_epoux' => $pi_idf_epoux, ':nom_epoux' => $pst_nom_epoux, ':idf_epouse' => $pi_idf_epouse, ':nom_epouse' => $pst_nom_epouse));
-        $st_requete = "insert into `union`(idf_source,idf_commune,idf_acte ,idf_type_acte,idf_epoux,patronyme_epoux,idf_epouse,patronyme_epouse) values(:idf_source,:idf_commune,:idf_acte,:idf_type_acte,:idf_epoux,:nom_epoux,:idf_epouse,:nom_epouse)";
+        $st_requete = "INSERT INTO `union`(idf_source, idf_commune, idf_acte , idf_type_acte, idf_epoux, patronyme_epoux, idf_epouse, patronyme_epouse) 
+            VALUES (:idf_source, :idf_commune, :idf_acte, :idf_type_acte, :idf_epoux, :nom_epoux, :idf_epouse, :nom_epouse)";
         $this->connexionBD->execute_requete($st_requete);
     }
 }

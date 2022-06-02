@@ -14,9 +14,9 @@ class CompteurPersonne
     private function __construct($pconnexionBD)
     {
         $this->connexionBD = $pconnexionBD;
-        $i_nb_personnes = $this->connexionBD->sql_select1("SELECT count(idf) from personne");
+        $i_nb_personnes = $this->connexionBD->sql_select1("SELECT count(idf) FROM personne");
         if ($i_nb_personnes != 0)
-            $this->i_compteur = $this->connexionBD->sql_select1("SELECT max(idf) from personne");
+            $this->i_compteur = $this->connexionBD->sql_select1("SELECT max(idf) FROM personne");
         else
             $this->i_compteur = 0;
     }
@@ -38,10 +38,5 @@ class CompteurPersonne
     public function getCompteur()
     {
         return $this->i_compteur;
-    }
-
-    public function __clone()
-    {
-        trigger_error('Le clônage n\'est pas autorisé.', E_USER_ERROR);
     }
 }

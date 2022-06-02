@@ -14,9 +14,9 @@ class CompteurActe
     private function __construct($pconnexionBD)
     {
         $this->connexionBD = $pconnexionBD;
-        $i_nb_actes = $this->connexionBD->sql_select1("SELECT count(idf) from acte");
+        $i_nb_actes = $this->connexionBD->sql_select1("SELECT count(idf) FROM acte");
         if ($i_nb_actes != 0)
-            $this->i_compteur = $this->connexionBD->sql_select1("SELECT max(idf) from acte");
+            $this->i_compteur = $this->connexionBD->sql_select1("SELECT max(idf) FROM acte");
         else
             $this->i_compteur = 0;
     }

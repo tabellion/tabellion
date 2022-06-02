@@ -161,7 +161,7 @@ class Prenom
     public function vers_idf($pst_nom)
     {
         if (empty($pst_nom)) return 0;
-        if (is_null($this->a_idf_par_prenom)) $this->charge_liste_idf_par_nom();
+        if (!$this->a_idf_par_prenom) $this->charge_liste_idf_par_nom();
         if (array_key_exists(strval($pst_nom), $this->a_idf_par_prenom))
             return $this->a_idf_par_prenom[strval($pst_nom)];
         else {

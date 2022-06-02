@@ -7,9 +7,10 @@
 
 class TypeActe
 {
+    protected $connexionBD;
     private static $typeActe;
     private array $a_type_acte = [];
-    protected $connexionBD;
+    
     private array $a_idf_par_type_acte = [];
 
     private function __construct($pconnexionBD)
@@ -37,7 +38,7 @@ class TypeActe
         $a_params_precs = $this->connexionBD->params();
         $a_types_a_creer = array();
         if (count($this->a_type_acte) > 0) {
-            $st_requete = "insert ignore INTO `type_acte` (nom,sigle_nimegue) values ";
+            $st_requete = "INSERT INTO `type_acte` (nom, sigle_nimegue) VALUES ";
             $a_colonnes = array();
             $i = 0;
             foreach ($this->a_type_acte as $st_type_acte => $st_sigle) {
@@ -61,7 +62,7 @@ class TypeActe
 
     public function charge_liste_idf_par_nom()
     {
-        $this->a_idf_par_type_acte = $this->connexionBD->liste_clef_par_valeur("select idf,nom from `type_acte`");
+        $this->a_idf_par_type_acte = $this->connexionBD->liste_clef_par_valeur("SELECT idf, nom FROM `type_acte`");
     }
 
     public function vers_idf($pst_nom)

@@ -32,7 +32,7 @@ class Releveur
         if (array_key_exists($pi_idf_adherent, $this->a_releveurs)) {
             return $this->a_releveurs[$pi_idf_adherent];
         } else {
-            $st_requete = "select nom, prenom from `adherent` where idf=$pi_idf_adherent";
+            $st_requete = "SELECT nom, prenom from `adherent` where idf=$pi_idf_adherent";
             list($st_nom, $st_prenom) = $this->connexionBD->sql_select_liste($st_requete);
             $st_requete = "select idf from `releveur` where idf_adherent=$pi_idf_adherent";
             $i_df_releveur = $this->connexionBD->sql_select1($st_requete);

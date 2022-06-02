@@ -27,7 +27,12 @@ class StatsPatronyme
         $this->a_type_acte = array();
         $this->a_patronymes_a_supprimer = array();
         $this->a_patronymes_a_ajouter = array();
-        $st_requete = "select pat.libelle,ta.nom,annee_min,annee_max,nb_personnes from `stats_patronyme` sp join `patronyme` pat on (sp.idf_patronyme=pat.idf) join `type_acte` as ta on (sp.idf_type_acte=ta.idf) where sp.idf_commune=$pi_idf_commune and sp.idf_source=$pi_idf_source";
+        $st_requete = "SELECT pat.libelle, ta.nom, annee_min, annee_max, nb_personnes 
+            FROM `stats_patronyme` sp 
+            JOIN `patronyme` pat ON (sp.idf_patronyme=pat.idf) 
+            JOIN `type_acte` as ta ON (sp.idf_type_acte=ta.idf) 
+            WHERE sp.idf_commune=$pi_idf_commune 
+            AND sp.idf_source=$pi_idf_source";
         $this->a_stat = $this->connexionBD->liste_valeur_par_doubles_clefs($st_requete);
     }
 
@@ -113,7 +118,7 @@ class StatsPatronyme
                 $i++;
             }
         }
-        $st_requete = "delete from `stats_patronyme` where idf_commune=$this->i_idf_commune and idf_source=$this->i_idf_source";
+        $st_requete = "DELETE FROM `stats_patronyme` WHERE idf_commune=$this->i_idf_commune AND idf_source=$this->i_idf_source";
         try {
             $this->connexionBD->initialise_params(array());
             $this->connexionBD->execute_requete($st_requete);
@@ -121,7 +126,7 @@ class StatsPatronyme
             die("Suppression stats_patronyme impossible (COM=$this->idf_type_commune,SRC=$this->i_idf_source): " . $e->getMessage());
         }
         if (count($this->a_stat) > 0) {
-            $st_requete = "insert ignore into `stats_patronyme` (idf_patronyme,idf_commune,idf_type_acte,idf_source,annee_min,annee_max,nb_personnes) values ";
+            $st_requete = "INSERT INTO `stats_patronyme` (idf_patronyme, idf_commune, idf_type_acte, idf_source, annee_min, annee_max,nb_personnes) VALUES ";
             $st_colonnes = join(',', $a_colonnes);
             $st_requete .= $st_colonnes;
             try {
@@ -161,11 +166,26 @@ class StatsPatronyme
     {
         $a_params_precs = $this->connexionBD->params();
         foreach ($this->a_patronymes_a_supprimer as $i_idf_patronyme => $st_patronyme) {
-            $st_requete = "delete from `stats_patronyme` where idf_commune=:idf_commune and idf_source=:idf_source and idf_type_acte=:idf_type_acte and idf_patronyme=:idf_patronyme";
+            $st_requete = "DELETE FROM `stats_patronyme` 
+                WHERE idf_commune=:idf_commune 
+                AND idf_source=:idf_source 
+                AND idf_type_acte=:idf_type_acte 
+                AND idf_patronyme=:idf_patronyme";
             $a_params = array(':idf_commune' => $pi_idf_commune, ':idf_source' => $pi_idf_source, ':idf_type_acte' => $pi_idf_type_acte, ':idf_patronyme' => $i_idf_patronyme);
             $this->connexionBD->initialise_params($a_params);
             $this->connexionBD->execute_requete($st_requete);
-            $st_requete = "insert into `stats_patronyme` (idf_patronyme,idf_commune,idf_type_acte,idf_source,annee_min,annee_max,nb_personnes) select pat.idf,:idf_commune,:idf_type_acte,:idf_source,min(a.annee),max(a.annee),count(p.patronyme) from acte a join personne p on (p.idf_acte=a.idf) join patronyme pat on (p.patronyme=pat.libelle) where a.idf_commune=:idf_commune2 and a.idf_type_acte=:idf_type_acte2 and a.idf_source=:idf_source2 and a.annee!=0 and a.annee!=9999 and p.patronyme=:patronyme group by p.patronyme,a.idf_commune,a.idf_type_acte,a.idf_source";
+            $st_requete = "INSERT INTO `stats_patronyme` (idf_patronyme, idf_commune, idf_type_acte, idf_source, annee_min, annee_max,nb_personnes) 
+                SELECT pat.idf, :idf_commune, :idf_type_acte, :idf_source, min(a.annee), max(a.annee), count(p.patronyme) 
+                FROM acte a 
+                JOIN personne p ON (p.idf_acte=a.idf) 
+                JOIN patronyme pat ON (p.patronyme=pat.libelle) 
+                WHERE a.idf_commune=:idf_commune2 
+                AND a.idf_type_acte=:idf_type_acte2 
+                AND a.idf_source=:idf_source2 
+                AND a.annee!=0 
+                AND a.annee!=9999 
+                AND p.patronyme=:patronyme 
+                GROUP BY p.patronyme, a.idf_commune, a.idf_type_acte, a.idf_source";
             $this->connexionBD->initialise_params(array(':idf_commune' => $pi_idf_commune, ':idf_commune2' => $pi_idf_commune, ':idf_source' => $pi_idf_source, ':idf_source2' => $pi_idf_source, ':idf_type_acte' => $pi_idf_type_acte, ':idf_type_acte2' => $pi_idf_type_acte, ':patronyme' => $st_patronyme));
             $this->connexionBD->execute_requete($st_requete);
         }
@@ -194,7 +214,7 @@ class StatsPatronyme
     {
         $a_params_precs = $this->connexionBD->params();
         foreach ($this->a_patronymes_a_ajouter as $st_patronyme) {
-            $st_requete = "select count(*) from patronyme where libelle=:patronyme";
+            $st_requete = "SELECT count(*) FROM patronyme WHERE libelle=:patronyme";
             $this->connexionBD->initialise_params(array(':patronyme' => $st_patronyme));
             $i_nouveau_patronyme = $this->connexionBD->sql_select1($st_requete);
             if ($i_nouveau_patronyme == 0) {
@@ -203,7 +223,18 @@ class StatsPatronyme
         }
         $this->patronyme->sauve();
         foreach ($this->a_patronymes_a_ajouter as $st_patronyme) {
-            $st_requete = "insert into `stats_patronyme`(idf_patronyme,idf_commune,idf_type_acte,idf_source,annee_min,annee_max,nb_personnes) select pat.idf,:idf_commune,:idf_type_acte,:idf_source,min(a.annee),max(a.annee),count(p.patronyme) from acte a join personne p on (p.idf_acte=a.idf),patronyme pat where a.idf_commune=:idf_commune2 and a.idf_type_acte=:idf_type_acte2 and a.idf_source=:idf_source2 and p.patronyme=pat.libelle and a.annee!=0 and a.annee!=9999 and p.patronyme=:patronyme group by p.patronyme,a.idf_commune,a.idf_type_acte,a.idf_source";
+            $st_requete = "INSERT INTO `stats_patronyme`(idf_patronyme, idf_commune, idf_type_acte, idf_source, annee_min, annee_max, nb_personnes) 
+                SELECT pat.idf, :idf_commune, :idf_type_acte, :idf_source, min(a.annee), max(a.annee), count(p.patronyme) 
+                FROM acte a 
+                JOIN personne p ON (p.idf_acte=a.idf), patronyme pat 
+                WHERE a.idf_commune=:idf_commune2 
+                AND a.idf_type_acte=:idf_type_acte2 
+                AND a.idf_source=:idf_source2 
+                AND p.patronyme=pat.libelle 
+                AND a.annee!=0 
+                AND a.annee!=9999 
+                AND p.patronyme=:patronyme 
+                GROUP BY p.patronyme, a.idf_commune, a.idf_type_acte, a.idf_source";
             $a_params = array(':idf_commune' => $pi_idf_commune, ':idf_commune2' => $pi_idf_commune, ':idf_source' => $pi_idf_source, ':idf_source2' => $pi_idf_source, ':idf_type_acte' => $pi_idf_type_acte, ':idf_type_acte2' => $pi_idf_type_acte, ':patronyme' => $st_patronyme);
             $this->connexionBD->initialise_params($a_params);
             $this->connexionBD->execute_requete($st_requete);

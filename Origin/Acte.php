@@ -455,13 +455,18 @@ class Acte
         if (isset($this->i_idf)) {
             $i_idf = $this->i_idf;
             $this->connexionBD->initialise_params(array(':idf' => $i_idf, ':idf_commune' => $i_idf_commune, ':idf_type_acte' => $i_idf_type_acte, ':idf_source' => $i_idf_source, ':date' => $st_date, ':jour' => $i_jour, ':mois' => $i_mois, ':annee' => $i_annee, ':date_rep' => $st_date_rep, ':cote' => $st_cote, ':libre' => $st_libre, ':url' => $st_url, ':commentaires' => $st_commentaires, ':details_supplementaires' => $i_details_supplementaires, ':changed' => $this->st_date_modification));
-            $st_requete = "update acte set idf_commune=:idf_commune,idf_type_acte=:idf_type_acte,idf_source=:idf_source,date=:date,jour=:jour,mois=:mois,annee=:annee,date_rep=:date_rep,cote=:cote,libre=:libre,url=:url,commentaires=:commentaires,details_supplementaires=:details_supplementaires,changed=:changed where idf=:idf";
+            $st_requete = "UPDATE acte SET idf_commune=:idf_commune, idf_type_acte=:idf_type_acte, idf_source=:idf_source, 
+                date=:date, jour=:jour, mois=:mois, annee=:annee, date_rep=:date_rep, cote=:cote, libre=:libre, url=:url, 
+                commentaires=:commentaires, details_supplementaires=:details_supplementaires, changed=:changed WHERE idf=:idf";
             $this->connexionBD->execute_requete($st_requete);
             return $i_idf;
         } else {
             $this->connexionBD->initialise_params(array(':idf_commune' => $i_idf_commune, ':idf_type_acte' => $i_idf_type_acte, ':idf_source' => $i_idf_source, ':date' => $st_date, ':jour' => $i_jour, ':mois' => $i_mois, ':annee' => $i_annee, ':date_rep' => $st_date_rep, ':cote' => $st_cote, ':libre' => $st_libre, ':url' => $st_url, ':commentaires' => $st_commentaires, ':details_supplementaires' => $i_details_supplementaires, ':created' => $this->st_date_creation, ':changed' => $this->st_date_modification));
-            $st_requete = "insert into acte(idf_commune,idf_type_acte,idf_source,date,jour,mois,annee,date_rep,cote,libre,commentaires,url,details_supplementaires) values(:idf_commune,:idf_type_acte,:idf_source,:date,:jour,:mois,:annee,:date_rep,:cote,:libre,:commentaires,:url,:details_supplementaires,:created,:changed)";
-            $this->connexionBD->execute_requete($st_requete);
+            $st_requete = "INSERT INTO acte(idf_commune, idf_type_acte, idf_source, date,j our, mois, annee, date_rep, 
+                cote, libre, commentaires, url, details_supplementaires) 
+                VALUES (:idf_commune, :idf_type_acte, :idf_source, :date, :jour, :mois, :annee, :date_rep, :cote, :libre, 
+                :commentaires, :url, :details_supplementaires, :created, :changed)";
+            $this->connexionBD->execute_requete($st_requete); 
             return $this->connexionBD->dernier_idf_insere();
         }
     }
