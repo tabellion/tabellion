@@ -40,7 +40,7 @@ class CommunePersonne
         $a_params_precs = $this->connexionBD->params();
         $a_communes_a_creer = array();
         if (count($this->a_communes_a_creer) > 0) {
-            $st_requete = "insert INTO `commune_personne` (nom) values ";
+            $st_requete = "INSERT INTO `commune_personne` (nom) VALUES ";
             $a_colonnes = array();
             $i = 0;
             foreach ($this->a_communes_a_creer as $st_elem) {
@@ -65,7 +65,7 @@ class CommunePersonne
 
     public function charge_liste_idf_par_nom()
     {
-        $this->a_idf_par_commune = $this->connexionBD->liste_clef_par_valeur("select idf,nom from `commune_personne`");
+        $this->a_idf_par_commune = $this->connexionBD->liste_clef_par_valeur("SELECT idf, nom FROM `commune_personne`");
     }
 
     public function vers_idf($pst_nom)

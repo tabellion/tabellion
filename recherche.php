@@ -6,13 +6,13 @@
 //-------------------------------------------------------------------
 require_once __DIR__ . '/app/bootstrap.php';
 
-$gst_type_recherche         = isset($_GET['recherche']) ? $_GET['recherche'] : '';
+$gst_type_recherche         = $_GET['recherche'] ?? null;
 
 
-$gi_idf_source        = $_GET['idf_src'] ?? '0';
-$gi_idf_commune       = $_GET['idf_ca'] ?? '0';
-$gi_rayon             = '';
-$gi_idf_type_acte     = $_GET['idf_ta'] ?? '0';
+$gi_idf_source        = $_GET['idf_src'] ?? 0;
+$gi_idf_commune       = $_GET['idf_ca'] ?? 0;
+$gi_rayon             = null;
+$gi_idf_type_acte     = $_GET['idf_ta'] ?? 0;
 $gi_annee_min         = $_GET['a_min'] ?? '';
 $gi_annee_max         = $_GET['a_max'] ?? '';
 
@@ -20,17 +20,17 @@ $gst_nom_epx          = '';
 $gst_prenom_epx       = '';
 $gst_variantes_epx    = 'oui';
 $gst_nom_epse         = '';
-$gst_prenom_epse      = '';
+$gst_prenom_epse      =  '';
 $gst_variantes_epse   = 'oui';
-$gi_idf_type_presence = '0';
-$gst_sexe             = '0';
-$gst_nom              = $_GET['nom'] ?? '';
+$gi_idf_type_presence = 0;
+$gst_sexe             = 0;
+$gst_nom              = $_GET['nom'] ?? null;
 $gst_prenom           = '';
 $gst_variantes        = isset($_GET['var']) && $_GET['var'] == 'N' ? '' : 'oui';
 $gst_paroisses_rattachees = 'oui';
 $gst_commentaires     = '';
 
-$gst_releve_mois_min  = '';
+$gst_releve_mois_min  =  '';
 $gst_releve_annee_min   = '';
 $gst_releve_mois_max  = '';
 $gst_releve_annee_max   = '';

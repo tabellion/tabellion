@@ -75,7 +75,8 @@ class Adherent
     protected static $st_erreur_gbk;
     protected $courriel;
 
-    public function __construct($pconnexionBD, $pi_idf_adherent)
+    /* public function __construct($pconnexionBD, $pi_idf_adherent)
+    // * @Deprecated Use adherent interface
     {
         global $gst_nom_bd, $gst_time_zone, $gst_rep_site, $gst_serveur_smtp, $gst_utilisateur_smtp, $gst_mdp_smtp, $gi_port_smtp;
 
@@ -189,7 +190,7 @@ class Adherent
         );
 
         self::$st_erreur_gbk = '';
-    }
+    } */
 
     /**
      *  Renvoie le nom de l'adhèrent
@@ -230,16 +231,16 @@ class Adherent
      * @return array tableau nom du paramètre => (type de filtre, message d'erreur à afficher)
      */
     public function getFiltresParametres()
-
     {
         return $this->a_filtres_parametres;
     }
 
     /**
      * Initialise l'adhàrent depuis une formulaire post
+     * * @Deprecated Use adherent interface
 
      */
-    public function initialise_depuis_formulaire()
+    /* public function initialise_depuis_formulaire()
     {
         $this->i_idf = isset($_POST['idf_adht']) ? (int) $_POST['idf_adht'] : 0;
         $this->st_nom = substr(trim($_POST['nom']), 0, 30);
@@ -282,13 +283,14 @@ class Adherent
         $this->i_aide = array_sum($a_aide);
         $this->i_origine = isset($_POST['type_origine']) ?  (int) $_POST['type_origine'] : 0;
         $this->a_droits_adherents = isset($_POST['droits']) ? $_POST['droits'] : array();
-    }
+    } */
 
     /**
      * Renvoie un formulaire HTML d'édition des informations personnelles
+     * * @Deprecated Use adherent interface
      * @param boolean $pb_gestionnaire l'utilisateur connecté est-il un gestionnaire ou pas ?
      */
-    public function formulaire_infos_personnelles($pb_gestionnaire)
+    /* public function formulaire_infos_personnelles($pb_gestionnaire)
     {
         global $ga_pays;
         $st_chaine = sprintf("<input type=\"hidden\" id=\"idf_adht\" name=\"idf_adht\" value=\"%d\">", $this->i_idf);
@@ -422,7 +424,7 @@ class Adherent
         $st_chaine .= '</div>';
 
         return $st_chaine;
-    }
+    } */
 
     /*
    * Affiche les options d'aide possible
@@ -510,8 +512,9 @@ class Adherent
 
     /*
    * Affiche le formulaire de gestion AGC
+   * * @Deprecated Use adherent interface
    */
-    public function formulaire_infos_agc()
+    /* public function formulaire_infos_agc()
     {
         $st_chaine = '';
         if (a_droits($this->st_ident_modificateur, DROIT_GESTION_ADHERENT)) {
@@ -571,7 +574,7 @@ class Adherent
             $st_chaine .= sprintf("<div class=\"text-center\">Dernier jeton de paiement (si adh&eacute;sion en ligne): %s</div>", $this->st_jeton_paiement);
         }
         return $st_chaine;
-    }
+    } */
 
     /*
     * renvoie le formulaire du type d'inscription (Internet ou Bulletin)
@@ -602,8 +605,9 @@ class Adherent
 
     /*
    * Affiche le formulaire de gestion des droits de l'adhérent
+   * * @Deprecated Use adherent interface
    */
-    public function formulaire_droits_adherents()
+    /* public function formulaire_droits_adherents()
     {
         global $ga_droits;
         $st_chaine = '';
@@ -623,25 +627,27 @@ class Adherent
             $st_chaine .= "</div>";
         }
         return $st_chaine;
-    }
+    } */
 
     /*
    * Change le mot de passe de l'adhérent uniquement dans la base 
+   * * @Deprecated
    * @param string $pst_nouveau_mdp nouveau mot de passe
    */
-    private function change_mdp_base($pst_nouveau_mdp)
+/*     private function change_mdp_base($pst_nouveau_mdp)
     {
         $st_mdp_hash = password_hash($pst_nouveau_mdp, PASSWORD_DEFAULT);
         $this->connexionBD->initialise_params(array(':ident' => $this->st_ident, ':mdp' => $st_mdp_hash));
         $st_requete =  "update adherent set mdp=:mdp where ident=:ident";
         $this->connexionBD->execute_requete($st_requete);
-    }
+    } */
 
     /*
    * Change le mot de passe de l'adhérent
+   * @Deprecated
    * @param string $pst_nouveau_mdp nouveau mot de passe
    */
-    public function change_mdp($pst_nouveau_mdp)
+ /*    public function change_mdp($pst_nouveau_mdp)
     {
         global $gst_administrateur_gbk;
         $this->st_mdp = $pst_nouveau_mdp;
@@ -652,12 +658,13 @@ class Adherent
         }
         $this->change_mdp_base($pst_nouveau_mdp);
         return $this->envoie_message_geneabank_changement_mdp();
-    }
+    } */
 
     /*
    * Reactive l'adhérent (recréation du compte gbk et changement de mot de passe)
+   * * @Deprecated
    */
-    public function reactive()
+    /* public function reactive()
     {
         global $gst_administrateur_gbk;
         if (!empty($gst_administrateur_gbk)) {
@@ -667,12 +674,13 @@ class Adherent
             return $this->envoie_message_geneabank_changement_mdp();
         } else
             return true;
-    }
+    } */
 
     /*
    * Modifie l'adhérent (l'adhérent à modifier est l'adhérent connecté)
+   * * @Deprecated
    */
-    public function modifie_infos_personnelles()
+  /*   public function modifie_infos_personnelles()
     {
         global $gst_administrateur_gbk;
         $this->connexionBD->initialise_params(array(':ident' => $this->st_ident, ':idf' => $this->i_idf));
@@ -690,12 +698,13 @@ class Adherent
         } else {
             throw new Exception("Cet identifiant est d&eacute;j&agrave; utilis&eacute;. Les informations N'ONT PAS &eacute;t&eacute; mises &agrave; jour");
         }
-    }
+    } */
 
     /*
    * Modifie l'adhérent (l'adhérent connecté est un gestionnaire de base)
+   * * @Deprecated
    */
-    public function modifie_avec_droits()
+/*     public function modifie_avec_droits()
     {
         $this->connexionBD->initialise_params(array(':ident' => $this->st_ident, ':idf' => $this->i_idf));
         $i_nbadh_meme_ident = $this->connexionBD->sql_select1("select count(*) from adherent where ident=:ident and idf!=:idf");
@@ -731,12 +740,13 @@ class Adherent
         } else {
             throw new Exception("Cet identifiant est d&eacute;j&agrave; utilis&eacute;. Les informations N'ONT PAS &eacute;t&eacute; mises &agrave; jour");
         }
-    }
+    } */
 
     /*
    * Crée un adhérent
+   * * @Deprecated
    */
-    public function cree()
+  /*   public function cree()
     {
         if (!$this->cree_utilisateur_gbk($this->st_mdp)) {
             $this->envoie_message_geneabank();
@@ -764,27 +774,32 @@ class Adherent
             print("<div class=\"alert alert-danger\"> Echec lors de l'envoi du  message &agrave; la direction de l'association</div>");
             print("<blockquote>" . error_get_last()['message'] . "</blockquote>");
         }
-    }
+    } */
 
     /*
    * Modifie un adhérent
+   * * @Deprecated
    */
-    public function modifie()
+   /*  public function modifie()
     {
         $this->connexionBD->initialise_params(array(':nom' => $this->st_nom, ':prenom' => $this->st_prenom, ':adr1' => $this->st_adresse1, ':adr2' => $this->st_adresse2, ':cp' => $this->st_code_postal, ':ville' => $this->st_ville, ':pays' => $this->st_pays, ':tel' => $this->st_tel, ':email_perso' => $this->st_email_perso, ':email_forum' => $this->st_email_forum, ':site' => $this->st_site, ':statut' => $this->st_statut, ':confidentiel' => $this->b_confidentiel, ':ident_adh' => $this->st_ident, ':aide' => $this->i_aide, ':type_origine' => $this->i_origine, ':description_origine' => $this->st_origine, ':ident' => $this->st_ident));
         $this->connexionBD->execute_requete("update adherent set nom=:nom,prenom=:prenom,adr1=:adr1,adr2=:adr2,cp=:cp,ville=upper(:ville),pays=:pays,tel=:tel,email_perso=:email_perso,email_forum=:email_forum,site=:site,statut=:statut,confidentiel=:confidentiel, ident=:ident_adh,aide=:aide,type_origine=:type_origine,description_origine=:description_origine where ident=:ident");
-    }
+    } */
 
-    public function modifie_adhesion()
+    /**
+     * * @Deprecated
+     */
+   /*  public function modifie_adhesion()
     {
         $this->connexionBD->initialise_params(array(':statut' => $this->st_statut, ':infos_agc' => $this->st_infos_agc, ':date_premiere_adhesion' => $this->st_date_premiere_adhesion, ':date_paiement' => $this->st_date_paiement, ':prix' => $this->i_prix, ':annee_cotisation' => $this->i_annee_cotisation, ':jeton_paiement' => $this->st_jeton_paiement, ':ip_restreinte' => $this->st_ip_restreinte, ':max_nai' => $this->i_max_nai, ':max_mar_div' => $this->i_max_mar_div, ':max_dec' => $this->i_max_dec, ':idf' => $this->i_idf));
         $this->connexionBD->execute_requete("update adherent set statut=:statut,infos_agc=:infos_agc,date_premiere_adhesion=str_to_date(:date_premiere_adhesion,'%d/%m/%Y'),date_paiement=str_to_date(:date_paiement,'%d/%m/%Y'),prix=:prix,annee_cotisation=:annee_cotisation,jeton_paiement=:jeton_paiement,ip_restreinte=:ip_restreinte,max_nai=:max_nai, max_mar_div=:max_mar_div,max_dec=:max_dec where idf=:idf");
-    }
+    } */
 
     /*
    * Crée l'adhérent dans la base
+   * * @Deprecated
    */
-    public function cree_avec_droits()
+   /*  public function cree_avec_droits()
     {
         global $a_droits;
         if (a_droits($this->st_ident_modificateur, DROIT_MODIFICATION_DROITS)) {
@@ -798,12 +813,13 @@ class Adherent
         if (a_droits($this->st_ident_modificateur, DROIT_GESTION_ADHERENT)) {
             $this->cree();
         }
-    }
+    } */
 
     /* 
    * Supprime l'adhérent en cours (généabank + basev4)
+   * * @Deprecated
    */
-    public function supprime()
+   /*  public function supprime()
     {
         if (!$this->supprime_utilisateur_gbk())
             print self::$st_erreur_gbk;
@@ -817,7 +833,7 @@ class Adherent
             $this->connexionBD->execute_requete(sprintf("alter table adherent AUTO_INCREMENT=%d", $i_max_adherent++));
         else
             print self::$st_erreur_gbk;
-    }
+    } */
 
     /*
     * Construit la chaine permettant la validation des paramètres d'un formulaire
@@ -851,9 +867,10 @@ class Adherent
 
     /*
   * Renvoie un mot de passe construit aléatoirement
+  * @Deprecated
   * @return string mot de passe 
   */
-    public static function mdp_alea()
+   /*  public static function mdp_alea()
     {
         $st_mdp = "";
         for ($ix = 1; $ix < 5; $ix++) {
@@ -863,7 +880,7 @@ class Adherent
             $st_mdp .= chr(rand(48, 57));
         }
         return $st_mdp;
-    }
+    } */
 
     /** Envoie une message d'inscription à l'adhérent
      * @global string $gst_url_site Adresse du site
@@ -916,10 +933,11 @@ class Adherent
     }
 
     /** Envoie un message de réadhesion 
+     * * @Deprecated C'est une adhesion.
      * @global string $gst_url_site Adresse du site
      * @return boolean Le message a ete envoye ou pas  
      */
-    function envoie_message_readhesion()
+    /* function envoie_message_readhesion()
     {
         global $gst_url_site;
         $st_nom_destinataire = self::cp1252_vers_utf8($this->st_prenom) . " " . self::cp1252_vers_utf8($this->st_nom);
@@ -946,7 +964,7 @@ class Adherent
             return false;
         }
         return true;
-    }
+    } */
 
     /** Envoie un message d'inscription généabank à l'admin geneabank
      * @return boolean Le message a été envoyé ou pas  
@@ -1142,9 +1160,10 @@ class Adherent
 
     /*
    * Génère une demande de nouveau mot de passe
+   * * @Deprecated
    * @global $gst_url_site Adresse du site
    */
-    public function demande_nouveau_mdp()
+    /* public function demande_nouveau_mdp()
     {
         global $gst_url_site;
         switch ($this->st_statut) {
@@ -1177,18 +1196,19 @@ class Adherent
                 }
                 return true;
         }
-    }
+    } */
 
     /*
    *  Vérifie si la clef demandée correspond à la clef courante de nouveau mot de passe
+   * * @Deprecated Use token
    *  @param integer $pi_clef clef
    *  @return true|false
    */
-    function est_clef_nouveau_mdp($pi_clef)
+    /* function est_clef_nouveau_mdp($pi_clef)
     {
         return $this->i_clef_nouveau_mdp == $pi_clef;
     }
-
+ */
     /*
 	Custom CURL function that mimicks file_get_contents()
 	@returns false if no content is fetched

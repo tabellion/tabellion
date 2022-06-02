@@ -66,14 +66,14 @@ class Profession
 
     public function charge_liste_idf_par_nom()
     {
-        $this->a_idf_par_profession = $this->connexionBD->liste_clef_par_valeur("select idf,nom from `profession`");
+        $this->a_idf_par_profession = $this->connexionBD->liste_clef_par_valeur("select idf, nom from `profession`");
     }
 
     public function vers_idf($pst_nom)
     {
         $pst_nom = ucfirst(strtolower(trim($pst_nom)));
         if (empty($pst_nom)) return 0;
-        if (is_null($this->a_idf_par_profession)) $this->charge_liste_idf_par_nom();
+        if (!$this->a_idf_par_profession) $this->charge_liste_idf_par_nom();
         if (array_key_exists(strval($pst_nom), $this->a_idf_par_profession))
             return $this->a_idf_par_profession[strval($pst_nom)];
         else {
